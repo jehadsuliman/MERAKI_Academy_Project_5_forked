@@ -6,4 +6,6 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.post("/", authentication, createNewCategory);
 
+
+
 module.exports = categoriesRouter;
