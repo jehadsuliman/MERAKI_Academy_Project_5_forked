@@ -107,8 +107,32 @@ const shopLogin = (req, res) => {
         });
 };
 
+const getAllShops = (req, res) => {
+    const query = `SELECT * FROM shops WHERE is_deleted=0 `;
+
+    pool
+        .query(query)
+        .then((result) => {
+            res.status(200).json({
+                success: true,
+                message: "All the shops",
+                result: result.rows,
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                success: false,
+                message: "Server error",
+                error: err.message
+            });
+
+        })
+
+
+}
 
 module.exports = {
     shopRegister,
-    shopLogin
+    shopLogin,
+    getAllShops
 };
