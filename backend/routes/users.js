@@ -1,5 +1,5 @@
 const express = require("express");
-const { userRegister, userLogin, getAllUsers, getUserById, updateUserById } = require("../controllers/users");
+const { userRegister, userLogin, getAllUsers, getUserById, updateUserById, deleteUserById } = require("../controllers/users");
 
 
 
@@ -10,6 +10,7 @@ usersRouter.post("/login", userLogin);
 usersRouter.get("/", getAllUsers);
 usersRouter.get("/:id", getUserById);
 usersRouter.put("/:id", updateUserById);
+usersRouter.delete("/:id", deleteUserById);
 
 
 
