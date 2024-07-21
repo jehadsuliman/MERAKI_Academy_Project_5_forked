@@ -22,6 +22,24 @@ const createNewCategory = (req, res) => {
       });
     });
 };
+const getAllCategories = (req, res) => {
+  pool
+    .query(`SELECT * FROM categories WHERE is_deleted=0 ;`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        massage: "All the categories",
+        categories: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        massage: "Server error",
+        error: err,
+      });
+    });
+};
 module.exports = {
   createNewCategory,
   getAllCategories,
