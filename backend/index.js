@@ -11,6 +11,7 @@ app.use(express.json());
 const rolesRouter = require("./routes/role");
 const usersRouter = require("./routes/users");
 const categoriesRouter = require("./routes/categories");
+const shopsRouter = require("./routes/shops");
 
 
 
@@ -19,6 +20,7 @@ const categoriesRouter = require("./routes/categories");
 app.use("/roles", rolesRouter);
 app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
+app.use("/shops", shopsRouter);
 
 
 
