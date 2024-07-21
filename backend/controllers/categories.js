@@ -102,9 +102,28 @@ WHERE id=$3 AND is_deleted = 0  RETURNING *;`,
       });
     });
 };
+const deleteCategoryById = (req, res) => {
+  const categoryId = req.params.id;
+  pool
+    .query("UPDATE categories SET is_deleted =1 WHERE id = $1;", [categoryId])
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        massage: `Category with id: ${categoryId} deleted successfully`,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        massage: "Server error",
+        error: err,
+      });
+    });
+};
 module.exports = {
   createNewCategory,
   getAllCategories,
   getCategoryById,
-  updateCategoryById
+  updateCategoryById,
+  deleteCategoryById
 };
