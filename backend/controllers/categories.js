@@ -40,7 +40,39 @@ const getAllCategories = (req, res) => {
       });
     });
 };
+const getCategoryById = (req, res) => {
+  const categoryId = req.params.id;
+  pool
+    .query(
+      `
+      SELECT * FROM categories WHERE id = $1 AND is_deleted = 0;`,
+      [categoryId]
+    )
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          massage: `The category with id: ${categoryId}`,
+          article: result.rows,
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          massage: `The category: ${categoryId} has not a found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        massage: "Server error",
+        error: err,
+      });
+    });
+};
+
 module.exports = {
   createNewCategory,
   getAllCategories,
+  getCategoryById,
 };
