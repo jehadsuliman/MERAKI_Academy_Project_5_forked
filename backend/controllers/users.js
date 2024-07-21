@@ -138,8 +138,8 @@ const getAllUsers = (req, res) => {
 
 }
 
-const getUserById = (req, res) => {
-    const {id} = req.params
+const getUserById = (req, res) => { 
+    const { id } = req.params
 
     const query = `SELECT * FROM users  WHERE id = $1 AND is_deleted=0`;
     const data = [id];
@@ -167,13 +167,94 @@ const getUserById = (req, res) => {
                 err: err,
             });
         });
-
-
 }
+
+const updateUserById = (req, res) => {
+    const { id } = req.params;
+    let {
+      userName,
+      email,
+      password,
+      country,
+      age,
+      firstName,
+      lastName,
+      city,
+      address,
+      postal_code,
+      profile_pic
+    } = req.body;
+  
+    const query = `
+      UPDATE users
+      SET userName = COALESCE($1, userName),
+          firstName = COALESCE($2, firstName),
+          lastName = COALESCE($3, lastName),
+          email = COALESCE($4, email),
+          password = COALESCE($5, password),
+          age = COALESCE($6, age),
+          country = COALESCE($7, country),
+          city = COALESCE($8, city),
+          address = COALESCE($9, address),
+          postal_code = COALESCE($10, postal_code),
+          profile_pic = COALESCE($11, profile_pic)
+      WHERE id = $12 AND is_deleted = 0
+      RETURNING *;
+    `;
+  
+    const data = [
+      userName || null,
+      firstName || null,
+      lastName || null,
+      email || null,
+      password || null,
+      age || null,
+      country || null,
+      city || null,
+      address || null,
+      postal_code || null,
+      profile_pic || null ,
+      id
+    ];
+  
+    pool.query(query, data)
+      .then((result) => {
+        if (result.rows.length > 0) {
+          res.status(200).json({
+            success: true,
+            message: `User info with id: ${id} updated successfully`,
+            result: result.rows[0]
+          });
+        } else {
+          res.status(404).json({
+            success: false,
+            message: `User with id: ${id} not found`
+          });
+        }
+      })
+      .catch((err) => {
+        if (err.code === '23505') {
+          // Unique constraint violation (e.g., duplicate email)
+          res.status(400).json({
+            success: false,
+            message: 'Failed to update user info',
+            error: err.detail
+          });
+        } else {
+          res.status(500).json({
+            success: false,
+            message: 'Server error',
+            error: err
+          });
+        }
+      });
+  };
 
 module.exports = {
     userRegister,
     userLogin,
     getAllUsers,
-    getUserById
+    getUserById,
+    updateUserById
+
 };
