@@ -68,7 +68,7 @@ const userRegister = async (req, res) => {
 
 const userLogin = (req, res) => {
     const { email, password } = req.body
-    const query = `SELECT * FROM users WHERE email = $1`;
+    const query = `SELECT * FROM users WHERE email = $1 `;
     const data = [email.toLowerCase()];
     pool
         .query(query, data)
@@ -250,34 +250,8 @@ const updateUserById = (req, res) => {
         });
 };
 
+
 const deleteUserById = (req, res) => {
-    const { id } = req.params;
-    const query = `UPDATE users SET is_deleted=1 WHERE id=$1;`;
-    const data = [id];
-    pool
-        .query(query, data)
-        .then((result) => {
-            if (result.rowCount !== 0) {
-                res.status(200).json({
-                    success: true,
-                    message: `User with id: ${id} deleted successfully`,
-                });
-            } else {
-                throw new Error("Error happened while deleting user");
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                success: false,
-                message: "Server error",
-                err: err,
-            });
-        });
-}
-
-
-  const deleteUserById = (req, res) => {
     const { id } = req.params;
     const query = `UPDATE users SET is_deleted=1 WHERE id=$1;`;
     const data = [id];
