@@ -29,6 +29,8 @@ CREATE TABLE role_permission(
 -- Insert INTO role_permission
     INSERT INTO role_permission (role_id,permission_id) VALUES (1,1) RETURNING *;
 
+
+
 -- Create table users
     CREATE TABLE users(
     id SERIAL PRIMARY KEY NOT NULL,
@@ -56,3 +58,4 @@ INSERT INTO users (userName, email, password, country, age, firstName, lastName,
 VALUES (
     'khaled','khaled@gmail.com','123','jordan',30,'khaled','odeh','amman','123 Makkah Street','12345',1
 )RETURNING *;
+
