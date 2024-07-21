@@ -23,7 +23,6 @@ const createNewRole = (req, res) => {
     });
 };
 
-
 const createNewPermission = (req, res) => {
   const { permission } = req.body;
   const query = `INSERT INTO permissions (permission) VALUES ($1) RETURNING *;`;
@@ -46,7 +45,6 @@ const createNewPermission = (req, res) => {
       });
     });
 };
-
 
 const createNewRolePermission = (req, res) => {
   const { role_id, permission_id } = req.body;
