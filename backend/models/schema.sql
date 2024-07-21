@@ -59,3 +59,30 @@ VALUES (
     'khaled','khaled@gmail.com','123','jordan',30,'khaled','odeh','amman','123 Makkah Street','12345',1
 )RETURNING *;
 
+
+
+-- Create table shops
+CREATE TABLE shops(
+    id SERIAL PRIMARY KEY NOT NULL,
+    shopName VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    discreption VARCHAR(255),
+    phone_number VARCHAR(255),
+    role_id INT NOT NULL,
+    category_id INT NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    is_deleted SMALLINT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+     profile_pic VARCHAR DEFAULT (
+        'https://i.pinimg.com/564x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg'
+    )
+);
+
+-- Insert INTO shops
+INSERT INTO shops (shopName, country, email, password, discreption, phone_number, role_id, category_id) 
+VALUES (
+    'MAX','jordan','max@gmail.com','123','discreption','0796959715',1,1
+);
