@@ -9,4 +9,5 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.post("/", authentication, createNewCategory);
 categoriesRouter.get("/", getAllCategories);
+
 module.exports = categoriesRouter;
