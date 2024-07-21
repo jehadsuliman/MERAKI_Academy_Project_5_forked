@@ -114,7 +114,32 @@ const userLogin = (req, res) => {
         });
 };
 
+const getAllUsers = (req, res) => {
+    const query = `SELECT * FROM users `;
+
+    pool
+        .query(query)
+        .then((result) => {
+            res.status(200).json({
+                success: true,
+                message: "All the users",
+                result: result.rows,
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                success: false,
+                message: "Server error",
+                error: err.message
+            });
+
+        })
+
+
+}
+
 module.exports = {
     userRegister,
-    userLogin
+    userLogin,
+    getAllUsers
 };
