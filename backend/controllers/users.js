@@ -310,5 +310,4 @@ module.exports = {
     getUserById,
     updateUserById,
     deleteUserById
-
 };
