@@ -28,3 +28,18 @@ CREATE TABLE role_permission(
     
 -- Insert INTO role_permission
     INSERT INTO role_permission (role_id,permission_id) VALUES (1,1) RETURNING *;
+    
+    -- Create table categories
+CREATE TABLE categories(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    image VARCHAR (255),
+    is_deleted SMALLINT DEFAULT 0
+);
+
+-- Insert INTO categories
+INSERT INTO categories (name, image) 
+VALUES (
+    'clothes', 
+    'https://img.ltwebstatic.com/images3_ccc/2024/07/08/d9/17204201252ecdf46dc1460de1f5ebacd6ee208dc1.webp')
+    RETURNING *;
