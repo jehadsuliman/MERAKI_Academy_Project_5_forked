@@ -22,7 +22,7 @@ const createNewCategory = (req, res) => {
       });
     });
 };
-
 module.exports = {
   createNewCategory,
+  getAllCategories,
 };
