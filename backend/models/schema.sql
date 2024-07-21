@@ -71,6 +71,8 @@ CREATE TABLE categories(
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(255) NOT NULL,
     image VARCHAR (255),
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     is_deleted SMALLINT DEFAULT 0
 );
 
@@ -176,4 +178,5 @@ CREATE TABLE orders(
 
 INSERT INTO orders (product_id, user_id) 
 VALUES (1,1)RETURNING *;
+
 
