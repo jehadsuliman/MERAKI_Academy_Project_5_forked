@@ -131,8 +131,41 @@ const getAllShops = (req, res) => {
 
 }
 
+const getShopByCategoryId = (req, res) => {
+    const { id } = req.params
+
+    const query = `SELECT * FROM shops  WHERE category_id = $1 AND is_deleted=0`;
+    const data = [id];
+
+    pool
+        .query(query, data)
+        .then((result) => {
+            if (result.rows.length !== 0) {
+                res.status(200).json({
+                    success: true,
+                    message: `The user with id: ${id}`,
+                    result: result.rows,
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: `The user with id: ${id} not found`,
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: "Server error",
+                err: err,
+            });
+        });
+}
+
+
 module.exports = {
     shopRegister,
     shopLogin,
-    getAllShops
+    getAllShops,
+    getShopByCategoryId
 };
