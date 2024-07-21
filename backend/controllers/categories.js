@@ -70,9 +70,41 @@ const getCategoryById = (req, res) => {
       });
     });
 };
-
+const updateCategoryById = (req, res) => {
+  const categoryId = req.params.id;
+  const { name, image } = req.body;
+  pool
+    .query(
+      `UPDATE categories
+SET name = COALESCE($1,name) ,image = COALESCE($2, image)
+WHERE id=$3 AND is_deleted = 0  RETURNING *;`,
+      [name, image, categoryId]
+    )
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          massage: `Category with id: ${categoryId} updated successfully`,
+          Category: result.rows[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          massage: `The Category: ${categoryId} has not a found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        massage: "Server error",
+        error: err,
+      });
+    });
+};
 module.exports = {
   createNewCategory,
   getAllCategories,
   getCategoryById,
+  updateCategoryById
 };
