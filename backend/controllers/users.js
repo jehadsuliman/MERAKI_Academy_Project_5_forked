@@ -115,7 +115,7 @@ const userLogin = (req, res) => {
 };
 
 const getAllUsers = (req, res) => {
-    const query = `SELECT * FROM users `;
+    const query = `SELECT * FROM users WHERE users.is_deleted=0 `;
 
     pool
         .query(query)
@@ -138,8 +138,42 @@ const getAllUsers = (req, res) => {
 
 }
 
+const getUserById = (req, res) => {
+    const {id} = req.params
+
+    const query = `SELECT * FROM users  WHERE id = $1 AND is_deleted=0`;
+    const data = [id];
+
+    pool
+        .query(query, data)
+        .then((result) => {
+            if (result.rows.length !== 0) {
+                res.status(200).json({
+                    success: true,
+                    message: `The user with id: ${id}`,
+                    result: result.rows[0],
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: `The user with id: ${id} not found`,
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: "Server error",
+                err: err,
+            });
+        });
+
+
+}
+
 module.exports = {
     userRegister,
     userLogin,
-    getAllUsers
+    getAllUsers,
+    getUserById
 };
