@@ -17,5 +17,4 @@ usersRouter.delete("/:id", deleteUserById);
 
 
 
-
 module.exports = usersRouter;

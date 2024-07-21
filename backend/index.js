@@ -10,12 +10,16 @@ app.use(express.json());
 //routers
 const rolesRouter = require("./routes/role");
 const usersRouter = require("./routes/users");
+const categoriesRouter = require("./routes/categories");
+
 
 
 
 // router middleware
 app.use("/roles", rolesRouter);
 app.use("/users", usersRouter);
+app.use("/categories", categoriesRouter);
+
 
 
 
