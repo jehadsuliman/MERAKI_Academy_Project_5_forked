@@ -166,6 +166,8 @@ const getShopByCategoryId = (req, res) => {
 }
 
 
+
+
 const getShopById = (req, res) => {
     const { id } = req.params
 
@@ -197,6 +199,81 @@ const getShopById = (req, res) => {
         });
 }
 
+const updateShopById = async (req, res) => {
+    const { id } = req.params;
+    let {
+        shopName,
+        country,
+        email,
+        password,
+        category_id,
+        role_id,
+        discreption,
+        profile_pic,
+        phone_number
+    } = req.body;
+
+
+    const query = `
+      UPDATE shops
+      SET shopName = COALESCE($1, shopName),
+          country = COALESCE($2, country),
+          email = COALESCE($3, email),
+          password = COALESCE($4, password),
+          category_id = COALESCE($5, category_id),
+          role_id = COALESCE($6, role_id),
+          discreption = COALESCE($7, discreption),
+          phone_number = COALESCE($8, phone_number),
+          profile_pic = COALESCE($9, profile_pic)
+      WHERE id = $10 AND is_deleted = 0
+      RETURNING *;
+    `;
+
+    const data = [
+        shopName || null,
+        country || null,
+        email || null,
+        password || null,
+        category_id || null,
+        role_id || null,
+        discreption || null,
+        profile_pic || null,
+        phone_number || null,
+        id
+    ];
+
+    pool.query(query, data)
+        .then((result) => {
+            if (result.rows.length > 0) {
+                res.status(200).json({
+                    success: true,
+                    message: `Shop info with id: ${id} updated successfully`,
+                    result: result.rows[0]
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: `Shop with id: ${id} not found`
+                });
+            }
+        })
+        .catch((err) => {
+            if (err.code === '23505') {
+                // Unique constraint violation (e.g., duplicate email)
+                res.status(400).json({
+                    success: false,
+                    message: 'Failed to update user info',
+                    error: err.detail
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    message: 'Server error',
+                    error: err
+                });
+            }
+        });
+};
 
 
 module.exports = {
@@ -204,5 +281,6 @@ module.exports = {
     shopLogin,
     getAllShops,
     getShopByCategoryId,
-    getShopById
+    getShopById,
+    updateShopById
 };
