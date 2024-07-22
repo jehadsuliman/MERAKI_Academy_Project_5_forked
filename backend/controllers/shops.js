@@ -60,6 +60,7 @@ const shopRegister = async (req, res) => {
 };
 
 const shopLogin = (req, res) => {
+    
     const { email, password } = req.body
     const query = `SELECT * FROM shops WHERE email = $1`;
     const data = [email.toLowerCase()];
@@ -67,11 +68,13 @@ const shopLogin = (req, res) => {
         .query(query, data)
         .then((result) => {
             if (result.rows.length) {
+
                 bcrypt.compare(password, result.rows[0].password, (err, response) => {
+
                     if (err) res.json(err);
                     if (response) {
                         const payload = {
-                            userId: result.rows[0].id,
+                            shopId: result.rows[0].id,
                             country: result.rows[0].country,
                             role: result.rows[0].role_id,
                         };
@@ -83,7 +86,7 @@ const shopLogin = (req, res) => {
                                 token,
                                 success: true,
                                 message: `Valid login credentials`,
-                                userId: result.rows[0].id
+                                shopId: result.rows[0].id
                             });
                         } else {
                             throw Error;
