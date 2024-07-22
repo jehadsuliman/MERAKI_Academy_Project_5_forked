@@ -1,4 +1,6 @@
 const { pool } = require("../models/db");
+
+
 const createNewProduct = (req, res) => {
   const { title, description, price, image, sub_category_id } = req.body;
   pool
@@ -23,23 +25,25 @@ const createNewProduct = (req, res) => {
 };
 
 const getAllProducts = (req, res) => {
-    pool
-      .query(`SELECT * FROM products WHERE is_deleted=0 ;`)
-      .then((result) => {
-        res.status(200).json({
-          success: true,
-          massage: "All the products",
-          products: result.rows,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          massage: "Server error",
-          error: err,
-        });
+  pool
+    .query(`SELECT * FROM products WHERE is_deleted=0 ;`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        massage: "All the products",
+        products: result.rows,
       });
-  };
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        massage: "Server error",
+        error: err,
+      });
+    });
+};
+
+
 module.exports = {
   createNewProduct,
   getAllProducts,
