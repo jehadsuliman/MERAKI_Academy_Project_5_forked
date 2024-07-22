@@ -1,4 +1,5 @@
 const { pool } = require("../models/db");
+const subCategoriesRouter = require("../routes/subCategories");
 
 const createNewSubCategory = (req, res) => {
   const { description, shop_id } = req.body;
@@ -42,7 +43,35 @@ const getAllSubCategories = (req, res) => {
     });
 };
 
+const getSubCategoryById = (req, res) => {
+  subCategoryId = req.params.id;
+  pool
+    .query(`SELECT * FROM sub_categories WHERE id = $1;`, [subCategoryId])
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: "The sub category with id: ${id}",
+          subCategories: result.rows[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "The sub category with id: ${id} not found",
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: error.message,
+      });
+    });
+};
+
 module.exports = {
   createNewSubCategory,
   getAllSubCategories,
+  getSubCategoryById,
 };
