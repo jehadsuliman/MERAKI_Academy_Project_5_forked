@@ -1,4 +1,5 @@
 const { pool } = require("../models/db");
+const { subscribe } = require("../routes/role");
 
 const createNewSubCategory = (req, res) => {
   const shop_id = req.token.shopId;
@@ -113,29 +114,63 @@ const updateSubCategoryById = (req, res) => {
 };
 
 const deleteSubCategoriesById = (req, res) => {
-    const subCategoryId = req.params.id;
-    pool.query(`UPDATE sub_categories SET is_deleted = 1 WHERE id = $1 RETURNING *;`, [subCategoryId])
+  const subCategoryId = req.params.id;
+  pool
+    .query(
+      `UPDATE sub_categories SET is_deleted = 1 WHERE id = $1 RETURNING *;`,
+      [subCategoryId]
+    )
     .then((result) => {
-        if (result.rows.length > 0){
-            res.status(200).json({
-                success: true,
-                message: `Sub Category with id: ${subCategoryId} deleted successfully`,
-            })
-        } else {
-            res.status(404).json({
-                success: false,
-                message: `Sub Category with id: ${subCategoryId} not found`,
-            })
-        }
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: `Sub Category with id: ${subCategoryId} deleted successfully`,
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `Sub Category with id: ${subCategoryId} not found`,
+        });
+      }
     })
     .catch((error) => {
-        res.status(500).json({
-            success: false,
-            message: `Server Error`,
-            error: error.message,
-        })
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        error: error.message,
+      });
+    });
+};
+
+const getSubCategoryByShopId = (req, res) => {
+  const shopId = req.params.shop_id;
+  pool
+    .query(
+      `SELECT * FROM sub_categories WHERE shop_id = $1 AND is_deleted = 0;`,
+      [shopId]
+    )
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: `Sub categories for shop id: ${shopId}`,
+          subCategories: result.rows[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `No sub categories found for shop id: ${shopId}`,
+        });
+      }
     })
-}
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        error: error.message,
+      });
+    });
+};
 
 module.exports = {
   createNewSubCategory,
@@ -143,4 +178,5 @@ module.exports = {
   getSubCategoryById,
   updateSubCategoryById,
   deleteSubCategoriesById,
+  getSubCategoryByShopId,
 };
