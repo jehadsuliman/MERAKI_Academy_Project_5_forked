@@ -13,6 +13,7 @@ const usersRouter = require("./routes/users");
 const categoriesRouter = require("./routes/categories");
 const shopsRouter = require("./routes/shops");
 const subCategoriesRouter = require("./routes/subCategories");
+const productsRouter = require("./routes/products");
 
 // router middleware
 app.use("/roles", rolesRouter);
@@ -20,6 +21,7 @@ app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
 app.use("/shops", shopsRouter);
 app.use("/subCategories", subCategoriesRouter);
+app.use("/products", productsRouter);
 
 const PORT = process.env.PORT || 5001;
 
