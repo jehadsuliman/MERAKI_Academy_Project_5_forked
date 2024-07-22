@@ -24,6 +24,7 @@ const createNewProduct = (req, res) => {
     });
 };
 
+
 const getAllProducts = (req, res) => {
   pool
     .query(`SELECT * FROM products WHERE is_deleted=0 ;`)
@@ -44,7 +45,7 @@ const getAllProducts = (req, res) => {
 };
 
 
+
 module.exports = {
-  createNewProduct,
-  getAllProducts,
+  createNewProduct
 };

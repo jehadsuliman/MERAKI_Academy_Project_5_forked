@@ -152,6 +152,8 @@ CREATE TABLE carts(
     id SERIAL PRIMARY KEY NOT NULL,
     product_id INT NOT NULL,
     user_id INT NOT NULL,
+    quantity INT DEFAULT 1,
+    total_price DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     is_deleted SMALLINT DEFAULT 0,
@@ -160,24 +162,24 @@ CREATE TABLE carts(
 
 -- Insert INTO carts
 
-INSERT INTO carts (product_id, user_id) 
-VALUES (1, 1)RETURNING *;
+INSERT INTO carts (product_id, user_id,quantity,total_price) 
+VALUES (1, 1,2,9.99)RETURNING *;
 
 -- Create table orders
 
 CREATE TABLE orders(
     id SERIAL PRIMARY KEY NOT NULL,
-    product_id INT NOT NULL,
+    carts_id INT NOT NULL,
     user_id INT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (carts_id) REFERENCES carts (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     is_deleted SMALLINT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+    ordered_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 -- Insert INTO orders
 
-INSERT INTO orders (product_id, user_id) 
+INSERT INTO orders (carts_id, user_id) 
 VALUES (1,1)RETURNING *;
 
 -- ALTER sub_categories
