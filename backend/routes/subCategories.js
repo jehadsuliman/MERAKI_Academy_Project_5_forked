@@ -10,8 +10,8 @@ const authentication = require("../middleware/authentication");
 
 const subCategoriesRouter = express.Router();
 
-subCategoriesRouter.post("/", createNewSubCategory);
-subCategoriesRouter.get("/",authentication, getAllSubCategories);
+subCategoriesRouter.post("/", authentication,createNewSubCategory);
+subCategoriesRouter.get("/", getAllSubCategories);
 subCategoriesRouter.get("/:id", getSubCategoryById);
 subCategoriesRouter.put("/:id", updateSubCategoryById);
 
