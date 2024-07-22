@@ -112,9 +112,35 @@ const updateSubCategoryById = (req, res) => {
     });
 };
 
+const deleteSubCategoriesById = (req, res) => {
+    const subCategoryId = req.params.id;
+    pool.query(`UPDATE sub_categories SET is_deleted = 1 WHERE id = $1 RETURNING *;`, [subCategoryId])
+    .then((result) => {
+        if (result.rows.length > 0){
+            res.status(200).json({
+                success: true,
+                message: `Sub Category with id: ${subCategoryId} deleted successfully`,
+            })
+        } else {
+            res.status(404).json({
+                success: false,
+                message: `Sub Category with id: ${subCategoryId} not found`,
+            })
+        }
+    })
+    .catch((error) => {
+        res.status(500).json({
+            success: false,
+            message: `Server Error`,
+            error: error.message,
+        })
+    })
+}
+
 module.exports = {
   createNewSubCategory,
   getAllSubCategories,
   getSubCategoryById,
   updateSubCategoryById,
+  deleteSubCategoriesById,
 };
