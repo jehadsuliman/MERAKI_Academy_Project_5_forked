@@ -1,5 +1,4 @@
 const { pool } = require("../models/db");
-const { subscribe } = require("../routes/role");
 
 const createNewSubCategory = (req, res) => {
   const shop_id = req.token.shopId;
