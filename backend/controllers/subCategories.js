@@ -27,7 +27,10 @@ const createNewSubCategory = (req, res) => {
 
 const getAllSubCategories = (req, res) => {
   pool
-    .query(`SELECT * FROM sub_categories AND is_deleted=0;`)
+
+    .query(`SELECT * FROM sub_categories WHERE is_deleted = 0;`)
+
+
     .then((result) => {
       res.status(200).json({
         success: true,
@@ -46,17 +49,20 @@ const getAllSubCategories = (req, res) => {
 
 const getSubCategoryById = (req, res) => {
  const subCategoryId = req.params.id;
+
   console.log(subCategoryId);
   pool
     .query(`SELECT * FROM sub_categories WHERE id = $1 AND is_deleted=0;`, [subCategoryId])
     .then((result) => {
+      console.log(result.rows)
       if (result.rows.length > 0) {
         res.status(200).json({
           success: true,
           message: `The sub category with id: ${subCategoryId}`,
           subCategories: result.rows[0],
         });
-      } else {
+      } 
+      else {
         res.status(404).json({
           success: false,
           message: `The sub category with id: ${subCategoryId} not found`,
