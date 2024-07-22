@@ -14,6 +14,8 @@ const categoriesRouter = require("./routes/categories");
 const shopsRouter = require("./routes/shops");
 const subCategoriesRouter = require("./routes/subCategories");
 const productsRouter = require("./routes/products");
+const cartsRouter = require("./routes/carts");
+
 
 // router middleware
 app.use("/roles", rolesRouter);
@@ -22,6 +24,8 @@ app.use("/categories", categoriesRouter);
 app.use("/shops", shopsRouter);
 app.use("/subCategories", subCategoriesRouter);
 app.use("/products", productsRouter);
+app.use("/carts", cartsRouter);
+
 
 const PORT = process.env.PORT || 5001;
 
