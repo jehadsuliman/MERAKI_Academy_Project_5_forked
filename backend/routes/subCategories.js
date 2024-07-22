@@ -1,9 +1,13 @@
 const express = require("express");
 
-const { createNewSubCategory } = require("../controllers/subCategories");
+const {
+  createNewSubCategory,
+  getAllSubCategories,
+} = require("../controllers/subCategories");
 
 const subCategoriesRouter = express.Router();
 
 subCategoriesRouter.post("/", createNewSubCategory);
+subCategoriesRouter.get("/", getAllSubCategories);
 
 module.exports = subCategoriesRouter;
