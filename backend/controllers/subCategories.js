@@ -1,8 +1,8 @@
 const { pool } = require("../models/db");
-const subCategoriesRouter = require("../routes/subCategories");
 
 const createNewSubCategory = (req, res) => {
-  const { description, shop_id } = req.body;
+  const shop_id = req.token.shopId
+  const { description } = req.body;
   pool
     .query(
       `INSERT INTO sub_categories (description, shop_id) VALUES ($1, $2) RETURNING *;`,
