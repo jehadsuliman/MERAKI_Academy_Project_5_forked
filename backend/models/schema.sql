@@ -180,4 +180,8 @@ CREATE TABLE orders(
 INSERT INTO orders (product_id, user_id) 
 VALUES (1,1)RETURNING *;
 
+-- ALTER sub_categories
+
+ALTER TABLE sub_categories
+      ADD COLUMN is_deleted SMALLINT DEFAULT 0
 

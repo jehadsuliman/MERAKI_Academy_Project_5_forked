@@ -3,11 +3,10 @@ const { pool } = require("../models/db");
 
 const createNewSubCategory = (req, res) => {
   const shop_id = req.token.shopId
-  console.log("shop_id",req.token);
   const { description } = req.body;
   pool
     .query(
-      `INSERT INTO sub_categories (description, shop_id) VALUES ($1, $2) RETURNING *;`,
+      `INSERT INTO sub_categories (description,shop_id) VALUES ($1, $2) RETURNING *;`,
       [description, shop_id]
     )
     .then((result) => {
@@ -28,7 +27,7 @@ const createNewSubCategory = (req, res) => {
 
 const getAllSubCategories = (req, res) => {
   pool
-    .query(`SELECT * FROM sub_categories;`)
+    .query(`SELECT * FROM sub_categories AND is_deleted=0;`)
     .then((result) => {
       res.status(200).json({
         success: true,
