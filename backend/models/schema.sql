@@ -119,7 +119,8 @@ CREATE TABLE sub_categories (
     id SERIAL PRIMARY KEY NOT NULL,
     description VARCHAR (255) NOT NULL,
     shop_id INT NOT NULL,
-    FOREIGN KEY (shop_id) REFERENCES shops(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (shop_id) REFERENCES shops(id) ON DELETE CASCADE ON UPDATE CASCADE,
+     is_deleted SMALLINT DEFAULT 0
    );
 
 -- Insert INTO sub_categories
@@ -179,4 +180,8 @@ CREATE TABLE orders(
 INSERT INTO orders (product_id, user_id) 
 VALUES (1,1)RETURNING *;
 
+-- ALTER sub_categories
+
+ALTER TABLE sub_categories
+      ADD COLUMN is_deleted SMALLINT DEFAULT 0
 
