@@ -146,13 +146,13 @@ const getShopByCategoryId = (req, res) => {
             if (result.rows.length !== 0) {
                 res.status(200).json({
                     success: true,
-                    message: `The user with id: ${id}`,
+                    message: `The shop with id: ${id}`,
                     result: result.rows,
                 });
             } else {
                 res.status(404).json({
                     success: false,
-                    message: `The user with id: ${id} not found`,
+                    message: `The shop with id: ${id} not found`,
                 });
             }
         })
@@ -164,9 +164,6 @@ const getShopByCategoryId = (req, res) => {
             });
         });
 }
-
-
-
 
 const getShopById = (req, res) => {
     const { id } = req.params
@@ -199,7 +196,7 @@ const getShopById = (req, res) => {
         });
 }
 
-const updateShopById = async (req, res) => {
+const updateShopById =  (req, res) => {
     const { id } = req.params;
     let {
         shopName,
@@ -275,6 +272,32 @@ const updateShopById = async (req, res) => {
         });
 };
 
+const deleteShopById = (req, res) => {
+    const { id } = req.params;
+    const query = `UPDATE shops SET is_deleted=1 WHERE id=$1;`;
+    const data = [id];
+    pool
+        .query(query, data)
+        .then((result) => {
+            if (result.rowCount !== 0) {
+                res.status(200).json({
+                    success: true,
+                    message: `Shop with id: ${id} deleted successfully`,
+                });
+            } else {
+                throw new Error("Error happened while deleting shop");
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: "Server error",
+                err: err,
+            });
+        });
+}
+
 
 module.exports = {
     shopRegister,
@@ -282,5 +305,6 @@ module.exports = {
     getAllShops,
     getShopByCategoryId,
     getShopById,
-    updateShopById
+    updateShopById,
+    deleteShopById
 };
