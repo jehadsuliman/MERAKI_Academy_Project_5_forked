@@ -50,4 +50,35 @@ const getAllOrders = (req, res) => {
     });
 };
 
-module.exports = { createNewOrder, getAllOrders };
+const getOrderById = (req, res) => {
+  const orderId = req.params.id;
+  pool
+    .query(`SELECT * FROM orders WHERE id = $1 AND is_deleted = 0;`, [orderId])
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: `The order with id: ${orderId}`,
+          order: result.rows[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `The order with id: ${orderId} not found`,
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        error: error.message,
+      });
+    });
+};
+
+module.exports = {
+  createNewOrder,
+  getAllOrders,
+  getOrderById,
+};
