@@ -77,8 +77,45 @@ const getOrderById = (req, res) => {
     });
 };
 
+const updateOrderById = (req, res) => {
+  const orderId = req.params.id;
+  const { carts_id, user_id } = req.body;
+
+  pool
+    .query(
+      `UPDATE orders SET 
+    carts_id = COALESCE($1, carts_id), 
+    user_id = COALESCE($2, user_id) 
+    WHERE id = $3 AND is_deleted = 0
+    RETURNING *;`,
+      [carts_id, user_id, orderId]
+    )
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: "order with id: ${id} updated successfully",
+          order: result.rows[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `Order with id: ${orderId} not found`,
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: error.message,
+      });
+    });
+};
+
 module.exports = {
   createNewOrder,
   getAllOrders,
   getOrderById,
+  updateOrderById,
 };
