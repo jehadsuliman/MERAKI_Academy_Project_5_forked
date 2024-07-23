@@ -7,7 +7,7 @@ const createNewOrder = (req, res) => {
   if (!userId) {
     return res.status(401).json({
       success: false,
-      message: `this is token ${userId}`,
+      message: `The token is ${userId}`,
     });
   }
   pool
@@ -31,4 +31,23 @@ const createNewOrder = (req, res) => {
     });
 };
 
-module.exports = { createNewOrder };
+const getAllOrders = (req, res) => {
+  pool
+    .query(`SELECT * FROM orders WHERE is_deleted = 0;`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `All the orders`,
+        orders: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        error: error.message,
+      });
+    });
+};
+
+module.exports = { createNewOrder, getAllOrders };
