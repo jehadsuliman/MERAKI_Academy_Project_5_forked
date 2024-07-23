@@ -113,9 +113,42 @@ const updateOrderById = (req, res) => {
     });
 };
 
+const deleteOrderById = (req, res) => {
+  const orderId = req.params.id;
+  pool
+    .query(
+      `UPDATE orders
+      SET is_deleted = 1
+      WHERE id = $1 AND is_deleted = 0
+      RETURNING *;`,
+      [orderId]
+    )
+    .then((result) => {
+      if (result.rows.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: `Order with id: ${orderId} deleted successfully`,
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `Order with id: ${orderId} not found`,
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        error: error.message,
+      });
+    });
+};
+
 module.exports = {
   createNewOrder,
   getAllOrders,
   getOrderById,
   updateOrderById,
+  deleteOrderById,
 };
