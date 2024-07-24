@@ -8,8 +8,8 @@
 }
 
 .header .logo {
-   margin: 0 15px;
-  }
+  margin: 0 15px;
+}
 
 .header .search {
   position: relative;
@@ -107,4 +107,63 @@
 .header .icons .cart > div .text {
   font-size: 12px;
   cursor: pointer;
+}
+
+/* ---------------------------------------- */
+/* -------------Header Bottom-------------- */
+/* ---------------------------------------- */
+
+.Header_bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 90px;
+  border-bottom: #a0a0a048 solid 1px;
+}
+
+.Header_bottom .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 20px;
+  background: #ffecd3;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Header_bottom .button_container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.Header_bottom .button_container .category_button {
+  display: flex;
+  align-items: center;
+  border: #00000065 solid 1px;
+  border-radius: 30px;
+  padding: 10px;
+  margin: 5px;
+
+}
+
+.Header_bottom .button_container .category_button .category_name {
+  font-size: 12px;
+  margin-left: 10px;
+  min-width: 150px;
+}
+
+.Header_bottom .button_container .category_button .category_image {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.Header_bottom .button_container .category_button .category_image img {
+  width: 100%;
+  height: 100%;
 }
