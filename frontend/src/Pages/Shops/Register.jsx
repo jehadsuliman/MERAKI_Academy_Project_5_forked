@@ -5,6 +5,7 @@ import {
   setLogin,
   setShopId,
 } from "../../Service/api/redux/reducers/auth/shopAuth";
+const PORT = import.meta.env.PORT || 5001 || 5173;
 
 const ShopRegister = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,9 @@ const ShopRegister = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefalut();
+    e.preventDefault();
     try {
-      const response = await axios.post("/shops/register", from);
+      const response = await axios.post(`http://localhost:${PORT}/shops/register`, from);
       dispatch(setLogin(response.data.token));
       dispatch(setShopId(response.data.shopId));
     } catch (error) {
@@ -37,6 +38,7 @@ const ShopRegister = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h3>Register Shop</h3>
       <input
         type="text"
         name="shopName"
