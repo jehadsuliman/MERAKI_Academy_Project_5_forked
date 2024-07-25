@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   setLogin,
   setShopId,
@@ -8,6 +9,7 @@ import {
 
 const ShopLogin = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -27,6 +29,7 @@ const ShopLogin = () => {
       );
       dispatch(setLogin(response.data.token));
       dispatch(setShopId(response.data.shopId));
+      navigate("/all")
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
     }
