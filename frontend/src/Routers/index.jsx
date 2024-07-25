@@ -1,32 +1,36 @@
 
 import { createBrowserRouter } from "react-router-dom";
-import ShopRegister from "../Pages/Shops/Register";
-import ShopLogin from "../Pages/Shops/Login";
-import UpdateShop from "../Pages/Shops/UpdateShop";
-import DeleteShop from "../Pages/Shops/DeleteShopById";
-import Main from "../layouts/Main"
-import CategoryList from "../Pages/Shops/CategoryList";
-
+import ShopLogin from "../layouts/Shop/Login";
+import UpdateShop from "../layouts/Shop/UpdateShop";
+import DeleteShop from "../layouts/Shop/DeleteShopById";
+import CategoryList from "../layouts/Shop/CategoryList";
+import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User/Register"
+import Main from "../pages/Shop/Main";
+import ShopRegister from "../layouts/Shop/Register"
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
+    element: <Main/>,
   },
   {
-    path: "/register",
-    element: <ShopRegister />,
+    path: "/RegisterUserOrAdmin",
+    element: <RegisterUserOrAdmin />,
   },
   {
-    path: "/login",
+    path: "/shopRegister",
+    element: <ShopRegister/>,
+  },
+  {
+    path: "/shopLogin",
     element: <ShopLogin />,
   },
   {
-    path: "/Update/:id",
+    path: "/shopUpdate",
     element: <UpdateShop />,
   },
 
   {
-    path: "/shop/:shopId",
+    path: "/shopDelete",
     element: <DeleteShop />
   },
   {
