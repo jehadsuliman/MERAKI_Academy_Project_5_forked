@@ -3,14 +3,16 @@ import { NavLink } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav>
-      <h1>shops</h1>
-      <NavLink to="/register">Register</NavLink>
+      <h1>shop</h1>
+      <NavLink to="/register">Register Shop</NavLink>
       <br></br>
-      <NavLink to="/login">Login</NavLink>
+      <NavLink to="/login">Login Shop</NavLink>
       <br></br>
-      <NavLink to="/:id">Update User Shop</NavLink>
+      <NavLink to="/Update/:id">Update User Shop</NavLink>
       <br></br>
-      <NavLink to="/shop/:shopId">Delete</NavLink>
+      <NavLink to="/shop/:shopId">Delete Shop</NavLink>
+      <br></br>
+      <NavLink to="/categories">Category Shop</NavLink>
     </nav>
   );
 };

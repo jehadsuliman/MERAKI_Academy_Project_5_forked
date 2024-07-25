@@ -22,7 +22,7 @@ const UpdateShop = () => {
   useEffect(() => {
     const fetchShop = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/shops/${id}`);
+        const response = await axios.get(`http://localhost:5000/shops/Update/${id}`);
         setShop(response.data.result);
       } catch (error) {
         console.error("Error fetching shop details:", error);

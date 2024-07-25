@@ -4,11 +4,12 @@ import ShopLogin from "../Pages/Shops/Login";
 import UpdateShop from "../Pages/Shops/UpdateShop";
 import DeleteShop from "../Pages/Shops/DeleteShopById";
 import Main from "../layouts/Main"
+import CategoryList from "../Pages/Shops/CategoryList";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />
+    element: <Main />,
   },
   {
     path: "/register",
@@ -19,11 +20,16 @@ export const router = createBrowserRouter([
     element: <ShopLogin />,
   },
   {
-    path: "/:id",
+    path: "/Update/:id",
     element: <UpdateShop />,
   },
   {
     path: "/shop/:shopId",
     element: <DeleteShop />
+  },
+  {
+    path: "/categories",
+    element: <CategoryList />
   }
+
 ]);
