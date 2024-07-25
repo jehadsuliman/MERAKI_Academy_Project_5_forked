@@ -17,7 +17,7 @@ subCategoriesRouter.post("/", authentication, createNewSubCategory);
 subCategoriesRouter.get("/", getAllSubCategories);
 subCategoriesRouter.get("/:id", getSubCategoryById);
 subCategoriesRouter.put("/:id", updateSubCategoryById);
-subCategoriesRouter.delete("/:id", deleteSubCategoriesById);
+subCategoriesRouter.delete("/:shop_id/subcategories", deleteSubCategoriesById);
 subCategoriesRouter.get("/shop/:shop_id", getSubCategoryByShopId);
 
 module.exports = subCategoriesRouter;
