@@ -1,9 +1,9 @@
 import {createBrowserRouter} from "react-router-dom"
-import shopRegister from "../Pages/shops/shopRegister";
+import ShopRegister from "../Pages/Shops/Register";
 
 export const router =createBrowserRouter([
     {
         path: "/register",
-        element: <shopRegister />
+        element: <ShopRegister />
     }
 ])
