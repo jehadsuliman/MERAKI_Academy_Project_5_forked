@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../../components/ShopsNavBar/index";
+import Navbar from "../../../layouts/Shop/ShopsNavBar";
 
 export default function Main() {
     return(

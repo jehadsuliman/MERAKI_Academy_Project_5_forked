@@ -4,13 +4,13 @@ const Navbar = () => {
   return (
     <nav>
       <h1>shop</h1>
-      <NavLink to="/register">Register Shop</NavLink>
+      <NavLink to="/shopRegister">Register Shop</NavLink>
       <br></br>
-      <NavLink to="/login">Login Shop</NavLink>
+      <NavLink to="/shopLogin">Login Shop</NavLink>
       <br></br>
-      <NavLink to="/Update/:id">Update User Shop</NavLink>
+      <NavLink to="/shopUpdate">Update User Shop</NavLink>
       <br></br>
-      <NavLink to="/shop/:shopId">Delete Shop</NavLink>
+      <NavLink to="/shopDelete">Delete Shop</NavLink>
       <br></br>
       <NavLink to="/categories">Category Shop</NavLink>
     </nav>
