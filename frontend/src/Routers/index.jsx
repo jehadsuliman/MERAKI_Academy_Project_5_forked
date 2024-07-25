@@ -1,3 +1,4 @@
+
 import { createBrowserRouter } from "react-router-dom";
 import ShopRegister from "../Pages/Shops/Register";
 import ShopLogin from "../Pages/Shops/Login";
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
     path: "/Update/:id",
     element: <UpdateShop />,
   },
+
   {
     path: "/shop/:shopId",
     element: <DeleteShop />
@@ -33,3 +35,4 @@ export const router = createBrowserRouter([
   }
 
 ]);
+

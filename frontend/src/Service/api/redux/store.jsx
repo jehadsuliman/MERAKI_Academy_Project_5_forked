@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import shopAuth from "./reducers/auth/shopAuth";
-import shop from "./reducers/shopSlices/shopSlices";
 
-export default configureStore({
+import shopAuthReducer from "./reducers/auth/shopAuth";
+import userAuthReducer from "./reducers/auth/userAuth"
+ export default  configureStore({
   reducer: {
-    shopAuth: shopAuth,
-    shop: shop,
+    shopAuth:shopAuthReducer,
+    userAuth:userAuthReducer,
+
   },
 });
