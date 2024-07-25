@@ -18,7 +18,6 @@ const ShopLogin = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,7 +28,7 @@ const ShopLogin = () => {
       );
       dispatch(setLogin(response.data.token));
       dispatch(setShopId(response.data.shopId));
-      navigate("/:id")
+      navigate("/")
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
     }

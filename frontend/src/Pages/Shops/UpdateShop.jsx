@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { DeleteShopById } from "./DeleteShopById";
 
 const UpdateShop = () => {
   const { id } = useParams();
@@ -13,7 +12,7 @@ const UpdateShop = () => {
     password: "",
     category_id: "",
     role_id: "",
-    discreption: "",
+    description: "",
     profile_pic: "",
     phone_number: "",
   });
@@ -23,7 +22,7 @@ const UpdateShop = () => {
   useEffect(() => {
     const fetchShop = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/shops/${id}`);
+        const response = await axios.get(`http://localhost:5000/shops/Update/${id}`);
         setShop(response.data.result);
       } catch (error) {
         console.error("Error fetching shop details:", error);
@@ -59,20 +58,6 @@ const UpdateShop = () => {
 
   const handleToggleClick = () => {
     setShowFields(!showFields);
-  };
-
-  const handleDelete = async () => {
-    try {
-      const result = await DeleteShopById(id);
-      if (result.success) {
-        navigate("/all");
-      } else {
-        setError(result.message);
-      }
-    } catch (error) {
-      console.error("Error deleting shop:", error);
-      setError("Failed to delete shop");
-    }
   };
 
   return (
@@ -139,8 +124,8 @@ const UpdateShop = () => {
             <div>
               <label>Description:</label>
               <textarea
-                name="discreption"
-                value={shop.discreption}
+                name="description"
+                value={shop.description}
                 onChange={handleChange}
               ></textarea>
             </div>
@@ -171,7 +156,6 @@ const UpdateShop = () => {
           {showFields ? "Hide Update Form" : "Show Update Form"}
         </button>
       </form>
-      <button onClick={handleDelete}>Delete Shop</button>
     </div>
   );
 };
