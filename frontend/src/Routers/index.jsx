@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import ShopRegister from "../Pages/Shops/Register";
 import ShopLogin from "../Pages/Shops/Login";
-import ShopsList from "../Pages/Shops/ShopsList";
+import UpdateShop from "../Pages/Shops/UpdateShop";
 
 export const router = createBrowserRouter([
   {
@@ -9,11 +9,11 @@ export const router = createBrowserRouter([
     element: <ShopRegister />,
   },
   {
-    path: "login",
+    path: "/login",
     element: <ShopLogin />,
   },
   {
-    path: "/all",
-    element: <ShopsList />,
+    path: "/:id",
+    element: <UpdateShop />,
   },
 ]);

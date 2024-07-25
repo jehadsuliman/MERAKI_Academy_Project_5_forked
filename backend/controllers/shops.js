@@ -226,7 +226,8 @@ const updateShopById = (req, res) => {
     phone_number || null,
     id,
   ];
-
+  console.log('Executing query:', query);
+  console.log('With data:', data);
   pool
     .query(query, data)
     .then((result) => {

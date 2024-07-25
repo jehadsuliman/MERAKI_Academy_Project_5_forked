@@ -29,7 +29,7 @@ const ShopLogin = () => {
       );
       dispatch(setLogin(response.data.token));
       dispatch(setShopId(response.data.shopId));
-      navigate("/all")
+      navigate("/:id")
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
     }

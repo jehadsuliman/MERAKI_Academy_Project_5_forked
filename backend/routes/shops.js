@@ -15,7 +15,7 @@ shopsRouter.post("/register", shopRegister);
 shopsRouter.post("/login", shopLogin);
 shopsRouter.get("/all", getAllShops);
 shopsRouter.get("/:id", getShopById);
-shopsRouter.get("/:id/category", getShopByCategoryId);
+shopsRouter.get("/category/:id", getShopByCategoryId);
 shopsRouter.put("/:id", updateShopById);
 shopsRouter.delete("/:id", deleteShopById);
 
