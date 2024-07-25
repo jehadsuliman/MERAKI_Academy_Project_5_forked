@@ -17,6 +17,6 @@ shopsRouter.get("/all", getAllShops);
 shopsRouter.get("/:id", getShopById);
 shopsRouter.get("/category/:id", getShopByCategoryId);
 shopsRouter.put("/:id", updateShopById);
-shopsRouter.delete("/:id", deleteShopById);
+shopsRouter.delete("/shop/:shopId", deleteShopById);
 
 module.exports = shopsRouter;
