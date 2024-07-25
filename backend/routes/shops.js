@@ -1,15 +1,13 @@
 const express = require("express");
 const {
-    shopRegister,
-    shopLogin,
-    getAllShops,
-    getShopByCategoryId,
-    getShopById,
-    updateShopById,
-    deleteShopById
+  shopRegister,
+  shopLogin,
+  getAllShops,
+  getShopByCategoryId,
+  getShopById,
+  updateShopById,
+  deleteShopById,
 } = require("../controllers/shops");
-
-
 
 const shopsRouter = express.Router();
 
@@ -20,14 +18,5 @@ shopsRouter.get("/:id", getShopById);
 shopsRouter.get("/:id/category", getShopByCategoryId);
 shopsRouter.put("/:id", updateShopById);
 shopsRouter.delete("/:id", deleteShopById);
-
-
-
-
-
-
-
-
-
 
 module.exports = shopsRouter;
