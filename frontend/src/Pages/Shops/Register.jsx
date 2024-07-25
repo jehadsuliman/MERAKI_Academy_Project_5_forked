@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-dom";
+import { useDispatch } from "react-redux";
 import {
   setLogin,
   setShopId,
 } from "../../Service/api/redux/reducers/auth/shopAuth";
 
 const ShopRegister = () => {
+  const dispatch = useDispatch();
   const [from, setFrom] = useState({
     shopName: "",
     country: "",
@@ -17,7 +18,7 @@ const ShopRegister = () => {
     role_id: "",
   });
 
-  const dispatch = useDispatch();
+  
 
   const handleChange = (e) => {
     setFrom({ ...from, [e.target.name]: e.target.value });
@@ -35,43 +36,44 @@ const ShopRegister = () => {
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         name="shopName"
-        value={form.shopName}
+        value={from.shopName}
         onChange={handleChange}
         placeholder="Shop Name"
       />
       <input
         type="text"
         name="country"
-        value={form.country}
+        value={from.country}
         onChange={handleChange}
         placeholder="Country"
       />
       <input
         type="text"
         name="phone_number"
-        value={form.phone_number}
+        value={from.phone_number}
         onChange={handleChange}
         placeholder="Phone Number"
       />
       <input
         type="email"
         name="email"
-        value={form.email}
+        value={from.email}
         onChange={handleChange}
         placeholder="Email"
       />
       <input
         type="password"
         name="password"
-        value={form.password}
+        value={from.password}
         onChange={handleChange}
         placeholder="Password"
       />
-   </div>
+      <button type="submit">Register</button>
+   </form>
   );
 };
 
