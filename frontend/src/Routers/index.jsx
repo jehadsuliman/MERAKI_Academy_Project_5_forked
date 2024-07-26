@@ -7,6 +7,7 @@ import CategoryList from "../layouts/Shop/CategoryList";
 import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User/Register"
 import Main from "../pages/Shop/Main";
 import ShopRegister from "../layouts/Shop/Register"
+import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User/Login";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
   {
     path: "/RegisterUserOrAdmin",
     element: <RegisterUserOrAdmin />,
+  },
+  {
+    path: "/LoginUserOrAdmin",
+    element: <LoginUserOrAdmin />,
   },
   {
     path: "/shopRegister",
