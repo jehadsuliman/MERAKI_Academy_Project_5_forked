@@ -18,7 +18,6 @@ const ShopRegister = () => {
     email: "",
     password: "",
     category_id: "",
-    // role_id: 3,
   });
 
   const handleChange = (e) => {
@@ -40,7 +39,7 @@ const ShopRegister = () => {
       );
       dispatch(setLogin(response.data.token));
       dispatch(setShopId(response.data.shopId));
-      navigate("/login");
+      navigate("/shopLogin");
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
     }
