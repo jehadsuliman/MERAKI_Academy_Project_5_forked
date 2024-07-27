@@ -15,7 +15,7 @@ const ShopRegister = () => {
     country: "",
     phone_number: "",
     email: "",
-    description: "",
+    discreption: "",
     password: "",
     category_id: "",
   });
@@ -77,9 +77,9 @@ const ShopRegister = () => {
         placeholder="Email"
       />
       <input
-        type="description"
-        name="description"
-        value={from.description}
+        type="discreption"
+        name="discreption"
+        value={from.discreption}
         onChange={handleChange}
         placeholder="Description"
       />

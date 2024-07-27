@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const UpdateShop = () => {
-  const { id } = useParams();
+  const shopId = useSelector((state) => state.shopAuth.shopId);
+  const authToken = useSelector((state) => state.shopAuth.token);
   const navigate = useNavigate();
 
   const [shop, setShop] = useState({
     shopname: "",
     country: "",
+    discreption: "",
     email: "",
     password: "",
     category_id: "",
     role_id: "",
-    description: "",
     profile_pic: "",
     phone_number: "",
   });
@@ -22,10 +24,17 @@ const UpdateShop = () => {
   const [showUpdate, setShowUpdate] = useState(false);
 
   useEffect(() => {
-    if (id) {
+    if (shopId && authToken) {
       const fetchShop = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/shops/${id}`);
+          const response = await axios.get(
+            `http://localhost:5000/shops/${shopId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
           if (response.data && response.data.result) {
             setShop(response.data.result);
           } else {
@@ -38,9 +47,9 @@ const UpdateShop = () => {
 
       fetchShop();
     } else {
-      setError("Shop ID is not defined");
+      setError("Shop ID or authentication token is not defined");
     }
-  }, [id]);
+  }, [shopId, authToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,10 +59,20 @@ const UpdateShop = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!authToken) {
+      setError("Authentication token is missing");
+      return;
+    }
+
     try {
       const response = await axios.put(
-        `http://localhost:5000/shops/${id}`,
-        shop
+        `http://localhost:5000/shops/${shopId}`,
+        shop,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
       );
       if (response.data.success) {
         navigate("/");
@@ -80,7 +99,7 @@ const UpdateShop = () => {
           <strong>Email:</strong> {shop.email}
         </p>
         <p>
-          <strong>Description:</strong> {shop.description}
+          <strong>Description:</strong> {shop.discreption}
         </p>
         <p>
           <strong>Profile Picture:</strong> {shop.profile_pic}
@@ -99,8 +118,8 @@ const UpdateShop = () => {
               <label>Shop Name:</label>
               <input
                 type="text"
-                name="shopName"
-                value={shop.shopName}
+                name="shopname"
+                value={shop.shopname}
                 onChange={handleChange}
               />
             </div>
@@ -150,11 +169,11 @@ const UpdateShop = () => {
               />
             </div>
             <div>
-              <label>Description:</label>
+              <label>Discreption:</label>
               <input
                 type="text"
-                name="description"
-                value={shop.description}
+                name="discreption"
+                value={shop.discreption}
                 onChange={handleChange}
               />
             </div>
