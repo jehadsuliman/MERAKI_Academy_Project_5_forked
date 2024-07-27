@@ -13,17 +13,14 @@ export const shopsSlice = createSlice({
       state.shops.push(action.payload);
     },
     updateShopById: (state, action) => {
-      state.shops = state.shops.map((shop, i) => {
-        if (shop.id == action.payload.id) {
-          shop = action.payload;
-        }
-        return shop;
-      });
+      state.shops = state.shops.map((shop) =>
+        shop.id === action.payload.id ? action.payload : shop
+      );
     },
     deleteShopById: (state, action) => {
-      state.shops = state.shops.filter((shop) => {
-        return shop.id !== action.payload;
-      });
+      state.shops = state.shops.filter(
+        (shop) => shop.id !== action.payload
+      );
     },
   },
 });

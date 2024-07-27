@@ -1,27 +1,28 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import ShopLogin from "../layouts/Shop/Login";
 import UpdateShop from "../layouts/Shop/UpdateShop";
+
 import DeleteShop from "../layouts/Shop/DeleteShopById";
 import CategoryList from "../layouts/Shop/CategoryList";
 import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User"
 import Main from "../pages/Shop/Main";
 import ShopRegister from "../layouts/Shop/Register"
 import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User";
-import ShopsList from "../layouts/Admin/ShopsList";
+import SubCategoryList from "../layouts/Shop/SubCategoryList";
+import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User/Register";
+import Main from "../pages/Shop/Main";
+import ShopRegister from "../layouts/Shop/Register";
+import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User/Login";
+
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main/>,
+    element: <Main />,
   },
   {
     path: "/RegisterUserOrAdmin",
     element: <RegisterUserOrAdmin />,
-  },
-  {
-    path: "/shop",
-    element: <ShopsList />,
   },
   {
     path: "/LoginUserOrAdmin",
@@ -29,25 +30,18 @@ export const router = createBrowserRouter([
   },
   {
     path: "/shopRegister",
-    element: <ShopRegister/>,
+    element: <ShopRegister />,
   },
   {
     path: "/shopLogin",
     element: <ShopLogin />,
   },
   {
-    path: "/shopUpdate",
+    path: "/shopUpdate/:id",
     element: <UpdateShop />,
-  },
-
-  {
-    path: "/shopDelete",
-    element: <DeleteShop />
   },
   {
     path: "/categories",
-    element: <CategoryList />
-  }
-
+    element: <SubCategoryList />,
+  },
 ]);
-
