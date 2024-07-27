@@ -4,10 +4,12 @@ import ShopLogin from "../layouts/Shop/Login";
 import UpdateShop from "../layouts/Shop/UpdateShop";
 import DeleteShop from "../layouts/Shop/DeleteShopById";
 import CategoryList from "../layouts/Shop/CategoryList";
-import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User/Register"
+import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User"
 import Main from "../pages/Shop/Main";
 import ShopRegister from "../layouts/Shop/Register"
-import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User/Login";
+import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User";
+import ShopsList from "../layouts/Admin/ShopsList";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -16,6 +18,10 @@ export const router = createBrowserRouter([
   {
     path: "/RegisterUserOrAdmin",
     element: <RegisterUserOrAdmin />,
+  },
+  {
+    path: "/shop",
+    element: <ShopsList />,
   },
   {
     path: "/LoginUserOrAdmin",
