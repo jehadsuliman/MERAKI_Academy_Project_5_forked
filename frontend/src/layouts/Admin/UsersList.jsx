@@ -4,7 +4,7 @@ import axios from "axios";
 import { setUsers } from "../../Service/api/redux/reducers/user/user";
 import Table from "react-bootstrap/Table";
 
-const users = () => {
+const UsersList = () => {
   const dispatch = useDispatch();
 
   const { users } = useSelector((state) => {
@@ -28,7 +28,7 @@ const users = () => {
   return (
     <div className="container mt-5">
     <h1 className="mb-4">Users List</h1>
-    <table className="table table-striped table-bordered">
+    <Table responsive className="table table-striped table-bordered">
       <thead>
         <tr>
           <th scope="col">NO</th>
@@ -51,9 +51,9 @@ const users = () => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   </div>
 );
 };
 
-export default users;
+export default UsersList;

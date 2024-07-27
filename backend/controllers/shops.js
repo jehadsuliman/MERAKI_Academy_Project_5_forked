@@ -105,7 +105,9 @@ const shopLogin = (req, res) => {
 };
 
 const getAllShops = (req, res) => {
-  const query = `SELECT * FROM shops WHERE is_deleted=0 `;
+  const query = `SELECT shops.*, categories.name
+FROM shops
+LEFT JOIN categories ON shops.category_id = categories.id WHERE shops.is_deleted=0 `
 
   pool
     .query(query)
