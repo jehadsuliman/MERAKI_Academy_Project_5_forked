@@ -5,8 +5,9 @@ import axios from "axios";
 const UpdateShop = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [shop, setShop] = useState({
-    shopName: "",
+    shopname: "",
     country: "",
     email: "",
     password: "",
@@ -16,21 +17,29 @@ const UpdateShop = () => {
     profile_pic: "",
     phone_number: "",
   });
+
   const [error, setError] = useState(null);
-  const [showFields, setShowFields] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   useEffect(() => {
-    const fetchShop = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/shops/Update/${id}`);
-        setShop(response.data.result);
-      } catch (error) {
-        console.error("Error fetching shop details:", error);
-        setError("Failed to fetch shop details");
-      }
-    };
+    if (id) {
+      const fetchShop = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/shops/${id}`);
+          if (response.data && response.data.result) {
+            setShop(response.data.result);
+          } else {
+            setError("Shop data not found");
+          }
+        } catch (error) {
+          setError("Failed to fetch shop details");
+        }
+      };
 
-    fetchShop();
+      fetchShop();
+    } else {
+      setError("Shop ID is not defined");
+    }
   }, [id]);
 
   const handleChange = (e) => {
@@ -40,33 +49,52 @@ const UpdateShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.put(
         `http://localhost:5000/shops/${id}`,
         shop
       );
       if (response.data.success) {
-        navigate("/all");
+        navigate("/");
       } else {
         setError(response.data.message);
       }
     } catch (error) {
-      console.error("Error updating shop:", error);
       setError("Failed to update shop");
     }
   };
 
-  const handleToggleClick = () => {
-    setShowFields(!showFields);
-  };
-
   return (
     <div>
-      <h3>Update Shop</h3>
+      <h3>Shop Details</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        {showFields ? (
-          <>
+      <div>
+        <p>
+          <strong>Shop Name:</strong> {shop.shopname}
+        </p>
+        <p>
+          <strong>Country:</strong> {shop.country}
+        </p>
+        <p>
+          <strong>Email:</strong> {shop.email}
+        </p>
+        <p>
+          <strong>Description:</strong> {shop.description}
+        </p>
+        <p>
+          <strong>Profile Picture:</strong> {shop.profile_pic}
+        </p>
+        <p>
+          <strong>Phone Number:</strong> {shop.phone_number}
+        </p>
+        <button onClick={() => setShowUpdate(true)}>Edit</button>
+      </div>
+
+      {showUpdate && (
+        <div>
+          <h3>Update Shop</h3>
+          <form onSubmit={handleSubmit}>
             <div>
               <label>Shop Name:</label>
               <input
@@ -123,14 +151,15 @@ const UpdateShop = () => {
             </div>
             <div>
               <label>Description:</label>
-              <textarea
+              <input
+                type="text"
                 name="description"
                 value={shop.description}
                 onChange={handleChange}
-              ></textarea>
+              />
             </div>
             <div>
-              <label>Profile Picture URL:</label>
+              <label>Profile Picture:</label>
               <input
                 type="text"
                 name="profile_pic"
@@ -148,14 +177,9 @@ const UpdateShop = () => {
               />
             </div>
             <button type="submit">Update Shop</button>
-          </>
-        ) : (
-          <p>Click "Show Update Form" to edit shop details</p>
-        )}
-        <button type="button" onClick={handleToggleClick}>
-          {showFields ? "Hide Update Form" : "Show Update Form"}
-        </button>
-      </form>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

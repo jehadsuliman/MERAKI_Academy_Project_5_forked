@@ -7,7 +7,6 @@ import {
   setShopId,
 } from "../../Service/api/redux/reducers/auth/shopAuth";
 
-
 const ShopRegister = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ const ShopRegister = () => {
     country: "",
     phone_number: "",
     email: "",
+    description: "",
     password: "",
     category_id: "",
   });
@@ -31,7 +31,7 @@ const ShopRegister = () => {
       ...from,
       role_id: 3,
     };
-    console.log(dataToSend)
+    console.log(dataToSend);
     try {
       const response = await axios.post(
         "http://localhost:5000/shops/register",
@@ -75,6 +75,13 @@ const ShopRegister = () => {
         value={from.email}
         onChange={handleChange}
         placeholder="Email"
+      />
+      <input
+        type="description"
+        name="description"
+        value={from.description}
+        onChange={handleChange}
+        placeholder="Description"
       />
       <input
         type="password"

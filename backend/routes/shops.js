@@ -13,10 +13,10 @@ const shopsRouter = express.Router();
 
 shopsRouter.post("/register", shopRegister);
 shopsRouter.post("/login", shopLogin);
-shopsRouter.get("/all", getAllShops);
+shopsRouter.get("/", getAllShops);
 shopsRouter.get("/:id", getShopById);
 shopsRouter.get("/category/:id", getShopByCategoryId);
-shopsRouter.put("/Update/:id", updateShopById);
-shopsRouter.delete("/shop/:shopId", deleteShopById);
+shopsRouter.put("/:id", updateShopById);
+shopsRouter.delete("/:id", deleteShopById);
 
 module.exports = shopsRouter;

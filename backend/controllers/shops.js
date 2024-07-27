@@ -200,18 +200,18 @@ const updateShopById = (req, res) => {
   } = req.body;
 
   const query = `
-      UPDATE shops
-      SET shopName = COALESCE($1, shopName),
-          country = COALESCE($2, country),
-          email = COALESCE($3, email),
-          password = COALESCE($4, password),
-          category_id = COALESCE($5, category_id),
-          role_id = COALESCE($6, role_id),
-          discreption = COALESCE($7, discreption),
-          phone_number = COALESCE($8, phone_number),
-          profile_pic = COALESCE($9, profile_pic)
-      WHERE id = $10 AND is_deleted = 0
-      RETURNING *;
+UPDATE shops     
+SET shopName = COALESCE($1, shopName),  
+    country = COALESCE($2, country),    
+    email = COALESCE($3, email),        
+    password = COALESCE($4, password),  
+    category_id = COALESCE($5, category_id),
+    role_id = COALESCE($6, role_id),    
+    discreption = COALESCE($7, discreption),
+    phone_number = COALESCE($8, phone_number),
+    profile_pic = COALESCE($9, profile_pic)
+WHERE id = $10 AND is_deleted = 0 
+RETURNING *;
     `;
 
   const data = [
@@ -226,8 +226,8 @@ const updateShopById = (req, res) => {
     phone_number || null,
     id,
   ];
-  console.log('Executing query:', query);
-  console.log('With data:', data);
+  console.log("Executing query:", query);
+  console.log("With data:", data);
   pool
     .query(query, data)
     .then((result) => {

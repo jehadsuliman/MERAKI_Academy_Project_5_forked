@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const Navbar = () => {
+  const {shopId} = useParams();
   return (
     <nav>
       <h1>shop</h1>
@@ -8,11 +10,9 @@ const Navbar = () => {
       <br></br>
       <NavLink to="/shopLogin">Login Shop</NavLink>
       <br></br>
-      <NavLink to="/shopUpdate">Update User Shop</NavLink>
+      <NavLink to={`/shopUpdate/${shopId}`}>Update User Shop</NavLink>
       <br></br>
-      <NavLink to="/shopDelete">Delete Shop</NavLink>
-      <br></br>
-      <NavLink to="/categories">Category Shop</NavLink>
+      <NavLink to="/categories/">Sub Category Shop</NavLink>
     </nav>
   );
 };
