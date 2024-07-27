@@ -22,6 +22,7 @@ export const shopsSlice = createSlice({
         (shop) => shop.id !== action.payload
       );
     },
+    
   },
 });
 
