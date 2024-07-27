@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setLogin,
   setUserId,
-} from "../../../Service/api/redux/reducers/auth/userAuth";
+} from "../../Service/api/redux/reducers/auth/userAuth";
 import axios from "axios";
 const Login = () => {
   const dispatch = useDispatch();
