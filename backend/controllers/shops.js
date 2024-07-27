@@ -12,12 +12,13 @@ const shopRegister = async (req, res) => {
     password,
     category_id,
     role_id,
+    discreption,
   } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
 
-  const query = `INSERT INTO shops (shopName, country, phone_number, email, password, category_id, role_id) 
-                    VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`;
+  const query = `INSERT INTO shops (shopName, country, phone_number, email, password, category_id, role_id, discreption) 
+                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
 
   const data = [
     shopName,
@@ -27,6 +28,7 @@ const shopRegister = async (req, res) => {
     encryptedPassword,
     category_id,
     role_id,
+    discreption,
   ];
 
   pool
@@ -194,9 +196,9 @@ const updateShopById = (req, res) => {
     password,
     category_id,
     role_id,
+    phone_number,
     discreption,
     profile_pic,
-    phone_number,
   } = req.body;
 
   const query = `
@@ -207,8 +209,8 @@ SET shopName = COALESCE($1, shopName),
     password = COALESCE($4, password),  
     category_id = COALESCE($5, category_id),
     role_id = COALESCE($6, role_id),    
-    discreption = COALESCE($7, discreption),
-    phone_number = COALESCE($8, phone_number),
+    phone_number = COALESCE($7, phone_number),
+    discreption = COALESCE($8, discreption),
     profile_pic = COALESCE($9, profile_pic)
 WHERE id = $10 AND is_deleted = 0 
 RETURNING *;
@@ -221,9 +223,9 @@ RETURNING *;
     password || null,
     category_id || null,
     role_id || null,
+    phone_number || null,
     discreption || null,
     profile_pic || null,
-    phone_number || null,
     id,
   ];
   console.log("Executing query:", query);

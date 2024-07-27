@@ -10,14 +10,14 @@ const createNewProduct = (req, res) => {
     .then((result) => {
       res.status(201).json({
         success: true,
-        massage: "Product created successfully",
+        message: "Product created successfully",
         Product: result.rows[0],
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
+        message: "Server error",
         error: err,
       });
     });
@@ -29,14 +29,14 @@ const getAllProducts = (req, res) => {
     .then((result) => {
       res.status(200).json({
         success: true,
-        massage: "All the products",
+        message: "All the products",
         products: result.rows,
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
+        message: "Server error",
         error: err,
       });
     });
@@ -53,20 +53,20 @@ const getProductById = (req, res) => {
       if (result.rows.length > 0) {
         res.status(200).json({
           success: true,
-          massage: `The Product with id: ${productId}`,
+          message: `The Product with id: ${productId}`,
           product: result.rows,
         });
       } else {
         res.status(404).json({
           success: false,
-          massage: `The product: ${productId} has not a found`,
+          message: `The product: ${productId} has not a found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
+        message: "Server error",
         error: err,
       });
     });
@@ -83,20 +83,20 @@ const getProductBySubCategoryById = (req, res) => {
       if (result.rows.length > 0) {
         res.status(200).json({
           success: true,
-          massage: `The Product with subCategoryId: ${subCategoryId}`,
+          message: `The Product with subCategoryId: ${subCategoryId}`,
           product: result.rows,
         });
       } else {
         res.status(404).json({
           success: false,
-          massage: `The product with subCategoryId:${subCategoryId} has not a found`,
+          message: `The product with subCategoryId:${subCategoryId} has not a found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
+        message: "Server error",
         error: err,
       });
     });
@@ -115,20 +115,20 @@ WHERE id=$6 AND is_deleted = 0  RETURNING *;`,
       if (result.rows.length > 0) {
         res.status(200).json({
           success: true,
-          massage: `Product with id: ${productId} updated successfully`,
+          message: `Product with id: ${productId} updated successfully`,
           Category: result.rows[0],
         });
       } else {
         res.status(404).json({
           success: false,
-          massage: `The Product: ${productId} has not a found`,
+          message: `The Product: ${productId} has not a found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
+        message: "Server error",
         error: err,
       });
     });
@@ -140,13 +140,13 @@ const deleteProductById = (req, res) => {
     .then((result) => {
       res.status(200).json({
         success: true,
-        massage: `Product with id: ${productId} deleted successfully`,
+        message: `Product with id: ${productId} deleted successfully`,
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
+        message: "Server error",
         error: err,
       });
     });

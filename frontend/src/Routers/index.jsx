@@ -6,7 +6,7 @@ import RegisterUserOrAdmin from "../layouts/Admin/RegisterAdmin&User/Register";
 import Main from "../pages/Shop/Main";
 import ShopRegister from "../layouts/Shop/Register";
 import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User/Login";
-
+import AddProduct from "../layouts/Shop/CreateProduct"
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -35,5 +35,9 @@ export const router = createBrowserRouter([
   {
     path: "/categories",
     element: <SubCategoryList />,
+  },
+  {
+    path: "/products",
+    element: <AddProduct />,
   },
 ]);
