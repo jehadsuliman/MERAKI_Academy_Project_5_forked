@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSubCategoryId } from "../../Service/api/redux/reducers/shop/subCategoriesSlice";
 import axios from "axios";
 
 const SubCategoriesList = () => {
-  const [Subcategories, setSubCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchSubCategories = async () => {
@@ -13,31 +18,37 @@ const SubCategoriesList = () => {
           setSubCategories(response.data.categories);
         } else {
           setError(response.data.message);
-          console.log(response)
         }
       } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
-        setError("Failed to fetch categories");
+        setError("Failed to fetch sub-categories");
       }
     };
 
     fetchSubCategories();
   }, []);
 
+  const handleSubCategoryClick = (subCategoryId) => {
+    dispatch(setSubCategoryId(subCategoryId));
+    navigate(`/productsBySubCategory/${subCategoryId}`);
+  };
+
   return (
     <div>
       <h2>Sub Categories List</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {Subcategories.length > 0 ? (
+      {subCategories.length > 0 ? (
         <ul>
-          {Subcategories.map((Subcategory) => (
-            <li key={Subcategory.id}>
-              {Subcategory.description}
+          {subCategories.map((subCategory) => (
+            <li
+              key={subCategory.id}
+              onClick={() => handleSubCategoryClick(subCategory.id)}
+            >
+              {subCategory.description}
             </li>
           ))}
         </ul>
       ) : (
-        <p>loding...</p>
+        <p>Loading...</p>
       )}
     </div>
   );

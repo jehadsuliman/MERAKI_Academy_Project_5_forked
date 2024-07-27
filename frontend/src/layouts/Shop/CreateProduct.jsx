@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
 const AddProduct = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
-  const navigate = useNavigate();
+  const shopId = useSelector((state) => state.shopAuth.shopId);
+
   const [showData, setShowData] = useState(null);
 
   const [product, setProduct] = useState({
@@ -33,7 +33,7 @@ const AddProduct = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/products",
+        `http://localhost:5000/products`,
         product,
         {
           headers: {
@@ -42,9 +42,7 @@ const AddProduct = () => {
           },
         }
       );
-
-      console.log("data", response.data);
-
+      
       if (response.data.success) {
         setShowData(response.data.Product);
       } else {
@@ -124,6 +122,7 @@ const AddProduct = () => {
           <p>
             <strong>Sub Category ID:</strong> {showData.sub_category_id}
           </p>
+          <hr></hr>
         </div>
       )}
     </div>

@@ -5,6 +5,7 @@ import userAuthReducer from "./reducers/auth/userAuth";
 import usersReducer from "./reducers/user/user";
 import shopsReducer from "./reducers/shop/shop";
 import categoriesReducer from "./reducers/categories/categories";
+import subCategoriesReducer from "./reducers/shop/subCategoriesSlice";
 
 export default configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default configureStore({
     users: usersReducer,
     shops: shopsReducer,
     categories: categoriesReducer,
+    subCategories: subCategoriesReducer,
   },
 });

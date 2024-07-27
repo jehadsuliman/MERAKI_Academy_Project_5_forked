@@ -15,7 +15,7 @@ productsRouter.post("/", authentication, createNewProduct);
 productsRouter.get("/", getAllProducts);
 productsRouter.get("/:id", getProductById);
 productsRouter.get("/subCategory/:id", getProductBySubCategoryById);
-productsRouter.put("/:id", updateProductById);
+productsRouter.put("/:id", authentication, updateProductById);
 productsRouter.delete("/:id", deleteProductById);
 
 module.exports = productsRouter;
