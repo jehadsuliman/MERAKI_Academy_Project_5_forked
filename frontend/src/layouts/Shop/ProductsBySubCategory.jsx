@@ -16,17 +16,21 @@ const ProductsBySubCategory = () => {
       setError("Sub-Category ID is not set.");
       return;
     }
+
     const fetchProducts = async () => {
       try {
+        console.log(`Fetching products for subCategoryId: ${subCategoryId}`);
         const response = await axios.get(
           `http://localhost:5000/products/subCategory/${subCategoryId}`
         );
+        console.log('API Response:', response.data);
         if (response.data.success) {
-          setProducts(response.data.products);
+          setProducts(response.data.product || []);
         } else {
           setError(response.data.message);
         }
       } catch (error) {
+        console.error('Error fetching products:', error);
         setError("Failed to fetch products");
       }
     };
@@ -67,9 +71,11 @@ const ProductsBySubCategory = () => {
                   style={{ width: "100px" }}
                 />
               </p>
+              <hr />
             </li>
           ))}
         </ul>
+        
       ) : (
         <p>No products found.</p>
       )}

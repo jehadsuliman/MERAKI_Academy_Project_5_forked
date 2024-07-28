@@ -9,18 +9,14 @@ import ShopRegister from "../layouts/Shop/Register";
 import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User";
 import SubCategoryList from "../layouts/Shop/SubCategoryList";
 
-
 import CategoriesList from "../layouts/Admin/CategoriesList";
 
-
 import AddProduct from "../layouts/Shop/CreateProduct";
-import UpdateProduct from "../layouts/Shop/UpdateProduct";
 import CreateSubCategory from "../layouts/Shop/CreateSubCategory";
 import ProductsBySubCategory from "../layouts/Shop/ProductsBySubCategory";
 import ProductDetail from "../layouts/Shop/ProductDetail";
 
 export const router = createBrowserRouter([
- 
   {
     path: "/g",
     element: <CategoriesList />,
@@ -56,16 +52,6 @@ export const router = createBrowserRouter([
   {
     path: "/products",
     element: <AddProduct />,
-    children: [
-      {
-        path: "products/:id",
-        element: <UpdateProduct />,
-      },
-    ],
-  },
-  {
-    path: "/products/:id",
-    element: <UpdateProduct />,
   },
   {
     path: "/createSubCategory",

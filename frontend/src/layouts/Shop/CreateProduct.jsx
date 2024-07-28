@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
   const shopId = useSelector((state) => state.shopAuth.shopId);
-
+  const navigate = useNavigate();
   const [showData, setShowData] = useState(null);
 
   const [product, setProduct] = useState({
@@ -42,9 +43,10 @@ const AddProduct = () => {
           },
         }
       );
-      
+
       if (response.data.success) {
         setShowData(response.data.Product);
+        navigate(`/categories`);
       } else {
         setError(response.data.message);
       }
