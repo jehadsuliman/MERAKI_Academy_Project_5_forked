@@ -6,17 +6,16 @@ import Main from "../pages/Shop/Main";
 import ShopRegister from "../layouts/Shop/Register"
 import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User";
 import SubCategoryList from "../layouts/Shop/SubCategoryList";
-import CategoriesList from "../layouts/Admin/CategoriesList";
-
 import AddProduct from "../layouts/Shop/CreateProduct";
+import HomePageAdmin from "../pages/Admin/HomePageAdmin";
 
 
 
 export const router = createBrowserRouter([
  
   {
-    path: "/g",
-    element: <CategoriesList />,
+    path: "/h",
+    element: <HomePageAdmin />,
   },
   {
     path: "/",
