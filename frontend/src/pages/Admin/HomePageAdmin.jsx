@@ -1,82 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ShopsList from "../../layouts/Admin/ShopsList"
 import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UsergroupAddOutlined,
+  HomeOutlined ,
+  ShopOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
-const { Content, Footer, Sider } = Layout;
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
+import { Button, Layout, Menu, theme } from 'antd';
+const { Header, Sider, Content,Footer } = Layout;
+const { SubMenu } = Menu; 
 const HomePageAdmin = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout hasSider>
-      <Sider
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-      >
+    <Layout>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['']} items={items} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['1']}>
+          <Menu.Item key="1" icon={<HomeOutlined />}>
+            Dashboard
+          </Menu.Item>
+          <SubMenu
+            key="sub1"
+            icon={<ShopOutlined />}
+            title="Product"
+          >
+            <Menu.Item key="2">Add Product</Menu.Item>
+            <Menu.Item key="3">View Products</Menu.Item>
+            <Menu.Item key="4">Edit Product</Menu.Item>
+          </SubMenu>
+          <Menu.Item key="5" icon={<UsergroupAddOutlined />}>
+            User
+          </Menu.Item>
+          <Menu.Item key="6" icon={<ShopOutlined />} >
+            Shop
+          </Menu.Item>
+        </Menu>
       </Sider>
-      <Layout
-        style={{
-          marginLeft: 200,
-        }}
-      >
-       
-        <Content
+      <Layout>
+        <Header
           style={{
-            margin: '24px 16px 0',
-            overflow: 'initial',
+            padding: 0,
+            background: colorBgContainer,
           }}
         >
-          <div
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
             style={{
-              padding: 24,
-              textAlign: 'center',
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              fontSize: '16px',
+              width: 64,
+              height: 64,
             }}
-          >
-            <p>long content</p>
-         
-          </div>
+          />
+        </Header>
+        <Content
+          style={{
+            margin: '24px 10px',
+            padding: 2,
+            minHeight: 300,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+         <ShopsList/>
         </Content>
         <Footer
           style={{
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          JKI EXPRESS ©{new Date().getFullYear()} Created by JKI Team
         </Footer>
       </Layout>
     </Layout>
   );
 };
+
 export default HomePageAdmin;

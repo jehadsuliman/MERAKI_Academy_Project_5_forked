@@ -26,9 +26,9 @@ const ShopsList = () => {
     getAllShops();
   }, []);
   return (
-    <div className="container mt-5">
+    <div className="container mt-3">
       <h1 className="mb-4">Shops List</h1>
-      <Table responsive className="table table-striped table-bordered">
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th scope="col">NO</th>
