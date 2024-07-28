@@ -35,7 +35,6 @@ const SubCategoriesList = () => {
 
   return (
     <div>
-      <h2>Sub Categories List</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {subCategories.length > 0 ? (
         <Space size={16} wrap>
