@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
+  const shopId = useSelector((state) => state.shopAuth.shopId);
   const navigate = useNavigate();
   const [showData, setShowData] = useState(null);
 
@@ -33,7 +34,7 @@ const AddProduct = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/products",
+        `http://localhost:5000/products`,
         product,
         {
           headers: {
@@ -43,10 +44,9 @@ const AddProduct = () => {
         }
       );
 
-      console.log("data", response.data);
-
       if (response.data.success) {
         setShowData(response.data.Product);
+        navigate(`/categories`);
       } else {
         setError(response.data.message);
       }
@@ -124,6 +124,7 @@ const AddProduct = () => {
           <p>
             <strong>Sub Category ID:</strong> {showData.sub_category_id}
           </p>
+          <hr></hr>
         </div>
       )}
     </div>

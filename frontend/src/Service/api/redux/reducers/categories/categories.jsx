@@ -4,6 +4,7 @@ export const CategoriesSlice = createSlice({
   name: "categories",
   initialState: {
     categories: [],
+    // categororyId: localStorage.getItem("categororyId") || null,
   },
   reducers: {
     setCategories: (state, action) => {
