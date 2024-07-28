@@ -63,7 +63,7 @@ const ProductDetail = () => {
       );
       if (response.data.success) {
         dispatch(updateProductById(response.data.product));
-        dispatch(setSubCategoryId(product.subCategoryId)); // Make sure to have the correct subCategoryId
+        dispatch(setSubCategoryId(product.subCategoryId));
         navigate(`/`);
         notification.success({
           message: 'Product Updated',
@@ -89,7 +89,7 @@ const ProductDetail = () => {
             },
           });
           dispatch(deleteProductById(productId));
-          dispatch(setSubCategoryId(product.subCategoryId)); // Make sure to have the correct subCategoryId
+          dispatch(setSubCategoryId(product.subCategoryId));
           navigate(`/`);
           notification.success({
             message: 'Product Deleted',
