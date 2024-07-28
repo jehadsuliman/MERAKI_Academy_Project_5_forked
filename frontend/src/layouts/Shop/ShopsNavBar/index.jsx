@@ -1,12 +1,14 @@
 import { NavLink, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
 
 const Navbar = () => {
   const shopId = useSelector((state) => state.shopAuth.shopId);
   const categories = useSelector((state) => state.categories.categories);
-  const { productId } = useParams();
-  const { subCategoryId } = useParams();
-  
+  const { productId, subCategoryId } = useParams();
+  const [showNavLinks, setShowNavLinks] = useState(false);
+
   return (
     <nav>
       <h1>Shop</h1>
@@ -16,17 +18,12 @@ const Navbar = () => {
       <br />
       <NavLink to={`/shopUpdate/${shopId}`}>Update User Shop</NavLink>
       <br />
+      <NavLink to="/createSubCategory">Create Sub-Category</NavLink>
+      <br />
       <NavLink to="/categories">Sub Categories</NavLink>
       <br />
       <NavLink to="/products">Create New Product</NavLink>
       <br />
-      <NavLink to={`/products/${productId}`}>Update Product</NavLink>
-      <br />
-      <NavLink to="/createSubCategory">Create Sub-Category</NavLink>
-      <br />
-      <NavLink to={`/subCategory/${subCategoryId}`}>
-        product by sub category
-      </NavLink>
     </nav>
   );
 };

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSubCategoryId } from "../../Service/api/redux/reducers/shop/subCategoriesSlice";
 import axios from "axios";
+import { Button, Avatar, Space } from "antd";
 
 const SubCategoriesList = () => {
   const [subCategories, setSubCategories] = useState([]);
@@ -37,16 +38,30 @@ const SubCategoriesList = () => {
       <h2>Sub Categories List</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {subCategories.length > 0 ? (
-        <ul>
+        <Space size={16} wrap>
           {subCategories.map((subCategory) => (
-            <li
+            <Button
               key={subCategory.id}
               onClick={() => handleSubCategoryClick(subCategory.id)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "10px",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                cursor: "pointer",
+                textAlign: "left",
+                width: "200px",
+                height: "50px",
+                marginBottom: "10px",
+              }}
             >
-              {subCategory.description}
-            </li>
+              <Avatar src={<img src={"https://i.pinimg.com/236x/9e/cd/8e/9ecd8eabda364bb33729b5d89733c4c2.jpg"} alt="avatar" />} />
+              <span>{subCategory.description}</span>
+            </Button>
           ))}
-        </ul>
+        </Space>
       ) : (
         <p>Loading...</p>
       )}
