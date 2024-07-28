@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Row, Col, Card, Typography, Space, notification } from "antd";
+import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+
+const { Title, Paragraph } = Typography;
 
 const ProductsBySubCategory = () => {
   const subCategoryId = useSelector(
@@ -43,41 +47,42 @@ const ProductsBySubCategory = () => {
   };
 
   return (
-    <div>
-      <h2>Products in Sub-Category</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div style={{ padding: '20px' }}>
+      <Title level={2}>Products in Sub-Category</Title>
+      {error && <Paragraph type="danger">{error}</Paragraph>}
       {products.length > 0 ? (
-        <ul>
+        <Row gutter={40}>
           {products.map((product) => (
-            <li
-              key={product.id}
-              onClick={() => handleProductClick(product.id)}
-              style={{ cursor: "pointer" }}
-            >
-              <p>
-                <strong>Title:</strong> {product.title}
-              </p>
-              <p>
-                <strong>Description:</strong> {product.description}
-              </p>
-              <p>
-                <strong>Price:</strong> ${product.price}
-              </p>
-              <p>
-                <strong>Image:</strong>{" "}
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  style={{ width: "100px" }}
+            <Col span={6} key={product.id}>
+              <Card
+                hoverable
+                cover={<img alt={product.title} src={product.image} />}
+                onClick={() => handleProductClick(product.id)}
+              >
+                <Card.Meta
+                  title={product.title}
+                  description={product.description}
                 />
-              </p>
-              <hr />
-            </li>
+                <div style={{ marginTop: '25px' }}>
+                  <Paragraph>${product.price}</Paragraph>
+                </div>
+                <Space style={{ marginTop: '10px' }}>
+                  <Space>
+                    <StarOutlined /> 1
+                  </Space>
+                  <Space>
+                    <LikeOutlined /> 1
+                  </Space>
+                  <Space>
+                    <MessageOutlined /> 1
+                  </Space>
+                </Space>
+              </Card>
+            </Col>
           ))}
-        </ul>
-        
+        </Row>
       ) : (
-        <p>No products found.</p>
+        <Paragraph>No products found.</Paragraph>
       )}
     </div>
   );
