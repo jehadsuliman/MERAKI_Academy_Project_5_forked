@@ -57,8 +57,8 @@ const AddCategory = () => {
   };
 
   return (
-    <div style={{ marginLeft: "25px" }}>
-      <h2>Add Category</h2>
+    <div className="container mt-3">
+      <h3 className="mb-4">Add Category</h3>
       <Space direction="vertical" size={16}>
         <Card >
           <Input

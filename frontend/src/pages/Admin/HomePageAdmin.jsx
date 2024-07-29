@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import ShopsList from "../../layouts/Admin/ShopsList"
+import UsersList from "../../layouts/Admin/UsersList"
+import AddCategory from '../../layouts/Admin/AddCategory';
+import CategoriesList from '../../layouts/Admin/CategoriesList';
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -8,9 +12,12 @@ import {
   ShopOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
+
 const { Header, Sider, Content,Footer } = Layout;
 const { SubMenu } = Menu; 
 const HomePageAdmin = () => {
+  const [goToPageS, setGoToPage] = useState("");
+
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -29,16 +36,15 @@ const HomePageAdmin = () => {
           <SubMenu
             key="sub1"
             icon={<ShopOutlined />}
-            title="Product"
+            title="Categories"
           >
-            <Menu.Item key="2">Add Product</Menu.Item>
-            <Menu.Item key="3">View Products</Menu.Item>
-            <Menu.Item key="4">Edit Product</Menu.Item>
+            <Menu.Item key="2" onClick={()=>{setGoToPage("AddCategory")}}>Add Category</Menu.Item>
+            <Menu.Item key="3" onClick={()=>{setGoToPage("ViewCategory")}}>View Categories</Menu.Item>
           </SubMenu>
-          <Menu.Item key="5" icon={<UsergroupAddOutlined />}>
+          <Menu.Item key="5" icon={<UsergroupAddOutlined />}  onClick={()=>{setGoToPage("UsersList")}}>
             User
           </Menu.Item>
-          <Menu.Item key="6" icon={<ShopOutlined />} >
+          <Menu.Item key="6" icon={<ShopOutlined />} onClick={()=>{setGoToPage("ShopsList")}}>
             Shop
           </Menu.Item>
         </Menu>
@@ -70,7 +76,13 @@ const HomePageAdmin = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-         <ShopsList/>
+        {goToPageS==="ShopsList"&&<ShopsList/>} 
+        {goToPageS==="AddCategory"&&<AddCategory/>} 
+        {goToPageS==="UsersList"&&<UsersList/>} 
+        {goToPageS==="ViewCategory"&&<CategoriesList/>} 
+
+
+         
         </Content>
         <Footer
           style={{
@@ -81,6 +93,7 @@ const HomePageAdmin = () => {
         </Footer>
       </Layout>
     </Layout>
+    
   );
 };
 
