@@ -17,9 +17,13 @@ import ProductsBySubCategory from "../layouts/Shop/ProductsBySubCategory";
 import ProductDetail from "../layouts/Shop/ProductDetail";
 import HomePageAdmin from "../pages/Admin/HomePageAdmin";
 import AddCategory from "../layouts/Admin/AddCategory";
+import SlideImage from "../layouts/User/SlideImage";
 
 export const router = createBrowserRouter([
-
+  {
+    path: "/n",
+    element: <SlideImage />,
+  },
   {
     path: "/c",
     element: <CategoriesList />,
