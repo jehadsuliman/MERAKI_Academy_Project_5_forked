@@ -9,7 +9,6 @@ import ShopRegister from "../layouts/Shop/Register";
 import LoginUserOrAdmin from "../layouts/Admin/LoginAdmin&User";
 import SubCategoryList from "../layouts/Shop/SubCategoryList";
 
-
 import CategoriesList from "../layouts/Admin/CategoriesList";
 
 import AddProduct from "../layouts/Shop/CreateProduct";
@@ -27,7 +26,8 @@ export const router = createBrowserRouter([
   {
     path: "/a",
     element: <AddCategory />,
-  }, {
+  },
+  {
     path: "/h",
     element: <HomePageAdmin />,
   },

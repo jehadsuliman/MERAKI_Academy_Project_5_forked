@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { setSubCategoryId } from "../../Service/api/redux/reducers/shop/subCategoriesSlice";
 import {
-  setProducts,
+  setProductId,
   updateProductById,
   deleteProductById,
 } from "../../Service/api/redux/reducers/shop/product";
 import { Button, Modal, Form, Input, notification } from "antd";
 
 const ProductDetail = () => {
-  const authToken = useSelector((state) => state.shopAuth.token);
   const { productId } = useParams();
-  const navigate = useNavigate();
+  const authToken = useSelector((state) => state.shopAuth.token);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -26,29 +25,36 @@ const ProductDetail = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/products/${productId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          setProduct(response.data.product[0]);
-          setFormData(response.data.product[0]);
-        } else {
-          setError(response.data.message);
-        }
-      } catch (error) {
-        setError("Failed to fetch product details");
-      }
-    };
+    console.log("Product ID in useEffect:", productId);
 
-    fetchProduct();
-  }, [productId, authToken]);
+    if (productId) {
+      dispatch(setProductId(productId));
+      const fetchProduct = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/products/${productId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
+          if (response.data.success) {
+            setProduct(response.data.product[0]);
+            setFormData(response.data.product[0]);
+          } else {
+            setError(response.data.message);
+          }
+        } catch (error) {
+          setError("Failed to fetch product details");
+        }
+      };
+
+      fetchProduct();
+    } else {
+      setError("Product ID is not available");
+    }
+  }, [productId]);
 
   const handleFormSubmit = async (values) => {
     try {
@@ -62,12 +68,12 @@ const ProductDetail = () => {
         }
       );
       if (response.data.success) {
-        dispatch(updateProductById(response.data.product));
-        dispatch(setSubCategoryId(product.subCategoryId));
+        setProduct(response.data.product[0]);
+        setFormData(response.data.product[0]);
         navigate(`/`);
         notification.success({
-          message: 'Product Updated',
-          description: 'The product was updated successfully.',
+          message: "Product Updated",
+          description: "The product was updated successfully.",
         });
       } else {
         setError(response.data.message);
@@ -79,8 +85,8 @@ const ProductDetail = () => {
 
   const handleDelete = async () => {
     Modal.confirm({
-      title: 'Are you sure?',
-      content: 'This action will delete the product permanently.',
+      title: "Are you sure?",
+      content: "This action will delete the product permanently.",
       onOk: async () => {
         try {
           await axios.delete(`http://localhost:5000/products/${productId}`, {
@@ -89,11 +95,10 @@ const ProductDetail = () => {
             },
           });
           dispatch(deleteProductById(productId));
-          dispatch(setSubCategoryId(product.subCategoryId));
           navigate(`/`);
           notification.success({
-            message: 'Product Deleted',
-            description: 'The product was deleted successfully.',
+            message: "Product Deleted",
+            description: "The product was deleted successfully.",
           });
         } catch (error) {
           setError("Failed to delete product");
@@ -145,10 +150,7 @@ const ProductDetail = () => {
         onCancel={() => setShowModal(false)}
         footer={null}
       >
-        <Form
-          initialValues={formData}
-          onFinish={handleFormSubmit}
-        >
+        <Form initialValues={formData} onFinish={handleFormSubmit}>
           <Form.Item
             label="Title"
             name="title"
