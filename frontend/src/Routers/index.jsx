@@ -16,9 +16,18 @@ import AddProduct from "../layouts/Shop/CreateProduct";
 import CreateSubCategory from "../layouts/Shop/CreateSubCategory";
 import ProductsBySubCategory from "../layouts/Shop/ProductsBySubCategory";
 import ProductDetail from "../layouts/Shop/ProductDetail";
+import HomePageAdmin from "../pages/Admin/HomePageAdmin";
+import AddCategory from "../layouts/Admin/AddCategory";
 
 export const router = createBrowserRouter([
   {
+    path: "/c",
+    element: <CategoriesList />,
+  },
+  {
+    path: "/a",
+    element: <AddCategory />,
+  }, {
     path: "/h",
     element: <HomePageAdmin />,
   },

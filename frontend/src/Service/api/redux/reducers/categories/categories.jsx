@@ -4,7 +4,6 @@ export const CategoriesSlice = createSlice({
   name: "categories",
   initialState: {
     categories: [],
-    // categororyId: localStorage.getItem("categororyId") || null,
   },
   reducers: {
     setCategories: (state, action) => {
@@ -16,7 +15,7 @@ export const CategoriesSlice = createSlice({
     updateCategoriesById: (state, action) => {
       state.categories = state.categories.map((category, i) => {
         if (category.id == action.payload.id) {
-            category = action.payload;
+          category = action.payload;
         }
         return category;
       });
@@ -29,6 +28,10 @@ export const CategoriesSlice = createSlice({
   },
 });
 
-export const { setCategories, addCategories, updateCategoriesById, deleteCategoriesById } =
-CategoriesSlice.actions;
+export const {
+  setCategories,
+  addCategories,
+  updateCategoriesById,
+  deleteCategoriesById,
+} = CategoriesSlice.actions;
 export default CategoriesSlice.reducer;
