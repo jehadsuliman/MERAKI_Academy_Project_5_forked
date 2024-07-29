@@ -17,10 +17,8 @@ const { Title, Paragraph } = Typography;
 
 const AddProduct = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
-  const shopId = useSelector((state) => state.shopAuth.shopId);
   const navigate = useNavigate();
   const [showData, setShowData] = useState(null);
-  const { productId } = useParams();
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -90,7 +88,7 @@ const AddProduct = () => {
 
       if (response.data.success) {
         setShowData(response.data.Product);
-        navigate(`/products`);
+        navigate(`/`);
       } else {
         setError(response.data.message);
       }
