@@ -49,8 +49,8 @@ const CategoriesList = () => {
     getAllCategories();
   }, []);
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Categories List</h1>
+    <div className="container mt-3">
+      <h3 className="mb-4">Categories List</h3>
       <Table responsive className="table table-striped table-bordered">
         <thead>
           <tr>

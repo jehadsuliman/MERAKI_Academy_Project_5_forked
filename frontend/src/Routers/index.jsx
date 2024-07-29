@@ -20,6 +20,7 @@ import HomePageAdmin from "../pages/Admin/HomePageAdmin";
 import AddCategory from "../layouts/Admin/AddCategory";
 
 export const router = createBrowserRouter([
+
   {
     path: "/c",
     element: <CategoriesList />,

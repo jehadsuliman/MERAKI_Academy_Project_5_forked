@@ -27,7 +27,7 @@ const ShopsList = () => {
   }, []);
   return (
     <div className="container mt-3">
-      <h1 className="mb-4">Shops List</h1>
+      <h3 className="mb-4">Shops List</h3>
       <Table striped bordered hover responsive>
         <thead>
           <tr>
