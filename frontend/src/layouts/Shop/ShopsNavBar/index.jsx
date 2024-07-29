@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserAddOutlined,
   EditOutlined,
-  LoginOutlined,
   HomeOutlined,
   ShopOutlined,
   PlusOutlined,
+  ProductOutlined,
+  AlignLeftOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
+import SubCategoryList from "../SubCategoryList";
+import CreateSubCategory from "../CreateSubCategory";
+import Products from "../CreateProduct";
+import ShopUpdate from "../UpdateShop";
+import ProductList from "../GetAllProduct";
 
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -23,13 +28,6 @@ const Navbar = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  const navigate = useNavigate();
-
-  if (goToPage) {
-    navigate(goToPage);
-    setGoToPage("");
-    return null;
-  }
 
   return (
     <Layout>
@@ -46,48 +44,38 @@ const Navbar = () => {
             <NavLink to="/">Dashboard</NavLink>
           </Menu.Item>
 
-          <SubMenu key="sub2" icon={<ShopOutlined />} title="Category">
-            <Menu.Item
-              key="4"
-              onClick={() => setGoToPage("/createSubCategory")}
-            >
+          <SubMenu key="sub1" icon={<ShopOutlined />} title="Category">
+            <Menu.Item key="2" icon={<PlusOutlined />} onClick={() => setGoToPage("createSubCategory")}>
               Create Sub Category
             </Menu.Item>
-
-            <Menu.Item key="sub3" onClick={() => setGoToPage("/categories")}>
+            
+            <Menu.Item key="3" icon={<AlignLeftOutlined />} onClick={() => setGoToPage("categories")}>
               Sub Category
             </Menu.Item>
           </SubMenu>
 
+          <SubMenu key="sub2" icon={<ProductOutlined />} title="Products">
           <Menu.Item
-            key="2"
+            key="4"
             icon={<PlusOutlined />}
-            onClick={() => setGoToPage("/products")}
+            onClick={() => setGoToPage("Products")}
           >
             Add Product
           </Menu.Item>
 
+            <Menu.Item key="5" icon={<AlignLeftOutlined />} onClick={() => setGoToPage("ProductList")}>
+              All products
+            </Menu.Item>
+          </SubMenu>
+
+
+
           <Menu.Item
             key="6"
             icon={<EditOutlined />}
-            onClick={() => setGoToPage(`/shopUpdate/${shopId}`)}
+            onClick={() => setGoToPage(`ShopUpdate`)}
           >
             Update User Shop
-          </Menu.Item>
-          <Menu.Item
-            key="7"
-            icon={<UserAddOutlined />}
-            onClick={() => setGoToPage("/shopRegister")}
-          >
-            Register
-          </Menu.Item>
-
-          <Menu.Item
-            key="8"
-            icon={<LoginOutlined />}
-            onClick={() => setGoToPage("/shopLogin")}
-          >
-            Login
           </Menu.Item>
         </Menu>
       </Sider>
@@ -100,6 +88,12 @@ const Navbar = () => {
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
         </Header>
+        {goToPage === "categories" && <SubCategoryList />}
+        {goToPage === "createSubCategory" && <CreateSubCategory />}
+        {goToPage === "Products" && <Products />}
+        {goToPage === "ShopUpdate" && <ShopUpdate />}
+        {goToPage === "ProductList" && <ProductList />}
+
         <Content
           style={{
             margin: "24px 10px",
@@ -109,6 +103,7 @@ const Navbar = () => {
             borderRadius: borderRadiusLG,
           }}
         ></Content>
+
         <Footer style={{ textAlign: "center" }}>
           JKI EXPRESS ©{new Date().getFullYear()} Created by JKI Team
         </Footer>

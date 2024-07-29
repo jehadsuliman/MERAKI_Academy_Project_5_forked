@@ -53,7 +53,8 @@ const SubCategoriesList = () => {
                 textAlign: "left",
                 width: "200px",
                 height: "50px",
-                marginBottom: "10px",
+                marginTop: "10px",
+                marginBottom: "0px",
               }}
             >
               <Avatar src={<img src={"https://i.pinimg.com/236x/9e/cd/8e/9ecd8eabda364bb33729b5d89733c4c2.jpg"} alt="avatar" />} />

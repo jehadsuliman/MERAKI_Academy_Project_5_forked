@@ -52,7 +52,7 @@ const CreateSubCategory = () => {
       {success && <p style={{ color: "green" }}>{success}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Description:</label>
+          <label>Name:</label>
           <input
             type="text"
             name="description"

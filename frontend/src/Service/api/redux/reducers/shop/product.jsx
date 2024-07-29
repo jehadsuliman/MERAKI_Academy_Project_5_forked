@@ -3,21 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 export const productSlice = createSlice({
   name: "products",
   initialState: {
-    productId: null,
     products: [],
+    productId: null,
   },
   reducers: {
     setProductId: (state, action) => {
       state.productId = action.payload;
-      localStorage.setItem("productId", action.payload);
     },
     setProducts: (state, action) => {
       state.products = action.payload;
-      localStorage.setItem("products", JSON.stringify(action.payload));
     },
     addProduct: (state, action) => {
       state.products.push(action.payload);
-      localStorage.setItem("products", JSON.stringify(state.products));
     },
     updateProductById: (state, action) => {
       const index = state.products.findIndex(
@@ -25,14 +22,12 @@ export const productSlice = createSlice({
       );
       if (index !== -1) {
         state.products[index] = action.payload;
-        localStorage.setItem("products", JSON.stringify(state.products));
       }
     },
     deleteProductById: (state, action) => {
       state.products = state.products.filter(
         (product) => product.id !== action.payload
       );
-      localStorage.setItem("products", JSON.stringify(state.products));
     },
   },
 });
