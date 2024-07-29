@@ -15,18 +15,19 @@ const UpdateShop = () => {
     email: "",
     password: "",
     category_id: "",
-    role_id: "",
     profile_pic: "",
     phone_number: "",
   });
 
   const [error, setError] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (shopId && authToken) {
       const fetchShop = async () => {
         try {
+          setLoading(true);
           const response = await axios.get(
             `http://localhost:5000/shops/${shopId}`,
             {
@@ -42,12 +43,15 @@ const UpdateShop = () => {
           }
         } catch (error) {
           setError("Failed to fetch shop details");
+        } finally {
+          setLoading(false);
         }
       };
 
       fetchShop();
     } else {
       setError("Shop ID or authentication token is not defined");
+      setLoading(false);
     }
   }, [shopId, authToken]);
 
@@ -65,9 +69,10 @@ const UpdateShop = () => {
     }
 
     try {
+      const { password, ...updatedShopData } = shop;
       const response = await axios.put(
         `http://localhost:5000/shops/${shopId}`,
-        shop,
+        updatedShopData,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -83,6 +88,8 @@ const UpdateShop = () => {
       setError("Failed to update shop");
     }
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
@@ -160,16 +167,7 @@ const UpdateShop = () => {
               />
             </div>
             <div>
-              <label>Role ID:</label>
-              <input
-                type="text"
-                name="role_id"
-                value={shop.role_id}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Discreption:</label>
+              <label>Description:</label>
               <input
                 type="text"
                 name="discreption"
