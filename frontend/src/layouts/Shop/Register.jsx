@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  setLogin,
-  setShopId,
-} from "../../Service/api/redux/reducers/auth/shopAuth";
 
 const ShopRegister = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [from, setFrom] = useState({
     shopName: "",
@@ -37,8 +32,6 @@ const ShopRegister = () => {
         "http://localhost:5000/shops/register",
         dataToSend
       );
-      dispatch(setLogin(response.data.token));
-      dispatch(setShopId(response.data.shopId));
       navigate("/shopLogin");
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);

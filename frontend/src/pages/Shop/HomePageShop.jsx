@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   MenuFoldOutlined,
@@ -12,16 +11,16 @@ import {
   AlignLeftOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
-import SubCategoryList from "../SubCategoryList";
-import CreateSubCategory from "../CreateSubCategory";
-import Products from "../CreateProduct";
-import ShopUpdate from "../UpdateShop";
-import ProductList from "../GetAllProduct";
+import SubCategoryList from "../../layouts/Shop/SubCategoryList";
+import CreateSubCategory from "../../layouts/Shop/CreateSubCategory";
+import Products from "../../layouts/Shop/CreateProduct";
+import ShopUpdate from "../../layouts/Shop/UpdateShop";
+import ProductList from "../../layouts/Shop/GetAllProduct";
 
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
-const Navbar = () => {
+const HomePageShop = () => {
   const shopId = useSelector((state) => state.shopAuth.shopId);
   const [collapsed, setCollapsed] = useState(false);
   const [goToPage, setGoToPage] = useState("");
@@ -41,7 +40,6 @@ const Navbar = () => {
           style={{ height: "100%", borderRight: 0 }}
         >
           <Menu.Item key="1" icon={<HomeOutlined />}>
-            <NavLink to="/">Dashboard</NavLink>
           </Menu.Item>
 
           <SubMenu key="sub1" icon={<ShopOutlined />} title="Category">
@@ -112,4 +110,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default HomePageShop;

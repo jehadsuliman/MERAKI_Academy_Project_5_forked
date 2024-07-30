@@ -88,7 +88,7 @@ const AddProduct = () => {
 
       if (response.data.success) {
         setShowData(response.data.Product);
-        navigate(`/`);
+        navigate(`/shop`);
       } else {
         setError(response.data.message);
       }
