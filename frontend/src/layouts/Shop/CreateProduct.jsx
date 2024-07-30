@@ -10,9 +10,8 @@ import {
   Space,
   Input,
   Button,
-  Typography,
-  Divider,
   Select,
+  notification,
 } from "antd";
 
 const AddProduct = () => {
@@ -31,6 +30,8 @@ const AddProduct = () => {
   const { Dragger } = Upload;
   const [image, setImage] = useState("");
   const uploadPreset = "khaledOdehCloud";
+  const [noCategories, setNoCategories] = useState(false);
+  const [error, setError] = useState(null);
 
   const props = {
     name: "file",
@@ -60,8 +61,6 @@ const AddProduct = () => {
     },
   };
 
-  const [error, setError] = useState(null);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
@@ -73,6 +72,17 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (
+      !product.title ||
+      !product.description ||
+      !product.price ||
+      !product.image ||
+      !product.sub_category_id
+    ) {
+      message.error("Please fill in all the required fields.");
+      return;
+    }
 
     if (!authToken) {
       setError("Authentication token is missing");
@@ -97,9 +107,11 @@ const AddProduct = () => {
         navigate(`/shop`);
       } else {
         setError(response.data.message);
+        message.error(response.data.message);
       }
     } catch (error) {
       setError("Failed to add product");
+      message.error("Failed to add product");
     }
   };
 
@@ -112,11 +124,22 @@ const AddProduct = () => {
       if (response.data.success) {
         const subCategories = response.data.subCategories;
 
-        const formateSubCategories = Array.isArray(subCategories)
+        const formattedSubCategories = Array.isArray(subCategories)
           ? subCategories
           : [subCategories];
 
-        setCategories(formateSubCategories);
+        setCategories(formattedSubCategories);
+        setNoCategories(formattedSubCategories.length === 0);
+
+        if (formattedSubCategories.length === 0) {
+          notification.destroy();
+          notification.info({
+            message: "Create Sub Category Required",
+            description:
+              "You need to create at least one sub-category before adding a product.",
+            duration: null,
+          });
+        }
       } else {
         setError(response.data.message);
       }
@@ -166,6 +189,7 @@ const AddProduct = () => {
           value={product.sub_category_id}
           onChange={handleSelectChange}
           style={{ width: "100%" }}
+          disabled={noCategories}
         >
           {categories.map((cat) => (
             <Select.Option key={cat.id} value={cat.id}>
@@ -187,13 +211,15 @@ const AddProduct = () => {
           </p>
         </Dragger>
         <Button
-          type="submit"
+          type="primary"
           onClick={handleSubmit}
-          disabled={!product.title || !product.price || !image}
           style={{ marginTop: "16px" }}
         >
           Add Product
         </Button>
+        {error && (
+          <div style={{ color: "red", marginTop: "16px" }}>{error}</div>
+        )}
       </Card>
     </Space>
   );

@@ -6,6 +6,7 @@ import {
   setLogin,
   setShopId,
 } from "../../Service/api/redux/reducers/auth/shopAuth";
+import { Button, Input, message, Form } from "antd";
 
 const ShopLogin = () => {
   const dispatch = useDispatch();
@@ -18,41 +19,70 @@ const ShopLogin = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (!form.email || !form.password) {
+      message.error("Please fill in all fields.");
+      return;
+    }
 
     try {
       const response = await axios.post(
         "http://localhost:5000/shops/login",
         form
       );
-      dispatch(setLogin(response.data.token));
-      dispatch(setShopId(response.data.shopId));
-      navigate("/shop");
+      if (response.data.success) {
+        dispatch(setLogin(response.data.token));
+        dispatch(setShopId(response.data.shopId));
+        navigate("/shop");
+      } else {
+        message.error(response.data.message || "Login failed.");
+      }
     } catch (error) {
-      console.error(error.response ? error.response.data : error.message);
+      message.error(
+        error.response ? error.response.data.message : "An error occurred."
+      );
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form
+      onFinish={handleSubmit}
+      layout="vertical"
+      style={{ margin: "60px", paddingLeft: "50px", paddingRight: "50px" }}
+    >
       <h2>Login Shop</h2>
-      <input
-        type="email"
+      <Form.Item
+        label="Email"
         name="email"
-        value={form.email}
-        onChange={handleChange}
-        placeholder="Email"
-      />
-      <input
-        type="password"
+        rules={[{ required: true, message: "Please input your email!" }]}
+      >
+        <Input
+          type="email"
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Email"
+        />
+      </Form.Item>
+      <Form.Item
+        label="Password"
         name="password"
-        value={form.password}
-        onChange={handleChange}
-        placeholder="Password"
-      />
-      <button type="submit">Login</button>
-    </form>
+        rules={[{ required: true, message: "Please input your password!" }]}
+      >
+        <Input.Password
+          name="password"
+          value={form.password}
+          onChange={handleChange}
+          placeholder="Password"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Login
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 
