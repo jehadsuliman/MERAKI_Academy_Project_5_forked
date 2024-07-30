@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Button, Card, Form, Input, Typography, Spin, message } from "antd";
+
+const { Title } = Typography;
 
 const UpdateShop = () => {
   const shopId = useSelector((state) => state.shopAuth.shopId);
@@ -60,16 +63,14 @@ const UpdateShop = () => {
     setShop((prevShop) => ({ ...prevShop, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (values) => {
     if (!authToken) {
       setError("Authentication token is missing");
       return;
     }
 
     try {
-      const { password, ...updatedShopData } = shop;
+      const { password, ...updatedShopData } = values;
       const response = await axios.put(
         `http://localhost:5000/shops/${shopId}`,
         updatedShopData,
@@ -80,6 +81,7 @@ const UpdateShop = () => {
         }
       );
       if (response.data.success) {
+        message.success("Shop updated successfully");
         navigate("/shop");
       } else {
         setError(response.data.message);
@@ -89,13 +91,13 @@ const UpdateShop = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spin size="large" />;
 
   return (
-    <div>
-      <h3>Shop Details</h3>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
+      <Title level={2}>Update Shop</Title>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <div>
+      <Card title="Shop Details" style={{ marginBottom: "20px" }}>
         <p>
           <strong>Shop Name:</strong> {shop.shopname}
         </p>
@@ -114,88 +116,45 @@ const UpdateShop = () => {
         <p>
           <strong>Phone Number:</strong> {shop.phone_number}
         </p>
-        <button onClick={() => setShowUpdate(true)}>Edit</button>
-      </div>
+        <Button type="primary" onClick={() => setShowUpdate(true)}>
+          Edit
+        </Button>
+      </Card>
 
       {showUpdate && (
-        <div>
-          <h3>Update Shop</h3>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Shop Name:</label>
-              <input
-                type="text"
-                name="shopname"
-                value={shop.shopname}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Country:</label>
-              <input
-                type="text"
-                name="country"
-                value={shop.country}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Email:</label>
-              <input
-                type="email"
-                name="email"
-                value={shop.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                name="password"
-                value={shop.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Category ID:</label>
-              <input
-                type="text"
-                name="category_id"
-                value={shop.category_id}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Description:</label>
-              <input
-                type="text"
-                name="discreption"
-                value={shop.discreption}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Profile Picture:</label>
-              <input
-                type="text"
-                name="profile_pic"
-                value={shop.profile_pic}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Phone Number:</label>
-              <input
-                type="text"
-                name="phone_number"
-                value={shop.phone_number}
-                onChange={handleChange}
-              />
-            </div>
-            <button type="submit">Update Shop</button>
-          </form>
-        </div>
+        <Card title="Update Shop" style={{ width: "100%" }}>
+          <Form layout="vertical" onFinish={handleSubmit} initialValues={shop}>
+            <Form.Item label="Shop Name" name="shopname">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Country" name="country">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Email" name="email">
+              <Input type="email" />
+            </Form.Item>
+            <Form.Item label="Password" name="password">
+              <Input.Password />
+            </Form.Item>
+            <Form.Item label="Category ID" name="category_id">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Description" name="discreption">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Profile Picture" name="profile_pic">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Phone Number" name="phone_number">
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Update Shop
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
       )}
     </div>
   );

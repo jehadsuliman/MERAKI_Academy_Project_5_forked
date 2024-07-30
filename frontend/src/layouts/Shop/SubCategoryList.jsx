@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSubCategoryId } from "../../Service/api/redux/reducers/shop/subCategoriesSlice";
 import axios from "axios";
-import { Button, Space } from "antd";
+import { Card, Space, Typography } from "antd";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
+const { Title } = Typography;
 const SubCategoriesList = () => {
   const [subCategories, setSubCategories] = useState([]);
   const [error, setError] = useState(null);
@@ -34,31 +36,32 @@ const SubCategoriesList = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
+      <Title level={3} style={{ marginBottom: "20px" }}>
+        Sub Categories
+      </Title>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {subCategories.length > 0 ? (
         <Space size={16} wrap>
           {subCategories.map((subCategory) => (
-            <Button
+            <Card
               key={subCategory.id}
-              onClick={() => handleSubCategoryClick(subCategory.id)}
               style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "10px",
+                width: 300,
                 borderRadius: "8px",
-                border: "none",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
                 cursor: "pointer",
-                textAlign: "left",
-                width: "200px",
-                height: "50px",
-                marginTop: "10px",
-                marginBottom: "0px",
               }}
+              onClick={() => handleSubCategoryClick(subCategory.id)}
             >
-              <span>{subCategory.description}</span>
-            </Button>
+              <Card.Meta
+                avatar={<ShoppingCartOutlined style={{ fontSize: "24px" }} />}
+                title={subCategory.description}
+                style={{
+                  cursor: "pointer",
+                }}
+              />
+            </Card>
           ))}
         </Space>
       ) : (

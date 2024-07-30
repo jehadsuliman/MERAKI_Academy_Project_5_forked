@@ -35,7 +35,7 @@ const HomePageShop = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[""]}
           triggerSubMenuAction="hover"
           style={{ height: "100%", borderRight: 0 }}
         >
