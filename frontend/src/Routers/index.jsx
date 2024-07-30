@@ -9,10 +9,15 @@ import ProductDetail from "../layouts/Shop/ProductDetail";
 import HomePageAdmin from "../pages/Admin/HomePageAdmin";
 import SlideImage from "../layouts/User/SlideImage";
 import HomePageShop from "../pages/Shop/HomePageShop";
+import Navbar from "../layouts/User/Navbar";
 
 export const router = createBrowserRouter([
   {
-    path: "/n",
+    path: "/navbar",
+    element: <Navbar />,
+  },
+  {
+    path: "/slide",
     element: <SlideImage />,
   },
 
