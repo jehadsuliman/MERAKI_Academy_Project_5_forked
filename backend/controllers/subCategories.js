@@ -141,34 +141,30 @@ const deleteSubCategoriesById = (req, res) => {
     });
 };
 
-const getSubCategoryByShopId = (req, res) => {
+const getSubCategoryByShopId = async (req, res) => {
   const shopId = req.params.shop_id;
-  pool
-    .query(
-      `SELECT * FROM sub_categories WHERE shop_id = $1 AND is_deleted = 0;`,
-      [shopId]
-    )
-    .then((result) => {
-      if (result.rows.length > 0) {
-        res.status(200).json({
-          success: true,
-          message: `Sub categories for shop id: ${shopId}`,
-          subCategories: result.rows[0],
-        });
-      } else {
-        res.status(404).json({
-          success: false,
-          message: `No sub categories found for shop id: ${shopId}`,
-        });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({
-        success: false,
-        message: `Server Error`,
-        error: error.message,
+
+  try {
+    const query = 'SELECT * FROM sub_categories WHERE shop_id = $1 AND is_deleted = 0';
+    const result = await pool.query(query, [shopId]);
+    
+    if (result.rows.length > 0) {
+      res.json({
+        success: true,
+        message: `Sub categories for shop id: ${shopId}`,
+        subCategories: result.rows
       });
-    });
+    } else {
+      res.json({
+        success: true,
+        message: `No sub categories found for shop id: ${shopId}`,
+        subCategories: []
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch sub categories' });
+  }
 };
 
 module.exports = {

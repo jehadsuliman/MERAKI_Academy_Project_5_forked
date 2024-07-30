@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { InboxOutlined } from "@ant-design/icons";
 import {
   message,
@@ -12,13 +12,15 @@ import {
   Button,
   Typography,
   Divider,
+  Select,
 } from "antd";
-const { Title, Paragraph } = Typography;
 
 const AddProduct = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
+  const shopId = useSelector((state) => state.shopAuth.shopId);
   const navigate = useNavigate();
   const [showData, setShowData] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -44,7 +46,6 @@ const AddProduct = () => {
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
-        console.log(info.file.response.url);
         setImage(info.file.response.url);
         setProduct((prevProduct) => ({
           ...prevProduct,
@@ -64,6 +65,10 @@ const AddProduct = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
+  };
+
+  const handleSelectChange = (value) => {
+    setProduct((prevProduct) => ({ ...prevProduct, sub_category_id: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -88,6 +93,7 @@ const AddProduct = () => {
 
       if (response.data.success) {
         setShowData(response.data.Product);
+        message.success("Product added successfully!");
         navigate(`/shop`);
       } else {
         setError(response.data.message);
@@ -96,6 +102,32 @@ const AddProduct = () => {
       setError("Failed to add product");
     }
   };
+
+  const getCategoryByShopId = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/subCategories/shop/${shopId}`
+      );
+
+      if (response.data.success) {
+        const subCategories = response.data.subCategories;
+
+        const formateSubCategories = Array.isArray(subCategories)
+          ? subCategories
+          : [subCategories];
+
+        setCategories(formateSubCategories);
+      } else {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      setError("Failed to fetch categories");
+    }
+  };
+
+  useEffect(() => {
+    getCategoryByShopId();
+  }, [shopId]);
 
   return (
     <Space direction="vertical" size={16}>
@@ -128,14 +160,19 @@ const AddProduct = () => {
           onChange={handleChange}
         />
 
-        <label>Sub Category ID:</label>
-        <Input
-          type="text"
-          name="sub_category_id"
-          placeholder="Sub Category ID.."
+        <label>Sub Category:</label>
+        <Select
+          placeholder="Select a sub-category"
           value={product.sub_category_id}
-          onChange={handleChange}
-        />
+          onChange={handleSelectChange}
+          style={{ width: "100%" }}
+        >
+          {categories.map((cat) => (
+            <Select.Option key={cat.id} value={cat.id}>
+              {cat.description}
+            </Select.Option>
+          ))}
+        </Select>
 
         <Dragger {...props} style={{ marginTop: "16px" }}>
           <p className="ant-upload-drag-icon">
@@ -158,37 +195,6 @@ const AddProduct = () => {
           Add Product
         </Button>
       </Card>
-      {showData && (
-        <Card
-          title="Product Details"
-          style={{ width: 1000, marginLeft: "220px", alignItems: "center" }}
-        >
-          <Typography>
-            <Title level={4}>Product Title:</Title>
-            <Paragraph>{showData.title}</Paragraph>
-
-            <Title level={4}>Description:</Title>
-            <Paragraph>{showData.description}</Paragraph>
-
-            <Title level={4}>Sub Category ID:</Title>
-            <Paragraph>{showData.sub_category_id}</Paragraph>
-
-            <Title level={4}>Image:</Title>
-            <Paragraph>
-              <img
-                src={showData.image}
-                alt="Product"
-                style={{ maxWidth: "70%", height: "70%" }}
-              />
-            </Paragraph>
-
-            <Title level={4}>Price:</Title>
-            <Paragraph>${showData.price}</Paragraph>
-          </Typography>
-          <Divider />
-        </Card>
-      )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </Space>
   );
 };

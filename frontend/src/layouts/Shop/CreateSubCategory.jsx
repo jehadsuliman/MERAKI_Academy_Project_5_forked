@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Upload, Card, Space, Input, Typography } from "antd";
 
 const CreateSubCategory = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
@@ -46,23 +47,37 @@ const CreateSubCategory = () => {
   };
 
   return (
-    <div>
-      <h3>Create New Sub-Category</h3>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="description"
-            value={subCategory.description}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Create Sub-Category</button>
-      </form>
-    </div>
+    <Card>
+      <Space direction="vertical" size={16}>
+        <h3>Create New Sub-Category</h3>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Name:</label>
+            <Input
+              type="text"
+              name="description"
+              value={subCategory.description}
+              onChange={handleChange}
+            />
+          </div>
+          <button
+            type="submit"
+            style={{
+              marginTop: "15px",
+              border: "none",
+              borderRadius: "8px",
+              backgroundColor: "rgb(245,245,245)",
+              color: "ffffff",
+            }}
+          >
+            Create Sub-Category
+          </button>
+        </form>
+      </Space>
+    </Card>
   );
 };
 

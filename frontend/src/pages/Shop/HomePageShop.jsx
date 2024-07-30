@@ -27,7 +27,7 @@ const HomePageShop = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -40,33 +40,44 @@ const HomePageShop = () => {
           style={{ height: "100%", borderRight: 0 }}
         >
           <Menu.Item key="1" icon={<HomeOutlined />}>
+            Dashboard
           </Menu.Item>
 
           <SubMenu key="sub1" icon={<ShopOutlined />} title="Category">
-            <Menu.Item key="2" icon={<PlusOutlined />} onClick={() => setGoToPage("createSubCategory")}>
+            <Menu.Item
+              key="2"
+              icon={<PlusOutlined />}
+              onClick={() => setGoToPage("createSubCategory")}
+            >
               Create Sub Category
             </Menu.Item>
-            
-            <Menu.Item key="3" icon={<AlignLeftOutlined />} onClick={() => setGoToPage("categories")}>
+
+            <Menu.Item
+              key="3"
+              icon={<AlignLeftOutlined />}
+              onClick={() => setGoToPage("categories")}
+            >
               Sub Category
             </Menu.Item>
           </SubMenu>
 
           <SubMenu key="sub2" icon={<ProductOutlined />} title="Products">
-          <Menu.Item
-            key="4"
-            icon={<PlusOutlined />}
-            onClick={() => setGoToPage("Products")}
-          >
-            Add Product
-          </Menu.Item>
+            <Menu.Item
+              key="4"
+              icon={<PlusOutlined />}
+              onClick={() => setGoToPage("Products")}
+            >
+              Add Product
+            </Menu.Item>
 
-            <Menu.Item key="5" icon={<AlignLeftOutlined />} onClick={() => setGoToPage("ProductList")}>
+            <Menu.Item
+              key="5"
+              icon={<AlignLeftOutlined />}
+              onClick={() => setGoToPage("ProductList")}
+            >
               All products
             </Menu.Item>
           </SubMenu>
-
-
 
           <Menu.Item
             key="6"
