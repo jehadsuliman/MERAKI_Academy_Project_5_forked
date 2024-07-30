@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSubCategoryId } from "../../Service/api/redux/reducers/shop/subCategoriesSlice";
 import axios from "axios";
-import { Button, Avatar, Space } from "antd";
+import { Button, Space } from "antd";
 
 const SubCategoriesList = () => {
   const [subCategories, setSubCategories] = useState([]);
@@ -57,7 +57,6 @@ const SubCategoriesList = () => {
                 marginBottom: "0px",
               }}
             >
-              <Avatar src={<img src={"https://i.pinimg.com/236x/9e/cd/8e/9ecd8eabda364bb33729b5d89733c4c2.jpg"} alt="avatar" />} />
               <span>{subCategory.description}</span>
             </Button>
           ))}

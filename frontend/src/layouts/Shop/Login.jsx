@@ -28,7 +28,7 @@ const ShopLogin = () => {
       );
       dispatch(setLogin(response.data.token));
       dispatch(setShopId(response.data.shopId));
-      navigate("/")
+      navigate("/shop");
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
     }

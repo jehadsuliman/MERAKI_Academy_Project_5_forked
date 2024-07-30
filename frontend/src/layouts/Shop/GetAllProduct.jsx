@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { setProducts, deleteProductById } from "../../Service/api/redux/reducers/shop/product";
+import {
+  setProducts,
+  deleteProductById,
+} from "../../Service/api/redux/reducers/shop/product";
 import Table from "react-bootstrap/Table";
 import { Button, Modal, notification } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +52,8 @@ const ProductList = () => {
           setError("Failed to delete product");
           notification.error({
             message: "Deletion Failed",
-            description: error.message || "An error occurred while deleting the product.",
+            description:
+              error.message || "An error occurred while deleting the product.",
           });
         }
       },
@@ -78,16 +82,32 @@ const ProductList = () => {
           {products.map((product, i) => (
             <tr key={i}>
               <th scope="row">{i + 1}</th>
-              <td><img src={product.image} style={{ width: '75px' }} alt="product" /></td>
+              <td>
+                <img
+                  src={product.image}
+                  style={{ width: "75px" }}
+                  alt="product"
+                />
+              </td>
               <td>{product.title}</td>
               <td>{product.description}</td>
               <td>{product.price}</td>
               <td>
                 <td>
-                <Button variant="warning" onClick={() => handleUpdate(product)}>Update</Button>
+                  <Button
+                    variant="warning"
+                    onClick={() => handleUpdate(product)}
+                  >
+                    Update
+                  </Button>
                 </td>
                 <td>
-                <Button variant="danger" onClick={() => handleDelete(product.id)}>Delete</Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </td>
             </tr>

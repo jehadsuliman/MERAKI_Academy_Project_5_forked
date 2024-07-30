@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
   setProductId,
-  updateProductById,
   deleteProductById,
 } from "../../Service/api/redux/reducers/shop/product";
 import {
@@ -51,6 +50,7 @@ const ProductDetail = () => {
               },
             }
           );
+          console.log("Response:", response.data);
           if (response.data.success) {
             setProduct(response.data.product[0]);
             setFormData(response.data.product[0]);
@@ -82,16 +82,24 @@ const ProductDetail = () => {
       if (response.data.success) {
         setProduct(response.data.product[0]);
         setFormData(response.data.product[0]);
-        navigate(`/`);
+        navigate(`/shop`);
         notification.success({
           message: "Product Updated",
           description: "The product was updated successfully.",
         });
       } else {
         setError(response.data.message);
+        notification.error({
+          message: "Update Failed",
+          description: response.data.message,
+        });
       }
     } catch (error) {
       setError("Failed to update product");
+      notification.error({
+        message: "Update Failed",
+        description: "Failed to update product.",
+      });
     }
   };
 
@@ -107,7 +115,7 @@ const ProductDetail = () => {
             },
           });
           dispatch(deleteProductById(productId));
-          navigate(`/`);
+          navigate(`/shop`);
           notification.success({
             message: "Product Deleted",
             description: "The product was deleted successfully.",
@@ -120,28 +128,36 @@ const ProductDetail = () => {
   };
 
   return (
-<div style={{ padding: "50px", textAlign: 'center' }}>
+    <div style={{ padding: "50px", textAlign: "center" }}>
       <Title level={2}>Product Details</Title>
       {error && <Text type="danger">{error}</Text>}
       {product ? (
         <Card>
-          <Row gutter={16} style={{ alignItems: 'center' }}>
-            <Col span={12} style={{ display: 'flex', justifyContent: 'center' }}>
+          <Row gutter={16} style={{ alignItems: "center" }}>
+            <Col
+              span={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <img
                 alt={product.title}
                 src={product.image}
-                style={{ height: "300px", width: 'auto', objectFit: "cover", cursor: 'pointer' }}
+                style={{
+                  height: "300px",
+                  width: "auto",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
                 onClick={() => setShowDetailsModal(true)}
               />
             </Col>
             <Col span={12}>
-              <div style={{ paddingLeft: '16px' }}>
+              <div style={{ paddingLeft: "16px" }}>
                 <Title level={4}>{product.title}</Title>
                 <Text strong>Description:</Text>
                 <p>{product.description}</p>
                 <Text strong>Price:</Text>
                 <p>${product.price}</p>
-                <div style={{ marginTop: '16px' }}>
+                <div style={{ marginTop: "16px" }}>
                   <Button
                     type="primary"
                     icon={<EditOutlined />}
@@ -153,7 +169,7 @@ const ProductDetail = () => {
                     type="danger"
                     icon={<DeleteOutlined />}
                     onClick={handleDelete}
-                    style={{ marginLeft: '8px' }}
+                    style={{ marginLeft: "8px" }}
                   >
                     Delete
                   </Button>

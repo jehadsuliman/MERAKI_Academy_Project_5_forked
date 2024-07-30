@@ -80,7 +80,7 @@ const UpdateShop = () => {
         }
       );
       if (response.data.success) {
-        navigate("/");
+        navigate("/shop");
       } else {
         setError(response.data.message);
       }
