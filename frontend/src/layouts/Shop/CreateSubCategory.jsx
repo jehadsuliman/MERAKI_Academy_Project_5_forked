@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Upload, Card, Space, Input, Typography } from "antd";
+import { Upload, Card, Space, Input, Button, message } from "antd";
 
 const CreateSubCategory = () => {
   const authToken = useSelector((state) => state.shopAuth.token);
   const [subCategory, setSubCategory] = useState({
     description: "",
   });
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,8 +17,13 @@ const CreateSubCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!subCategory.description.trim()) {
+      message.error("Please enter a sub-category description.");
+      return;
+    }
+
     if (!authToken) {
-      setError("Authentication token is missing");
+      message.error("Authentication token is missing");
       return;
     }
 
@@ -36,13 +39,13 @@ const CreateSubCategory = () => {
         }
       );
       if (response.data.success) {
-        setSuccess("Sub-category created successfully");
+        message.success("Sub-category created successfully");
         setSubCategory({ description: "" });
       } else {
-        setError(response.data.message);
+        message.error(response.data.message);
       }
     } catch (error) {
-      setError("Failed to create sub-category");
+      message.error("Failed to create sub-category");
     }
   };
 
@@ -50,9 +53,6 @@ const CreateSubCategory = () => {
     <Card>
       <Space direction="vertical" size={16}>
         <h3>Create New Sub-Category</h3>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        {success && <p style={{ color: "green" }}>{success}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label>Name:</label>
@@ -63,18 +63,13 @@ const CreateSubCategory = () => {
               onChange={handleChange}
             />
           </div>
-          <button
-            type="submit"
-            style={{
-              marginTop: "15px",
-              border: "none",
-              borderRadius: "8px",
-              backgroundColor: "rgb(245,245,245)",
-              color: "ffffff",
-            }}
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ marginTop: "15px" }}
           >
             Create Sub-Category
-          </button>
+          </Button>
         </form>
       </Space>
     </Card>
