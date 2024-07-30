@@ -93,6 +93,7 @@ const Navbar = () => {
         {goToPage === "Products" && <Products />}
         {goToPage === "ShopUpdate" && <ShopUpdate />}
         {goToPage === "ProductList" && <ProductList />}
+        <ProductList />
 
         <Content
           style={{
