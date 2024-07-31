@@ -25,11 +25,9 @@ const AddCategory = () => {
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log(info.file, info.fileList);
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
-        console.log(info.file.response.url);
         setImage(info.file.response.url);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -46,6 +44,7 @@ const AddCategory = () => {
         Authorization: `Bearer ${token}`,
       },
     };
+  
     axios
       .post(`http://localhost:5000/categories`, categoryData, header)
       .then((result) => {
@@ -53,6 +52,7 @@ const AddCategory = () => {
       })
       .catch((err) => {
         message.error("Failed to add category.");
+        console.log(err);
       });
   };
 
@@ -82,7 +82,7 @@ const AddCategory = () => {
           </Dragger>
           <Button
             type="primary"
-            onClick={addNewCategory}
+            onClick={()=>{addNewCategory()}}
             disabled={!name || !image}
             style={{ marginTop: "16px" }}
           >
