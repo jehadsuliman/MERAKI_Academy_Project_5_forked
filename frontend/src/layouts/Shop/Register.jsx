@@ -12,7 +12,7 @@ const ShopRegister = () => {
     country: "",
     phone_number: "",
     email: "",
-    description: "",
+    discreption: "",
     password: "",
     category_id: "",
   });
@@ -139,13 +139,13 @@ const ShopRegister = () => {
       </Form.Item>
 
       <Form.Item
-        label="Description"
-        name="description"
+        label="Discreption"
+        name="discreption"
       >
         <Input
-          name="description"
+          name="discreption"
           onChange={handleChange}
-          placeholder="Description"
+          placeholder="discreption"
         />
       </Form.Item>
 

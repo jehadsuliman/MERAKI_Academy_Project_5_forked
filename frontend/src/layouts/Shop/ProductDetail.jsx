@@ -50,7 +50,6 @@ const ProductDetail = () => {
               },
             }
           );
-          console.log("Response:", response.data);
           if (response.data.success) {
             setProduct(response.data.product[0]);
             setFormData(response.data.product[0]);
