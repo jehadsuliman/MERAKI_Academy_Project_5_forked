@@ -10,9 +10,13 @@ import HomePageAdmin from "../pages/Admin/HomePageAdmin";
 import SlideImage from "../layouts/User/SlideImage";
 import HomePageShop from "../pages/Shop/HomePageShop";
 import Navbar from "../layouts/User/Navbar";
+
+import ProfileShop from "../layouts/Shop/ProfileShop";
+
 import FooterComponent from "../layouts/User/Footer";
 import Products from "../layouts/User/Products";
 import Categories from "../layouts/User/Categories";
+
 
 export const router = createBrowserRouter([
   {
@@ -72,5 +76,9 @@ export const router = createBrowserRouter([
   {
     path: "/products/:productId",
     element: <ProductDetail />,
+  },
+  {
+    path: "/ProfileShop",
+    element: <ProfileShop />,
   },
 ]);

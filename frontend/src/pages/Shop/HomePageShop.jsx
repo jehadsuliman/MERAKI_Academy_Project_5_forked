@@ -16,6 +16,7 @@ import CreateSubCategory from "../../layouts/Shop/CreateSubCategory";
 import Products from "../../layouts/Shop/CreateProduct";
 import ShopUpdate from "../../layouts/Shop/UpdateShop";
 import ProductList from "../../layouts/Shop/GetAllProduct";
+import ProfileShop from "../../layouts/Shop/ProfileShop";
 
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -86,6 +87,14 @@ const HomePageShop = () => {
           >
             Update User Shop
           </Menu.Item>
+
+          <Menu.Item
+            key="7"
+            icon={<ShopOutlined />}
+            onClick={() => setGoToPage(`ProfileShop`)}
+          >
+            My Profile
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -102,6 +111,7 @@ const HomePageShop = () => {
         {goToPage === "Products" && <Products />}
         {goToPage === "ShopUpdate" && <ShopUpdate />}
         {goToPage === "ProductList" && <ProductList />}
+        {goToPage === "ProfileShop" && <ProfileShop />}
 
         <Content
           style={{

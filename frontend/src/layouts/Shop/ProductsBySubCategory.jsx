@@ -23,11 +23,9 @@ const ProductsBySubCategory = () => {
 
     const fetchProducts = async () => {
       try {
-        console.log(`Fetching products for subCategoryId: ${subCategoryId}`);
         const response = await axios.get(
           `http://localhost:5000/products/subCategory/${subCategoryId}`
         );
-        console.log("API Response:", response.data);
         if (response.data.success) {
           setProducts(response.data.product || []);
         } else {
