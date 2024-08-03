@@ -45,7 +45,7 @@ const UpdateShop = () => {
             setError("Shop data not found");
           }
         } catch (error) {
-          setError("Failed to fetch shop details");
+          setError("Please ensure you are logged in");
         } finally {
           setLoading(false);
         }
@@ -53,7 +53,7 @@ const UpdateShop = () => {
 
       fetchShop();
     } else {
-      setError("Shop ID or authentication token is not defined");
+      setError("Please ensure you are logged in");
       setLoading(false);
     }
   }, [shopId, authToken]);
@@ -65,7 +65,7 @@ const UpdateShop = () => {
 
   const handleSubmit = async (values) => {
     if (!authToken) {
-      setError("Authentication token is missing");
+      setError("Please ensure you are logged in");
       return;
     }
 
@@ -87,11 +87,13 @@ const UpdateShop = () => {
         setError(response.data.message);
       }
     } catch (error) {
-      setError("Failed to update shop");
+      setError("Please ensure you are logged in");
     }
   };
 
   if (loading) return <Spin size="large" />;
+  if (error)
+    return <p style={{ color: "red", textAlign: "center", fontSize: '20px' }}>{error}</p>;
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>

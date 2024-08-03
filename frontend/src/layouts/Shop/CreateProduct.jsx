@@ -144,7 +144,7 @@ const AddProduct = () => {
         setError(response.data.message);
       }
     } catch (error) {
-      setError("Failed to fetch categories");
+      setError("Failed to fetch Sub categories");
     }
   };
 

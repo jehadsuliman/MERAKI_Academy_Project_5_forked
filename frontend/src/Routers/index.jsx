@@ -10,7 +10,7 @@ import HomePageAdmin from "../pages/Admin/HomePageAdmin";
 import SlideImage from "../layouts/User/SlideImage";
 import HomePageShop from "../pages/Shop/HomePageShop";
 import Navbar from "../layouts/User/Navbar";
-
+import Logout from "../layouts/Shop/Logout";
 import ProfileShop from "../layouts/Shop/ProfileShop";
 
 import FooterComponent from "../layouts/User/Footer";
@@ -80,5 +80,9 @@ export const router = createBrowserRouter([
   {
     path: "/ProfileShop",
     element: <ProfileShop />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
 ]);

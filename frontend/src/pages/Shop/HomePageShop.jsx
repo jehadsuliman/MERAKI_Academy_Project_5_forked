@@ -9,6 +9,8 @@ import {
   PlusOutlined,
   ProductOutlined,
   AlignLeftOutlined,
+  UserOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import SubCategoryList from "../../layouts/Shop/SubCategoryList";
@@ -17,7 +19,7 @@ import Products from "../../layouts/Shop/CreateProduct";
 import ShopUpdate from "../../layouts/Shop/UpdateShop";
 import ProductList from "../../layouts/Shop/GetAllProduct";
 import ProfileShop from "../../layouts/Shop/ProfileShop";
-
+import Logout from "../../layouts/Shop/Logout";
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
@@ -90,10 +92,18 @@ const HomePageShop = () => {
 
           <Menu.Item
             key="7"
-            icon={<ShopOutlined />}
+            icon={<UserOutlined />}
             onClick={() => setGoToPage(`ProfileShop`)}
           >
             My Profile
+          </Menu.Item>
+
+          <Menu.Item
+            key="8"
+            icon={<LogoutOutlined />}
+            onClick={() => setGoToPage("logout")}
+          >
+            Logout
           </Menu.Item>
         </Menu>
       </Sider>
@@ -112,6 +122,7 @@ const HomePageShop = () => {
         {goToPage === "ShopUpdate" && <ShopUpdate />}
         {goToPage === "ProductList" && <ProductList />}
         {goToPage === "ProfileShop" && <ProfileShop />}
+        {goToPage === "logout" && <Logout />}
 
         <Content
           style={{

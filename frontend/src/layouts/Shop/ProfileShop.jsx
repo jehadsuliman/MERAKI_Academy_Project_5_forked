@@ -36,6 +36,12 @@ const ProfileShop = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!authToken || !shopId) {
+      setError("You need to log in to access this page");
+      setLoading(false);
+      return;
+    }
+
     const fetchShopInfo = async () => {
       try {
         const response = await axios.get(
@@ -49,14 +55,13 @@ const ProfileShop = () => {
         );
         if (response.data.success) {
           setShopInfo(response.data.result);
-          setLoading(false);
         } else {
-          console.error(response.data.message);
           setError(response.data.message);
         }
       } catch (error) {
-        console.error("Failed to fetch shop information", error);
-        setError("Failed to fetch shop information");
+        setError("Please ensure you are logged in");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -71,8 +76,7 @@ const ProfileShop = () => {
           setError(response.data.message);
         }
       } catch (error) {
-        console.error("Error fetching sub-categories:", error);
-        setError("Failed to fetch sub-categories");
+        setError("Please ensure you are logged in.");
       }
     };
 
@@ -193,7 +197,9 @@ const ProfileShop = () => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error)
+    return <p style={{ color: "red", textAlign: "center", fontSize: '20px' }}>{error}</p>;
+
 
   return (
     <Card style={{ padding: "20px" }}>
@@ -238,7 +244,7 @@ const ProfileShop = () => {
           </Col>
         </Row>
         <Divider />
-        <Title level={3}>Sub Categories</Title>
+        <Title level={3}>My Sub Categories</Title>
         {subCategories.length > 0 ? (
           <Space size={16} wrap>
             {subCategories.map((subCategory) => (
@@ -265,7 +271,7 @@ const ProfileShop = () => {
         {selectedSubCategory && (
           <>
             <Divider />
-            <Title level={3}>Products in Sub-Category</Title>
+            <Title level={3}>My Products in Sub-Category</Title>
             {products.length > 0 ? (
               <List
                 grid={{ gutter: 16, column: 4 }}
@@ -292,7 +298,6 @@ const ProfileShop = () => {
                             {product.description}
                             <br />
                             <Text strong>Title:</Text> {product.title}
-                            {console.log(product)}
                           </>
                         }
                       />
@@ -301,7 +306,7 @@ const ProfileShop = () => {
                 )}
               />
             ) : (
-              <Text>No products found.</Text>
+              <Text>No products found in this sub-category.</Text>
             )}
           </>
         )}
@@ -327,27 +332,49 @@ const ProfileShop = () => {
         {selectedProduct && (
           <Form
             form={form}
+            initialValues={selectedProduct}
             layout="vertical"
-            initialValues={{
-              name: selectedProduct.name,
-              price: selectedProduct.price,
-              description: selectedProduct.description,
-              image: selectedProduct,
-            }}
+            onFinish={handleModalOk}
           >
+            <Form.Item
+              name="name"
+              label="Product Name"
+              rules={[
+                { required: true, message: "Please input the product name!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item
               name="price"
               label="Price"
-              rules={[
-                { required: true, message: "Please input the product price!" },
-              ]}
+              rules={[{ required: true, message: "Please input the price!" }]}
             >
               <Input type="number" />
             </Form.Item>
-            <Form.Item name="description" label="Description">
+            <Form.Item
+              name="description"
+              label="Description"
+              rules={[
+                { required: true, message: "Please input the description!" },
+              ]}
+            >
               <Input.TextArea rows={4} />
             </Form.Item>
-            <Form.Item name="image" label="Image URL">
+            <Form.Item
+              name="title"
+              label="Title"
+              rules={[{ required: true, message: "Please input the title!" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="image"
+              label="Image URL"
+              rules={[
+                { required: true, message: "Please input the image URL!" },
+              ]}
+            >
               <Input />
             </Form.Item>
           </Form>
