@@ -26,7 +26,7 @@ const { SubMenu } = Menu;
 const HomePageShop = () => {
   const shopId = useSelector((state) => state.shopAuth.shopId);
   const [collapsed, setCollapsed] = useState(false);
-  const [goToPage, setGoToPage] = useState("");
+  const [goToPage, setGoToPage] = useState("ProfileShop");
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -38,15 +38,19 @@ const HomePageShop = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[""]}
+          defaultSelectedKeys={["1"]}
           triggerSubMenuAction="hover"
           style={{ height: "100%", borderRight: 0 }}
         >
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            Dashboard
+          <Menu.Item
+            key="1"
+            icon={<UserOutlined />}
+            onClick={() => setGoToPage(`ProfileShop`)}
+          >
+            My Profile
           </Menu.Item>
-
           <SubMenu key="sub1" icon={<ShopOutlined />} title="Category">
+            
             <Menu.Item
               key="2"
               icon={<PlusOutlined />}
@@ -90,16 +94,10 @@ const HomePageShop = () => {
             Update User Shop
           </Menu.Item>
 
-          <Menu.Item
-            key="7"
-            icon={<UserOutlined />}
-            onClick={() => setGoToPage(`ProfileShop`)}
-          >
-            My Profile
-          </Menu.Item>
+
 
           <Menu.Item
-            key="8"
+            key="7"
             icon={<LogoutOutlined />}
             onClick={() => setGoToPage("logout")}
           >

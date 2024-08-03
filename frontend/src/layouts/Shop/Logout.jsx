@@ -56,7 +56,7 @@ const Logout = () => {
     dispatch(setLogin(null));
     dispatch(setShopId(null));
     message.success("You have been logged out successfully.");
-    navigate("/home");
+    navigate("/");
   };
 
   if (loading) return <Spin size="large" />;
