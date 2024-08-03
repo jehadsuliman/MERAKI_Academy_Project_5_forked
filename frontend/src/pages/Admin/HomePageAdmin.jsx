@@ -9,7 +9,8 @@ import {
   MenuUnfoldOutlined,
   UsergroupAddOutlined,
   HomeOutlined ,
-  ShopOutlined
+  ShopOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 
@@ -47,7 +48,7 @@ const HomePageAdmin = () => {
           <Menu.Item key="6" icon={<ShopOutlined />} onClick={()=>{setGoToPage("ShopsList")}}>
             Shop
           </Menu.Item>
-          <Menu.Item key="7" icon={<UsergroupAddOutlined />} onClick={() => setGoToPage("LogoutAdmin")}>
+          <Menu.Item key="7" icon={<LogoutOutlined />} onClick={() => setGoToPage("LogoutAdmin")}>
             Logout
           </Menu.Item>
         </Menu>
