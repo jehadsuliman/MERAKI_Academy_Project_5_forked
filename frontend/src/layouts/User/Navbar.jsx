@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -10,7 +11,22 @@ import {
   HeartOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
+import { setProducts } from "../../Service/api/redux/reducers/shop/product"; 
+
 const NavbarComponent = () => {
+  const dispatch = useDispatch();
+
+  const { products } = useSelector((state) => ({
+    products: state.products.products,
+  }));
+
+  const search = (searchTerm) => {
+    const filter = products.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    dispatch(setProducts(filter));
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container className="d-flex justify-content-between">
@@ -20,6 +36,7 @@ const NavbarComponent = () => {
             aria-label="Search"
             aria-describedby="inputGroup-sizing-sm"
             placeholder="Search..."
+            onChange={(e) => search(e.target.value)}
           />
         </InputGroup>
         <div

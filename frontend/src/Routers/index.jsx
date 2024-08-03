@@ -13,16 +13,34 @@ import Navbar from "../layouts/User/Navbar";
 import FooterComponent from "../layouts/User/Footer";
 import Products from "../layouts/User/Products";
 import Categories from "../layouts/User/Categories";
+import ProductDetails from "../layouts/User/ProductDetails";
+import HomePageUser from "../pages/User/HomePageUser";
+import FaqComponent from "../layouts/User/FaqComponents";
 
 export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePageUser />,
+    children:[
+       {
+    path: "/",
+    element: <Products />,
+  },
+]
+  },
+  {
+    path: "/faq",
+    element: <FaqComponent />,
+  },
+  {
+    path: "/product/:id",
+    element: <ProductDetails />,
+  },
   {
     path: "/categories",
     element: <Categories />,
   },
-  {
-    path: "/product",
-    element: <Products />,
-  },
+ 
   {
     path: "/footer",
     element: <FooterComponent />,
