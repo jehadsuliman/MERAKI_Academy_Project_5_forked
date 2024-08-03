@@ -149,29 +149,40 @@ const ProfileShop = () => {
     setIsModalVisible(false);
   };
 
-  const handleDeleteProduct = async () => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/products/${selectedProduct.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "application/json",
-          },
+  const handleDeleteProduct = () => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this product?",
+      content: "This action cannot be undone.",
+      okText: "Yes, delete it",
+      okType: "danger",
+      cancelText: "No, cancel",
+      onOk: async () => {
+        try {
+          const response = await axios.delete(
+            `http://localhost:5000/products/${selectedProduct.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (response.data.success) {
+            message.success("Product deleted successfully");
+            setIsModalVisible(false);
+            setProducts((prevProducts) =>
+              prevProducts.filter(
+                (product) => product.id !== selectedProduct.id
+              )
+            );
+          } else {
+            message.error(response.data.message);
+          }
+        } catch (error) {
+          message.error("Failed to delete product");
         }
-      );
-      if (response.data.success) {
-        message.success("Product deleted successfully");
-        setIsModalVisible(false);
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product.id !== selectedProduct.id)
-        );
-      } else {
-        message.error(response.data.message);
-      }
-    } catch (error) {
-      message.error("Failed to delete product");
-    }
+      },
+    });
   };
 
   const handleDeleteSubCategories = async () => {
@@ -301,6 +312,8 @@ const ProfileShop = () => {
                             {product.description}
                             <br />
                             <Text strong>Price:</Text> ${product.price}
+                            <br />
+                            <Text strong>Price:</Text> ${product.price}
                           </>
                         }
                       />
@@ -309,14 +322,14 @@ const ProfileShop = () => {
                 )}
               />
             ) : (
-              <Text>No products found in this sub-category.</Text>
+              <Text>No products found.</Text>
             )}
           </>
         )}
       </Space>
 
       <Modal
-        title="Product Details"
+        title="Update Product"
         visible={isModalVisible}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
@@ -324,59 +337,59 @@ const ProfileShop = () => {
           <Button key="delete" type="danger" onClick={handleDeleteProduct}>
             Delete
           </Button>,
+          <Button key="submit" type="primary" onClick={handleModalOk}>
+            Save
+          </Button>,
           <Button key="cancel" onClick={handleModalCancel}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary" onClick={handleModalOk}>
-            Update
-          </Button>,
         ]}
       >
-        {selectedProduct && (
-          <Form
-            form={form}
-            initialValues={selectedProduct}
-            layout="vertical"
-            onFinish={handleModalOk}
+        <Form form={form} layout="vertical" initialValues={selectedProduct}>
+
+          <Form.Item
+            name="title"
+            label="Product Title"
+            rules={[
+              { required: true, message: "Please input the product title!" },
+            ]}
           >
-            <Form.Item
-              name="image"
-              label="Image URL"
-              rules={[
-                { required: true, message: "Please input the image URL!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              name="title"
-              label="Title"
-              rules={[{ required: true, message: "Please input the title!" }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              name="description"
-              label="Description"
-              rules={[
-                { required: true, message: "Please input the description!" },
-              ]}
-            >
-              <Input.TextArea rows={4} />
-            </Form.Item>
-
-            <Form.Item
-              name="price"
-              label="Price"
-              rules={[{ required: true, message: "Please input the price!" }]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            
-          </Form>
-        )}
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="Product Description"
+            rules={[
+              {
+                required: true,
+                message: "Please input the product description!",
+              },
+            ]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item
+            name="price"
+            label="Product Price"
+            rules={[
+              { required: true, message: "Please input the product price!" },
+            ]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="image"
+            label="Product Image URL"
+            rules={[
+              {
+                required: true,
+                message: "Please input the product image URL!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
       </Modal>
     </Card>
   );

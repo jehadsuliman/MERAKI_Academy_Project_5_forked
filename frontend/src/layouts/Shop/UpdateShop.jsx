@@ -109,7 +109,7 @@ const UpdateShop = () => {
           <img
             src={shop.profile_pic}
             alt="Profile"
-            style={{ width: "100px" }}
+            style={{ width: "200px", height: "200px" }}
           />
         </p>
         <p>
