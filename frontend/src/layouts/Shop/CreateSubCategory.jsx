@@ -23,7 +23,7 @@ const CreateSubCategory = () => {
     }
 
     if (!authToken) {
-      message.error("Authentication token is missing");
+      message.error("Please ensure you are logged in ");
       return;
     }
 
@@ -45,7 +45,7 @@ const CreateSubCategory = () => {
         message.error(response.data.message);
       }
     } catch (error) {
-      message.error("Failed to create sub-category");
+      message.error(`Please ensure you are logged in `);
     }
   };
 
