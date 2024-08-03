@@ -19,6 +19,7 @@ import Categories from "../layouts/User/Categories";
 import ProductDetails from "../layouts/User/ProductDetails";
 import HomePageUser from "../pages/User/HomePageUser";
 import FaqComponent from "../layouts/User/FaqComponents";
+import PageNotFound from "../layouts/User/PageNotFound";
 
 
 export const router = createBrowserRouter([
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
     element: <Products />,
   },
 ]
+  },
+  {
+    path: "/not",
+    element: <PageNotFound />,
   },
   {
     path: "/faq",
