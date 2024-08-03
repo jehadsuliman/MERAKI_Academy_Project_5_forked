@@ -3,7 +3,7 @@ import ShopsList from "../../layouts/Admin/ShopsList"
 import UsersList from "../../layouts/Admin/UsersList"
 import AddCategory from '../../layouts/Admin/AddCategory';
 import CategoriesList from '../../layouts/Admin/CategoriesList';
-
+import LogoutAdmin from '../../layouts/Admin/LogoutAdmin';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -47,6 +47,9 @@ const HomePageAdmin = () => {
           <Menu.Item key="6" icon={<ShopOutlined />} onClick={()=>{setGoToPage("ShopsList")}}>
             Shop
           </Menu.Item>
+          <Menu.Item key="7" icon={<UsergroupAddOutlined />} onClick={() => setGoToPage("LogoutAdmin")}>
+            Logout
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -80,7 +83,7 @@ const HomePageAdmin = () => {
         {goToPageS==="AddCategory"&&<AddCategory/>} 
         {goToPageS==="UsersList"&&<UsersList/>} 
         {goToPageS==="ViewCategory"&&<CategoriesList/>} 
-
+        {goToPageS==="LogoutAdmin" && <LogoutAdmin />}
 
          
         </Content>

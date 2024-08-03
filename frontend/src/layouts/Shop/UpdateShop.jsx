@@ -93,13 +93,25 @@ const UpdateShop = () => {
 
   if (loading) return <Spin size="large" />;
   if (error)
-    return <p style={{ color: "red", textAlign: "center", fontSize: '20px' }}>{error}</p>;
+    return (
+      <p style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
+        {error}
+      </p>
+    );
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
       <Title level={2}>Update Shop</Title>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Card title="Shop Details" style={{ marginBottom: "20px" }}>
+        <p>
+          <strong>Profile Picture:</strong> <br></br>
+          <img
+            src={shop.profile_pic}
+            alt="Profile"
+            style={{ width: "100px" }}
+          />
+        </p>
         <p>
           <strong>Shop Name:</strong> {shop.shopname}
         </p>
@@ -112,9 +124,7 @@ const UpdateShop = () => {
         <p>
           <strong>Description:</strong> {shop.discreption}
         </p>
-        <p>
-          <strong>Profile Picture:</strong> {shop.profile_pic}
-        </p>
+
         <p>
           <strong>Phone Number:</strong> {shop.phone_number}
         </p>
@@ -126,6 +136,9 @@ const UpdateShop = () => {
       {showUpdate && (
         <Card title="Update Shop" style={{ width: "100%" }}>
           <Form layout="vertical" onFinish={handleSubmit} initialValues={shop}>
+          <Form.Item label="Profile Picture" name="profile_pic">
+              <Input />
+            </Form.Item>
             <Form.Item label="Shop Name" name="shopname">
               <Input />
             </Form.Item>
@@ -138,15 +151,10 @@ const UpdateShop = () => {
             <Form.Item label="Password" name="password">
               <Input.Password />
             </Form.Item>
-            <Form.Item label="Category ID" name="category_id">
-              <Input />
-            </Form.Item>
             <Form.Item label="Description" name="discreption">
               <Input />
             </Form.Item>
-            <Form.Item label="Profile Picture" name="profile_pic">
-              <Input />
-            </Form.Item>
+
             <Form.Item label="Phone Number" name="phone_number">
               <Input />
             </Form.Item>
