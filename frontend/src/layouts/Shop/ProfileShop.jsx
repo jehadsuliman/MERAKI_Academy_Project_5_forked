@@ -76,7 +76,7 @@ const ProfileShop = () => {
           setError(response.data.message);
         }
       } catch (error) {
-        setError("Please ensure you are logged in.");
+        setError("Please ensure you are logged in");
       }
     };
 
@@ -198,8 +198,11 @@ const ProfileShop = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error)
-    return <p style={{ color: "red", textAlign: "center", fontSize: '20px' }}>{error}</p>;
-
+    return (
+      <p style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
+        {error}
+      </p>
+    );
 
   return (
     <Card style={{ padding: "20px" }}>
@@ -292,12 +295,12 @@ const ProfileShop = () => {
                         title={product.name}
                         description={
                           <>
-                            <Text strong>Price:</Text> ${product.price}
+                            <Text strong>Title:</Text> {product.title}
                             <br />
                             <Text strong>Description:</Text>{" "}
                             {product.description}
                             <br />
-                            <Text strong>Title:</Text> {product.title}
+                            <Text strong>Price:</Text> ${product.price}
                           </>
                         }
                       />
@@ -337,21 +340,23 @@ const ProfileShop = () => {
             onFinish={handleModalOk}
           >
             <Form.Item
-              name="name"
-              label="Product Name"
+              name="image"
+              label="Image URL"
               rules={[
-                { required: true, message: "Please input the product name!" },
+                { required: true, message: "Please input the image URL!" },
               ]}
             >
               <Input />
             </Form.Item>
+
             <Form.Item
-              name="price"
-              label="Price"
-              rules={[{ required: true, message: "Please input the price!" }]}
+              name="title"
+              label="Title"
+              rules={[{ required: true, message: "Please input the title!" }]}
             >
-              <Input type="number" />
+              <Input />
             </Form.Item>
+
             <Form.Item
               name="description"
               label="Description"
@@ -361,22 +366,15 @@ const ProfileShop = () => {
             >
               <Input.TextArea rows={4} />
             </Form.Item>
+
             <Form.Item
-              name="title"
-              label="Title"
-              rules={[{ required: true, message: "Please input the title!" }]}
+              name="price"
+              label="Price"
+              rules={[{ required: true, message: "Please input the price!" }]}
             >
-              <Input />
+              <Input type="number" />
             </Form.Item>
-            <Form.Item
-              name="image"
-              label="Image URL"
-              rules={[
-                { required: true, message: "Please input the image URL!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            
           </Form>
         )}
       </Modal>

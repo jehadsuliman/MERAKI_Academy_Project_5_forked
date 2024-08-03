@@ -12,14 +12,13 @@ import HomePageShop from "../pages/Shop/HomePageShop";
 import Navbar from "../layouts/User/Navbar";
 import Logout from "../layouts/Shop/Logout";
 import ProfileShop from "../layouts/Shop/ProfileShop";
-
+import LogoutAdmin from "../layouts/Admin/LogoutAdmin";
 import FooterComponent from "../layouts/User/Footer";
 import Products from "../layouts/User/Products";
 import Categories from "../layouts/User/Categories";
 import ProductDetails from "../layouts/User/ProductDetails";
 import HomePageUser from "../pages/User/HomePageUser";
 import FaqComponent from "../layouts/User/FaqComponents";
-
 
 export const router = createBrowserRouter([
   {
@@ -102,5 +101,9 @@ export const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
+  },
+  {
+    path: "/LogoutAdmin",
+    element: <LogoutAdmin />,
   },
 ]);
