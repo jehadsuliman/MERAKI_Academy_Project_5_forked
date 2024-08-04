@@ -155,11 +155,11 @@ const AddProduct = () => {
   return (
     <Space direction="vertical" size={16}>
       <Card>
-        <label>Title:</label>
+        <label>Product Name:</label>
         <Input
           type="text"
           name="title"
-          placeholder="Title.."
+          placeholder="Product Name.."
           maxLength={20}
           value={product.title}
           onChange={handleChange}

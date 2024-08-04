@@ -135,7 +135,7 @@ const RegisterUser = () => {
 
               <Form.Item>
                 <Button type="primary" htmlType="submit" style={styles.button}>
-                  Register
+                  Sign up
                 </Button>
               </Form.Item>
 
