@@ -1,23 +1,38 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLogin, setUserId } from "../../Service/api/redux/reducers/auth/userAuth";
+import {
+  setLogin,
+  setUserId,
+} from "../../Service/api/redux/reducers/auth/userAuth";
 import { Button, Input, message, Form, Typography } from "antd";
-
+import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:5000/users/login", values);
+      const response = await axios.post(
+        "http://localhost:5000/users/login",
+        values
+      );
+
       if (response.data.success) {
         dispatch(setLogin(response.data.token));
         dispatch(setUserId(response.data.userId));
 
+        const role = response.data.role;
+
+        if (role === 1) {
+          navigate("/admin");
+        } else if (role === 2) {
+          navigate("/");
+        }
       } else {
         message.error(response.data.message || "Login failed.");
       }
@@ -30,12 +45,10 @@ const Login = () => {
 
   return (
     <div style={styles.container}>
-      <Form
-        onFinish={handleSubmit}
-        layout="vertical"
-        style={styles.form}
-      >
-        <Title level={2} style={styles.title}>Login</Title>
+      <Form onFinish={handleSubmit} layout="vertical" style={styles.form}>
+        <Title level={2} style={styles.title}>
+          Login
+        </Title>
         <Form.Item
           label="Email"
           name="email"
