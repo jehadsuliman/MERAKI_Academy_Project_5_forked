@@ -23,16 +23,16 @@ import PageNotFound from "../layouts/User/PageNotFound";
 import HomePageRegister from "../pages/Register/HomePageRegister";
 
 export const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <HomePageUser />,
-  //     children:[
-  //        {
-  //     path: "/",
-  //     element: <Products />,
-  //   },
-  // ]
-  //   },
+    {
+      path: "/",
+      element: <HomePageUser />,
+      children:[
+         {
+      path: "/",
+      element: <Products />,
+    },
+  ]
+    },
   {
     path: "/not",
     element: <PageNotFound />,
@@ -113,7 +113,7 @@ export const router = createBrowserRouter([
     element: <LogoutAdmin />,
   },
   {
-    path: "/",
+    path: "/R",
     element: <HomePageRegister />,
   },
 ]);
