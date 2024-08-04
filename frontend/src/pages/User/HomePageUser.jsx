@@ -8,7 +8,9 @@ const HomePageUser = () => {
   return (
     <div>
       <header>
-        <NavbarComponent />
+
+        <NavbarComponent  />
+
         <SlideImage />
         <Categories />
       </header>
