@@ -7,6 +7,7 @@ import shopsReducer from "./reducers/shop/shop";
 import categoriesReducer from "./reducers/categories/categories";
 import subCategoriesReducer from "./reducers/shop/subCategoriesSlice";
 import productsReducer from "./reducers/shop/product";
+import cartsReducer from "./reducers/user/carts";
 
 export default configureStore({
   reducer: {
@@ -17,5 +18,6 @@ export default configureStore({
     products: productsReducer,
     categories: categoriesReducer,
     subCategories: subCategoriesReducer,
+    carts: cartsReducer,
   },
 });
