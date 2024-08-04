@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-const Register = () => {
+import { Button, Input, Select, message, Form, Card, Row, Col } from "antd";
+import { useNavigate } from "react-router-dom";
+const { Option } = Select;
+
+const RegisterUser = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,7 +12,8 @@ const Register = () => {
   const [age, setAge] = useState(0);
   const [role_id, setRole_id] = useState("");
 
-  const addNewUser = () => {
+  const navigate = useNavigate();
+  const addNewUser = async () => {
     const userData = {
       userName,
       email,
@@ -17,73 +22,165 @@ const Register = () => {
       age,
       role_id,
     };
-    axios
-      .post("http://localhost:5000/users/register", userData)
-      .then((result) => {
-        console.log(result.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/users/register",
+        userData
+      );
+      message.success("User registered successfully!");
+      navigate("/LoginUserOrAdmin");
+    } catch (err) {
+      message.error("Registration failed. Please try again.");
+    }
   };
 
   return (
-    <>
-      <div className="Form">
-        <>
-          <p className="Title">Register:</p>
-          <form onSubmit={addNewUser}>
-            <br />
-            <input
-              type="text"
-              placeholder="User Name"
-              onChange={(e) => setUserName(e.target.value)}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="Country"
-              onChange={(e) => setCountry(e.target.value)}
-            />
-            <br />
-            <input
-              type="number"
-              placeholder="Age"
-              onChange={(e) => setAge(e.target.value)}
-            />
-            <br />
-            <select name="role"
-          onChange={(e) => setRole_id(e.target.value)}
-          value={role_id}
-        >
-              <option value="1">
-                Admin
-              </option>
-              <option value="2">
-                User
-              </option>
-            </select>
-            <br />
+    <div style={styles.container}>
+      <Row justify="center" align="middle" style={{ height: "100%" }}>
+        <Col xs={24} sm={22} md={20} lg={16} xl={14}>
+          <Card
+            bordered={false}
+            style={styles.card}
+            title={<h3 style={styles.title}>Register User</h3>}
+          >
+            <Form layout="vertical" onFinish={addNewUser} style={styles.form}>
+              <Form.Item
+                label="User Name"
+                name="userName"
+                rules={[
+                  { required: true, message: "Please input your user name!" },
+                ]}
+              >
+                <Input
+                  placeholder="User Name"
+                  onChange={(e) => setUserName(e.target.value)}
+                  style={styles.input}
+                />
+              </Form.Item>
 
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <br />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <br />
-            <button>Register</button>
-            <br />
-          </form>
-        </>
-      </div>
-    </>
+              <Form.Item
+                label="Country"
+                name="country"
+                rules={[
+                  { required: true, message: "Please input your country!" },
+                ]}
+              >
+                <Input
+                  placeholder="Country"
+                  onChange={(e) => setCountry(e.target.value)}
+                  style={styles.input}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Please input a valid email!",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={styles.input}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={styles.input}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Age"
+                name="age"
+                rules={[{ required: true, message: "Please input your age!" }]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Age"
+                  onChange={(e) => setAge(Number(e.target.value))}
+                  style={styles.input}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Role"
+                name="role_id"
+                rules={[{ required: true, message: "Please select a role!" }]}
+              >
+                <Select
+                  placeholder="Select a role"
+                  onChange={(value) => setRole_id(value)}
+                  style={styles.input}
+                >
+                  <Option value="1">Admin</Option>
+                  <Option value="2">User</Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit" style={styles.button}>
+                  Register
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
-export default Register;
+const styles = {
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "120vh",
+    background: "linear-gradient(135deg, #f0f2f5, #e6f7ff)",
+  },
+  card: {
+    borderRadius: "12px",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.3)",
+    padding: "20px",
+    width: "500px",
+    maxWidth: "500px",
+    boxSizing: "border-box",
+    marginRight: "250px",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "24px",
+    fontWeight: 600,
+    fontSize: "24px",
+  },
+  form: {
+    margin: "0 auto",
+  },
+  input: {
+    height: "40px",
+    width: "100%",
+    boxSizing: "border-box",
+  },
+  button: {
+    width: "100%",
+    height: "40px",
+  },
+};
+
+export default RegisterUser;

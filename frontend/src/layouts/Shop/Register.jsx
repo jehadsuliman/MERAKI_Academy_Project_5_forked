@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Select, message, Form } from "antd";
+import { Button, Input, Select, message, Form, Card, Row, Col } from "antd";
 
 const { Option } = Select;
 
-const ShopRegister = () => {
+const RegisterShop = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     shopName: "",
@@ -85,108 +85,181 @@ const ShopRegister = () => {
   };
 
   return (
-    <Form
-      layout="vertical"
-      onFinish={handleSubmit}
-      initialValues={form}
-      style={{ margin: "60px", paddingLeft: "50px", paddingRight: "50px" }}
-    >
-      <h3>Register Shop</h3>
-      <Form.Item
-        label="Shop Name"
-        name="shopName"
-        rules={[{ required: true, message: "Please input your shop name!" }]}
-      >
-        <Input
-          name="shopName"
-          onChange={handleChange}
-          placeholder="Shop Name"
-        />
-      </Form.Item>
+    <div style={styles.container}>
+      <Row justify="center" align="middle" style={{ height: "100%" }}>
+        <Col xs={24} sm={22} md={20} lg={16} xl={14}>
+          <Card
+            bordered={false}
+            style={styles.card}
+            title={<h3 style={styles.title}>Register Shop</h3>}
+          >
+            <Form
+              layout="vertical"
+              onFinish={handleSubmit}
+              initialValues={form}
+              style={styles.form}
+            >
+              <Form.Item
+                label="Shop Name"
+                name="shopName"
+                rules={[
+                  { required: true, message: "Please input your shop name!" },
+                ]}
+              >
+                <Input
+                  name="shopName"
+                  onChange={handleChange}
+                  placeholder="Shop Name"
+                  style={styles.input}
+                />
+              </Form.Item>
 
-      <Form.Item
-        label="Country"
-        name="country"
-        rules={[{ required: true, message: "Please input your country!" }]}
-      >
-        <Input name="country" onChange={handleChange} placeholder="Country" />
-      </Form.Item>
+              <Form.Item
+                label="Country"
+                name="country"
+                rules={[
+                  { required: true, message: "Please input your country!" },
+                ]}
+              >
+                <Input
+                  name="country"
+                  onChange={handleChange}
+                  placeholder="Country"
+                  style={styles.input}
+                />
+              </Form.Item>
 
-      <Form.Item
-        label="Phone Number"
-        name="phone_number"
-        rules={[{ required: true, message: "Please input your phone number!" }]}
-      >
-        <Input
-          name="phone_number"
-          onChange={handleChange}
-          placeholder="Phone Number"
-        />
-      </Form.Item>
+              <Form.Item
+                label="Phone Number"
+                name="phone_number"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your phone number!",
+                  },
+                ]}
+              >
+                <Input
+                  name="phone_number"
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  style={styles.input}
+                />
+              </Form.Item>
 
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[
-          {
-            required: true,
-            type: "email",
-            message: "Please input a valid email!",
-          },
-        ]}
-      >
-        <Input name="email" onChange={handleChange} placeholder="Email" />
-      </Form.Item>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Please input a valid email!",
+                  },
+                ]}
+              >
+                <Input
+                  name="email"
+                  onChange={handleChange}
+                  placeholder="Email"
+                  style={styles.input}
+                />
+              </Form.Item>
 
-      <Form.Item
-        label="Discreption"
-        name="discreption"
-      >
-        <Input
-          name="discreption"
-          onChange={handleChange}
-          placeholder="discreption"
-        />
-      </Form.Item>
+              <Form.Item label="Description" name="discreption">
+                <Input
+                  name="discreption"
+                  onChange={handleChange}
+                  placeholder="Description"
+                  style={styles.input}
+                />
+              </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password
-          name="password"
-          onChange={handleChange}
-          placeholder="Password"
-        />
-      </Form.Item>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
+              >
+                <Input.Password
+                  name="password"
+                  onChange={handleChange}
+                  placeholder="Password"
+                  style={styles.input}
+                />
+              </Form.Item>
 
-      <Form.Item
-        label="Category"
-        name="category_id"
-        rules={[{ required: true, message: "Please select a category!" }]}
-      >
-        <Select
-          name="category_id"
-          value={form.category_id}
-          onChange={handleCategoryChange}
-          placeholder="Select a category"
-        >
-          {categories.map((category) => (
-            <Option key={category.id} value={category.id}>
-              {category.name}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
+              <Form.Item
+                label="Category"
+                name="category_id"
+                rules={[
+                  { required: true, message: "Please select a category!" },
+                ]}
+              >
+                <Select
+                  name="category_id"
+                  value={form.category_id}
+                  onChange={handleCategoryChange}
+                  placeholder="Select a category"
+                  style={styles.input}
+                >
+                  {categories.map((category) => (
+                    <Option key={category.id} value={category.id}>
+                      {category.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" style={styles.button}>
+                  Register
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
-export default ShopRegister;
+const styles = {
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "135vh",
+    background: "linear-gradient(135deg, #f0f2f5, #e6f7ff)",
+  },
+  card: {
+    borderRadius: "12px",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.3)",
+    padding: "20px",
+    width: "500px",
+    maxWidth: "900px",
+    boxSizing: "border-box",
+    marginRight: "250px",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "24px",
+    fontWeight: 600,
+    fontSize: "24px",
+  },
+  form: {
+    margin: "0 auto",
+  },
+  input: {
+    height: "40px",
+    width: "100%",
+    boxSizing: "border-box",
+  },
+  button: {
+    width: "100%",
+    height: "40px",
+  },
+};
+
+export default RegisterShop;
