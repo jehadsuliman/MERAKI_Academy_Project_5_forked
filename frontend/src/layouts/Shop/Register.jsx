@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button, Input, Select, message, Form, Card, Row, Col } from "antd";
 
 const { Option } = Select;
@@ -217,6 +217,13 @@ const RegisterShop = () => {
                   Register
                 </Button>
               </Form.Item>
+
+              <Form.Item>
+                <div style={styles.loginPrompt}>
+                  Already have an account?{" "}
+                  <Link to="/shopLogin">Login here</Link>
+                </div>
+              </Form.Item>
             </Form>
           </Card>
         </Col>
@@ -230,7 +237,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "135vh",
+    height: "140vh",
     background: "linear-gradient(135deg, #f0f2f5, #e6f7ff)",
   },
   card: {
@@ -238,7 +245,7 @@ const styles = {
     boxShadow: "0 8px 16px rgba(0,0,0,0.3)",
     padding: "20px",
     width: "500px",
-    maxWidth: "900px",
+    maxWidth: "500px",
     boxSizing: "border-box",
     marginRight: "250px",
   },

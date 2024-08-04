@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, Input, Select, message, Form, Card, Row, Col } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 const { Option } = Select;
 
 const RegisterUser = () => {
@@ -138,6 +138,13 @@ const RegisterUser = () => {
                   Register
                 </Button>
               </Form.Item>
+
+              <Form.Item>
+                <div style={styles.loginPrompt}>
+                  Already have an account?{" "}
+                  <Link to="/LoginUserOrAdmin">Login here</Link>
+                </div>
+              </Form.Item>
             </Form>
           </Card>
         </Col>
@@ -151,7 +158,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "120vh",
+    height: "130vh",
     background: "linear-gradient(135deg, #f0f2f5, #e6f7ff)",
   },
   card: {
