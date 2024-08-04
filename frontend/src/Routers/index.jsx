@@ -21,19 +21,19 @@ import HomePageUser from "../pages/User/HomePageUser";
 import FaqComponent from "../layouts/User/FaqComponents";
 import PageNotFound from "../layouts/User/PageNotFound";
 import OrderAccept from "../layouts/User/OrderAccept";
-
+import HomePageRegister from "../pages/Register/HomePageRegister";
 
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <HomePageUser />,
-      children:[
-         {
-      path: "/",
-      element: <Products />,
-    },
-  ]
-    },
+  {
+    path: "/",
+    element: <HomePageUser />,
+    children: [
+      {
+        path: "/",
+        element: <Products />,
+      },
+    ],
+  },
   {
     path: "/not",
     element: <PageNotFound />,
