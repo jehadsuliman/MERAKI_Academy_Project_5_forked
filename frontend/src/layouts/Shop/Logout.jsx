@@ -56,12 +56,16 @@ const Logout = () => {
     dispatch(setLogin(null));
     dispatch(setShopId(null));
     message.success("You have been logged out successfully.");
-    navigate("/home");
+    navigate("/");
   };
 
   if (loading) return <Spin size="large" />;
   if (error)
-    return <p style={{ color: "red", textAlign: "center", fontSize: '20px'  }}>{error}</p>;
+    return (
+      <p style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
+        {error}
+      </p>
+    );
 
   return (
     <Card
@@ -75,7 +79,8 @@ const Logout = () => {
     >
       <Title level={3}>Logout</Title>
       {shopName && (
-        <Paragraph>Are you sure you want to log out?<br></br>
+        <Paragraph>
+          Are you sure you want to log out?<br></br>
           You are logged in as:<br></br> <strong>{shopName}</strong>
         </Paragraph>
       )}
