@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Card, Button } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
-
-const { Meta } = Card;
+import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
+import { Card, Button, Container, Form } from "react-bootstrap";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -25,45 +23,51 @@ const ProductDetails = () => {
     ProductDetail();
   }, []);
 
- 
-
   if (!product) {
     return <></>;
   }
 
   return (
-    <div style={{ padding: "20px", display: "grid", justifyContent: "center" }}>
-      <Card style={{ maxWidth: "100%", display: "flex" }}>
-        <div style={{ grid: 1, paddingRight: "20px" }}>
-          <img
-            alt={product[0].title}
-            src={product[0].image}
-            style={{ height: "400px", width: "400px" }}
-          />
-        </div>
-        
-        <div style={{ grid: 1 }}>
-          <Meta
-            title={product[0].title}
-            description={
-              <div>
-                <p style={{ fontSize: "16px", marginBottom: "10px" }}>
-                  {product[0].price} JOD
-                </p>
-                <p>{product[0].description}</p>
-                <Button
-                  type="primary"
-                  icon={<ShoppingCartOutlined />}
-                  style={{ marginTop: "10px" }}
-                >
-                  Add to Cart
-                </Button>
-              </div>
-            }
-          />
-        </div>
+    <Container style={{ marginTop: "20px" }}>
+      <Card
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          maxWidth: "1200px",
+          margin: "auto",
+        }}
+      >
+        <Card.Img
+          variant="top"
+          src={product[0].image}
+          alt={product[0].title}
+          style={{ height: "400px", width: "50%", padding: "10px" }}
+        />
+        <Card.Body style={{ width: "50%" }}>
+          <Card.Title>{product[0].title}</Card.Title>
+          <Card.Text>{product[0].description}</Card.Text>
+          <Card.Text>
+            <strong>{product[0].price} JOD</strong>
+          </Card.Text>
+
+          <Button
+            variant="primary"
+            style={{ marginRight: "10px" }}
+            className="w-75"
+            onClick={() => {}}
+          >
+            Add to Cart <ShoppingCartOutlined />
+          </Button>
+          <Button
+            variant="outline-secondary"
+            className="w-10"
+            onClick={() => {}}
+          >
+            <HeartOutlined />
+          </Button>
+        </Card.Body>
       </Card>
-    </div>
+    </Container>
   );
 };
 
