@@ -24,16 +24,16 @@ import OrderAccept from "../layouts/User/OrderAccept";
 
 
 export const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <HomePageUser />,
-  //     children:[
-  //        {
-  //     path: "/",
-  //     element: <Products />,
-  //   },
-  // ]
-  //   },
+    {
+      path: "/",
+      element: <HomePageUser />,
+      children:[
+         {
+      path: "/",
+      element: <Products />,
+    },
+  ]
+    },
   {
     path: "/not",
     element: <PageNotFound />,
@@ -118,7 +118,7 @@ export const router = createBrowserRouter([
     element: <LogoutAdmin />,
   },
   {
-    path: "/",
+    path: "/R",
     element: <HomePageRegister />,
   },
 ]);
