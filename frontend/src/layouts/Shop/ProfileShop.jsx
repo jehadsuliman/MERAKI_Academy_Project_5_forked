@@ -296,6 +296,11 @@ const ProfileShop = () => {
                       hoverable
                       cover={
                         <img
+                          style={{
+                            width: "100%",
+                            height: "350px",
+                            objectFit: "cover",
+                          }}
                           alt={product.name}
                           src={product.image}
                           onClick={() => handleProductClick(product)}
@@ -306,14 +311,16 @@ const ProfileShop = () => {
                         title={product.name}
                         description={
                           <>
-                            <Text strong>Title:</Text> {product.title}
+                            <Text strong>Product Name:</Text>
+                            <br /> {product.title}
                             <br />
-                            <Text strong>Description:</Text>{" "}
-                            {product.description}
                             <br />
-                            <Text strong>Price:</Text> ${product.price}
+                            <Text strong>Description:</Text>
+                            <br /> {product.description}
                             <br />
-                            <Text strong>Price:</Text> ${product.price}
+                            <br />
+                            <Text strong>Price:</Text>
+                            <br /> ${product.price}
                           </>
                         }
                       />
@@ -346,12 +353,11 @@ const ProfileShop = () => {
         ]}
       >
         <Form form={form} layout="vertical" initialValues={selectedProduct}>
-
           <Form.Item
             name="title"
-            label="Product Title"
+            label="Product Name"
             rules={[
-              { required: true, message: "Please input the product title!" },
+              { required: true, message: "Please input the product Name!" },
             ]}
           >
             <Input />

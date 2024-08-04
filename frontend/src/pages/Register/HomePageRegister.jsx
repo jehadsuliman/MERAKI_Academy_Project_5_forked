@@ -19,14 +19,14 @@ const HomePageRegister = () => {
     <div style={styles.container}>
       <Card style={styles.card}>
         <Title level={2} style={styles.title}>
-          Register
+          Sign up
         </Title>
         <Space direction="vertical" size="large" style={styles.space}>
           <Button type="primary" size="large" onClick={handleRegisterUser}>
-            Register as User
+            Sign Up as a User
           </Button>
           <Button type="default" size="large" onClick={handleRegisterShop}>
-            Register as Shop
+            Sign Up as a Shop
           </Button>
         </Space>
       </Card>

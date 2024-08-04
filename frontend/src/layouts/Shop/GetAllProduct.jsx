@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setProducts } from "../../Service/api/redux/reducers/shop/product";
 import Table from "react-bootstrap/Table";
+import { Modal, Card, Typography } from "antd";
+
+const { Title, Text } = Typography;
 
 const ProductList = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
-  const [error, setError] = React.useState("");
+  const [error, setError] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const getAllProducts = () => {
     axios
@@ -17,12 +22,23 @@ const ProductList = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError("Failed to fetch products");
       });
   };
 
   useEffect(() => {
     getAllProducts();
   }, [dispatch]);
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setShowDetailsModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowDetailsModal(false);
+    setSelectedProduct(null);
+  };
 
   return (
     <div className="container mt-3">
@@ -39,12 +55,16 @@ const ProductList = () => {
         </thead>
         <tbody>
           {products.map((product, i) => (
-            <tr key={i}>
+            <tr
+              key={i}
+              onClick={() => handleProductClick(product)}
+              style={{ cursor: "pointer" }}
+            >
               <th scope="row">{i + 1}</th>
               <td>
                 <img
                   src={product.image}
-                  style={{ width: "75px" }}
+                  style={{ width: "150px", height: "150px" }}
                   alt="product"
                 />
               </td>
@@ -56,6 +76,36 @@ const ProductList = () => {
         </tbody>
       </Table>
       {error && <div className="error">{error}</div>}
+
+      {selectedProduct && (
+        <Modal
+          title={selectedProduct.title}
+          visible={showDetailsModal}
+          onCancel={handleCloseModal}
+          footer={null}
+          centered
+        >
+          <Card
+            cover={
+              <img
+                alt={selectedProduct.title}
+                src={selectedProduct.image}
+                style={{ width: "470px" }}
+              />
+            }
+          >
+            <Card.Meta
+              description={
+                <>
+                  <Text strong>Description:</Text> {selectedProduct.description}
+                  <br />
+                  <Text strong>Price:</Text> ${selectedProduct.price}
+                </>
+              }
+            />
+          </Card>
+        </Modal>
+      )}
     </div>
   );
 };
