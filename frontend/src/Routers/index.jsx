@@ -20,18 +20,19 @@ import ProductDetails from "../layouts/User/ProductDetails";
 import HomePageUser from "../pages/User/HomePageUser";
 import FaqComponent from "../layouts/User/FaqComponents";
 import PageNotFound from "../layouts/User/PageNotFound";
+import HomePageRegister from "../pages/Register/HomePageRegister";
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePageUser />,
-    children:[
-       {
-    path: "/",
-    element: <Products />,
-  },
-]
-  },
+  //   {
+  //     path: "/",
+  //     element: <HomePageUser />,
+  //     children:[
+  //        {
+  //     path: "/",
+  //     element: <Products />,
+  //   },
+  // ]
+  //   },
   {
     path: "/not",
     element: <PageNotFound />,
@@ -48,7 +49,7 @@ export const router = createBrowserRouter([
     path: "/categories",
     element: <Categories />,
   },
- 
+
   {
     path: "/footer",
     element: <FooterComponent />,
@@ -110,5 +111,9 @@ export const router = createBrowserRouter([
   {
     path: "/LogoutAdmin",
     element: <LogoutAdmin />,
+  },
+  {
+    path: "/",
+    element: <HomePageRegister />,
   },
 ]);
