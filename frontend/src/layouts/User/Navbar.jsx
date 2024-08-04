@@ -28,7 +28,7 @@ const NavbarComponent = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" >
       <Container className="d-flex justify-content-between">
         <Navbar.Brand href="#home">JKI EXPRESS</Navbar.Brand>
         <InputGroup size="sm" className="w-50">

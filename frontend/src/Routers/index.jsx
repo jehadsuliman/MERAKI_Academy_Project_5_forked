@@ -20,6 +20,7 @@ import ProductDetails from "../layouts/User/ProductDetails";
 import HomePageUser from "../pages/User/HomePageUser";
 import FaqComponent from "../layouts/User/FaqComponents";
 import PageNotFound from "../layouts/User/PageNotFound";
+import OrderAccept from "../layouts/User/OrderAccept";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
   {
     path: "/faq",
     element: <FaqComponent />,
+  },
+  {
+    path: "/acc",
+    element: <OrderAccept />,
   },
   {
     path: "/product/:id",
