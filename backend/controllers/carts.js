@@ -105,10 +105,58 @@ const deleteCartById = (req, res) => {
       });
     });
 };
+const getAllCartsByUserId = (req, res) => {
+  const user_id = req.token.userId; 
+
+  pool
+    .query(
+      `SELECT * FROM carts WHERE user_id = $1 AND is_deleted = 0;`,
+      [user_id]
+    )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: 'all carts for user',
+        carts: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: 'Server error',
+        error: err,
+      });
+    });
+};
+
+const deleteCartByUserId = (req, res) => {
+  const userId = req.token.userId;
+
+  pool
+    .query(
+      `UPDATE carts SET is_deleted = 1 WHERE user_id = $1 AND is_deleted = 0;`,
+      [userId]
+    )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: 'Delete all carts for user',
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: 'Server error',
+        error: err,
+      });
+    });
+};
 
 module.exports = {
   createNewCart,
   getCartById,
   updateCartById,
   deleteCartById,
+  getAllCartsByUserId,
+  deleteCartByUserId,
 };

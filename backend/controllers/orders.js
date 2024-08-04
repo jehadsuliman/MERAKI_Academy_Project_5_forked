@@ -144,6 +144,25 @@ const deleteOrderById = (req, res) => {
       });
     });
 };
+const getOrdersByUserId = (req, res) => {
+  const userId = req.params.userId;
+  pool
+    .query(`SELECT * FROM orders WHERE user_id = $1 AND is_deleted = 0;`, [userId])
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `Orders for user with ID: ${userId}`,
+        orders: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        error: error.message,
+      });
+    });
+};
 
 module.exports = {
   createNewOrder,
@@ -151,4 +170,5 @@ module.exports = {
   getOrderById,
   updateOrderById,
   deleteOrderById,
+  getOrdersByUserId
 };
