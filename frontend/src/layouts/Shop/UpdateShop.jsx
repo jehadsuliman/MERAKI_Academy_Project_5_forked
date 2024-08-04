@@ -100,7 +100,14 @@ const UpdateShop = () => {
     );
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "800px",
+        margin: "auto",
+        width: "500px",
+      }}
+    >
       <Title level={2}>Update Shop</Title>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Card title="Shop Details" style={{ marginBottom: "20px" }}>
@@ -136,7 +143,7 @@ const UpdateShop = () => {
       {showUpdate && (
         <Card title="Update Shop" style={{ width: "100%" }}>
           <Form layout="vertical" onFinish={handleSubmit} initialValues={shop}>
-          <Form.Item label="Profile Picture" name="profile_pic">
+            <Form.Item label="Profile Picture" name="profile_pic">
               <Input />
             </Form.Item>
             <Form.Item label="Shop Name" name="shopname">
