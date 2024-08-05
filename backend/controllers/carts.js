@@ -110,7 +110,13 @@ const getAllCartsByUserId = (req, res) => {
 console.log(user_id);
   pool
     .query(
-      `SELECT * FROM carts WHERE user_id = $1 AND is_deleted = 0;`,
+      `SELECT carts.*, 
+       users.*, 
+       products.*
+FROM carts
+JOIN users ON carts.user_id = users.id
+JOIN products ON carts.product_id = products.id
+WHERE carts.user_id = $1 AND carts.is_deleted = 0;`,
       [user_id]
     )
     .then((result) => {
