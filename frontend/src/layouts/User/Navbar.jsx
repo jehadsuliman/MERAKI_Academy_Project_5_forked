@@ -36,27 +36,33 @@ const NavbarComponent = () => {
   const menu = (
     <Menu>
       <Menu.Item
-        key="register"
+        key="registerUser"
         icon={<LoginOutlined />}
-        onClick={() => navigate("/r")}
+        onClick={() => navigate("/RegisterUserOrAdmin")}
       >
-        Sign up
+        Sign up User
       </Menu.Item>
-
-      <Menu.Item
-        key="loginWithShop"
-        icon={<ShopOutlined />}
-        onClick={() => navigate("/shopLogin")}
-      >
-        Login using shop
-      </Menu.Item>
-
       <Menu.Item
         key="loginWithUserOrAdmin"
         icon={<UserAddOutlined />}
         onClick={() => navigate("/LoginUserOrAdmin")}
       >
-        Login using user
+        Login user
+      </Menu.Item>
+
+      <Menu.Item
+        key="registerShop"
+        icon={<LoginOutlined />}
+        onClick={() => navigate("/shopRegister")}
+      >
+        Sign up Shop
+      </Menu.Item>
+      <Menu.Item
+        key="loginWithShop"
+        icon={<ShopOutlined />}
+        onClick={() => navigate("/shopLogin")}
+      >
+        Login shop
       </Menu.Item>
 
       <Menu.Item
@@ -89,6 +95,11 @@ const NavbarComponent = () => {
             alignItems: "center",
           }}
         >
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <UserOutlined />
+            </a>
+          </Dropdown>
           <ShoppingCartOutlined
             onClick={() => {
               navigate("/carts");
@@ -99,12 +110,6 @@ const NavbarComponent = () => {
               navigate("/favorite");
             }}
           />
-
-          <Dropdown overlay={menu} trigger={["click"]}>
-            <a onClick={(e) => e.preventDefault()}>
-              <UserOutlined />
-            </a>
-          </Dropdown>
 
           <MessageOutlined />
         </div>

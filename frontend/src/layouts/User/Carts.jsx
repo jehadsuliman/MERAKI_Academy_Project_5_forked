@@ -17,13 +17,14 @@ const Carts = () => {
 
 
   const getCartsByUserId = () => {
+    
     const header = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
     axios
-      .get(`http://localhost:5000/carts/user`,header)
+      .get(`http://localhost:5000/carts/user/${userId}`,header)
       
       .then((result) => {
         dispatch(setCarts(result.data.carts));
