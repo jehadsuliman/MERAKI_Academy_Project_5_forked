@@ -17,7 +17,7 @@ const Logout = () => {
   const handleLogout = () => {
     dispatch(setLogout());
     message.success("You have been logged out successfully.");
-    navigate("/home");
+    navigate("/");
   };
 
   return (
@@ -32,9 +32,7 @@ const Logout = () => {
       }}
     >
       <Title level={2}>Logout</Title>
-      <Paragraph>
-        Are you sure you want to log out?
-      </Paragraph>
+      <Paragraph>Are you sure you want to log out?</Paragraph>
       <Button
         type="primary"
         onClick={handleLogout}
