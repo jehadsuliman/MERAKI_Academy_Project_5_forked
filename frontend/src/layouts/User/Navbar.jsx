@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -10,9 +11,14 @@ import {
   ShoppingCartOutlined,
   HeartOutlined,
   MessageOutlined,
+  LoginOutlined,
+  ShopOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import { setProducts } from "../../Service/api/redux/reducers/shop/product";
 import { useNavigate } from "react-router-dom";
+
+import { Dropdown, Menu } from "antd";
 
 const NavbarComponent = () => {
   const dispatch = useDispatch();
@@ -27,6 +33,42 @@ const NavbarComponent = () => {
     );
     dispatch(setProducts(filter));
   };
+
+  const menu = (
+    <Menu>
+      <Menu.Item
+        key="register"
+        icon={<LoginOutlined />}
+        onClick={() => navigate("/r")}
+      >
+        Sign up
+      </Menu.Item>
+
+      <Menu.Item
+        key="loginWithShop"
+        icon={<ShopOutlined />}
+        onClick={() => navigate("/shopLogin")}
+      >
+        Login using shop
+      </Menu.Item>
+
+      <Menu.Item
+        key="loginWithUserOrAdmin"
+        icon={<UserAddOutlined />}
+        onClick={() => navigate("/LoginUserOrAdmin")}
+      >
+        Login using user
+      </Menu.Item>
+
+      <Menu.Item
+        key="order"
+        icon={<ShoppingCartOutlined />}
+        onClick={() => navigate("")}
+      >
+        Order
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <Navbar bg="light" expand="lg">
@@ -51,6 +93,14 @@ const NavbarComponent = () => {
           <UserOutlined />
           <ShoppingCartOutlined onClick={()=>{navigate("/carts")}} />
           <HeartOutlined onClick={()=>{navigate("/favorite")}}/>
+
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <UserOutlined />
+            </a>
+          </Dropdown>
+
+
           <MessageOutlined />
         </div>
         <Nav className="ml-auto"></Nav>

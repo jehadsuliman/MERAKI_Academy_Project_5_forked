@@ -51,7 +51,7 @@ const ShopLogin = () => {
     <div style={styles.container}>
       <Form onFinish={handleSubmit} layout="vertical" style={styles.form}>
         <Title level={2} style={styles.title}>
-          Login
+          Login using shop
         </Title>
         <Form.Item
           label="Email"

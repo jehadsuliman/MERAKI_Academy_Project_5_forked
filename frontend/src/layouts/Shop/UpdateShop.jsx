@@ -2,9 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Button, Card, Form, Input, Typography, Spin, message } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  Typography,
+  Spin,
+  message,
+  Select,
+} from "antd";
+import CountryList from "country-list";
+import Flag from "react-flagkit";
 
 const { Title } = Typography;
+const { Option } = Select;
 
 const UpdateShop = () => {
   const shopId = useSelector((state) => state.shopAuth.shopId);
@@ -21,10 +33,14 @@ const UpdateShop = () => {
     profile_pic: "",
     phone_number: "",
   });
-
   const [error, setError] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const countries = CountryList.getData();
+  const countryCodeMap = Object.fromEntries(
+    countries.map(({ code, name }) => [name.toLowerCase(), code])
+  );
 
   useEffect(() => {
     if (shopId && authToken) {
@@ -58,11 +74,6 @@ const UpdateShop = () => {
     }
   }, [shopId, authToken]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setShop((prevShop) => ({ ...prevShop, [name]: value }));
-  };
-
   const handleSubmit = async (values) => {
     if (!authToken) {
       setError("Please ensure you are logged in");
@@ -91,6 +102,12 @@ const UpdateShop = () => {
     }
   };
 
+  const handleCountryChange = (value) => {
+    setShop({ ...shop, country: value });
+  };
+
+  const countryCode = countryCodeMap[shop.country.toLowerCase()] || "";
+
   if (loading) return <Spin size="large" />;
   if (error)
     return (
@@ -112,7 +129,7 @@ const UpdateShop = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Card title="Shop Details" style={{ marginBottom: "20px" }}>
         <p>
-          <strong>Profile Picture:</strong> <br></br>
+          <strong>Profile Picture:</strong> <br />
           <img
             src={shop.profile_pic}
             alt="Profile"
@@ -123,7 +140,15 @@ const UpdateShop = () => {
           <strong>Shop Name:</strong> {shop.shopname}
         </p>
         <p>
-          <strong>Country:</strong> {shop.country}
+          <strong>Country:</strong>{" "}
+          {countryCode ? (
+            <>
+              <Flag country={countryCode} style={{ marginRight: "8px" }} />
+              {shop.country}
+            </>
+          ) : (
+            shop.country
+          )}
         </p>
         <p>
           <strong>Email:</strong> {shop.email}
@@ -149,9 +174,34 @@ const UpdateShop = () => {
             <Form.Item label="Shop Name" name="shopname">
               <Input />
             </Form.Item>
-            <Form.Item label="Country" name="country">
-              <Input />
+
+            <Form.Item
+              label="Country"
+              name="country"
+              rules={[
+                { required: true, message: "Please select your country!" },
+              ]}
+            >
+              <Select
+                name="country"
+                value={shop.country}
+                onChange={handleCountryChange}
+                placeholder="Select a country"
+              >
+                {countries.map((country) => (
+                  <Option key={country.code} value={country.name.toLowerCase()}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Flag
+                        country={country.code}
+                        style={{ marginRight: "8px" }}
+                      />{" "}
+                      {country.name}
+                    </div>
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
+
             <Form.Item label="Email" name="email">
               <Input type="email" />
             </Form.Item>
