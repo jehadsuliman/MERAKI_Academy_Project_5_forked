@@ -151,6 +151,53 @@ const deleteProductById = (req, res) => {
       });
     });
 };
+const getAllProductsByCategoryId = (req, res) => {
+  const category_id = req.params.id;
+
+  const query = `
+    SELECT 
+      products.*,
+      sub_categories.description AS sub_category_description,
+      shops.shopName,
+      shops.country,
+      shops.email,
+      shops.discreption AS shop_description,
+      shops.phone_number,
+      categories.name AS category_name,
+      categories.image AS category_image
+    FROM 
+      products
+    JOIN 
+      sub_categories ON products.sub_category_id = sub_categories.id
+    JOIN 
+      shops ON sub_categories.shop_id = shops.id
+    JOIN 
+      categories ON shops.category_id = categories.id
+    WHERE 
+      categories.id = $1 AND 
+      products.is_deleted = 0 AND
+      sub_categories.is_deleted = 0 AND
+      shops.is_deleted = 0 AND
+      categories.is_deleted = 0;
+  `;
+
+  pool
+    .query(query, [category_id])
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: 'All products for the category',
+        products: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: 'Server error',
+        error: err,
+      });
+    });
+};
 
 module.exports = {
   createNewProduct,
@@ -159,4 +206,5 @@ module.exports = {
   getProductBySubCategoryById,
   updateProductById,
   deleteProductById,
+  getAllProductsByCategoryId
 };

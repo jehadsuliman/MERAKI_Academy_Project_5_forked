@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setCategories } from "../../Service/api/redux/reducers/categories/categories";
+import { setProducts } from "../../Service/api/redux/reducers/shop/product";
 import { Row, Col, Card } from "antd"; 
 
 const Categories = () => {
@@ -9,6 +10,7 @@ const Categories = () => {
 
   const { categories } = useSelector((state) => ({
     categories: state.categories.categories,
+
   }));
 
   const getAllCategories = () => {
@@ -16,6 +18,17 @@ const Categories = () => {
       .get("http://localhost:5000/categories")
       .then((result) => {
         dispatch(setCategories(result.data.categories));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllProductsByCategoryId = (categoryId) => {
+    axios
+      .get(`http://localhost:5000/products/category/${categoryId}`)
+      .then((result) => {
+        dispatch(setProducts(result.data.products));
       })
       .catch((err) => {
         console.log(err);
@@ -30,7 +43,9 @@ const Categories = () => {
     <div style={{ padding: "20px" }}>
       <Row gutter={[16, 16]} justify="center">
         {categories.map((category) => (
-          <Col key={category.id} xs={10} sm={6} md={5} lg={5}>
+          <Col key={category.id} xs={10} sm={6} md={5} lg={5}
+          onClick={() => getAllProductsByCategoryId(category.id)}
+          >
             <Card
               
               style={{ textAlign: "center", border: "none" }}
@@ -47,12 +62,12 @@ const Categories = () => {
                   <img
                     alt={category.name}
                     src={category.image}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{ width: "100%", height: "100%", cursor: "pointer" }}
                   />
                 </div>
               }
             >
-              <Card.Meta title={category.name} />
+              <Card.Meta title={category.name}  style={{ cursor: "pointer" }} />
             </Card>
           </Col>
         ))}
