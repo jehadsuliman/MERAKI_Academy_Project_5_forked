@@ -22,6 +22,8 @@ import FaqComponent from "../layouts/User/FaqComponents";
 import PageNotFound from "../layouts/User/PageNotFound";
 import OrderAccept from "../layouts/User/OrderAccept";
 import HomePageRegister from "../pages/Register/HomePageRegister";
+import Carts from "../layouts/User/Carts";
+import FavoriteList from "../layouts/User/FavoriteList";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +35,14 @@ export const router = createBrowserRouter([
         element: <Products />,
       },
     ],
+  },
+  {
+    path: "/carts",
+    element: <Carts />,
+  },
+  {
+    path: "/favorite",
+    element: <FavoriteList />,
   },
   {
     path: "/not",

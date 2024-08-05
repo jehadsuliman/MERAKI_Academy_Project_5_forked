@@ -15,7 +15,7 @@ cartsRouter.post("/", authentication, createNewCart);
 cartsRouter.get("/:id", getCartById);
 cartsRouter.put("/:id", updateCartById);
 cartsRouter.delete("/:id", deleteCartById);
-cartsRouter.get("/",authentication, getAllCartsByUserId);
-cartsRouter.delete("/",authentication,deleteCartByUserId);
+cartsRouter.get("/user",authentication, getAllCartsByUserId);
+cartsRouter.delete("/",deleteCartByUserId);
 
 module.exports = cartsRouter;

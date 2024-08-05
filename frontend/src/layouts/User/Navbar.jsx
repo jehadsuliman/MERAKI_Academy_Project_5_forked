@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -11,11 +11,12 @@ import {
   HeartOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { setProducts } from "../../Service/api/redux/reducers/shop/product"; 
+import { setProducts } from "../../Service/api/redux/reducers/shop/product";
+import { useNavigate } from "react-router-dom";
 
 const NavbarComponent = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const { products } = useSelector((state) => ({
     products: state.products.products,
   }));
@@ -28,7 +29,7 @@ const NavbarComponent = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg" >
+    <Navbar bg="light" expand="lg">
       <Container className="d-flex justify-content-between">
         <Navbar.Brand href="#home">JKI EXPRESS</Navbar.Brand>
         <InputGroup size="sm" className="w-50">
@@ -48,8 +49,8 @@ const NavbarComponent = () => {
           }}
         >
           <UserOutlined />
-          <ShoppingCartOutlined />
-          <HeartOutlined />
+          <ShoppingCartOutlined onClick={()=>{navigate("/carts")}} />
+          <HeartOutlined onClick={()=>{navigate("/favorite")}}/>
           <MessageOutlined />
         </div>
         <Nav className="ml-auto"></Nav>
