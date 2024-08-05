@@ -107,7 +107,7 @@ const deleteCartById = (req, res) => {
 };
 const getAllCartsByUserId = (req, res) => {
   const user_id = req.token.userId; 
-
+console.log(user_id);
   pool
     .query(
       `SELECT * FROM carts WHERE user_id = $1 AND is_deleted = 0;`,
