@@ -71,6 +71,23 @@ const Carts = () => {
     }
   };
 
+  const deleteProduct = async (productId) => {
+    console.log(productId);
+    try {
+      const header = { headers: { Authorization: `Bearer ${token}` } };
+      const result = await axios.delete(
+        `http://localhost:5000/products/${productId}`,
+        header
+      );
+
+      if (result.data.success) {
+        dispatch(setCarts(carts.filter((cart) => cart.id !== productId)));
+      }
+    } catch (err) {
+      console.error("Error updating cart:", err);
+    }
+  };
+
   const increaseQuantity = (cartId) => {
     setQuantities((prevQuantities) => {
       const newQuantity = (prevQuantities[cartId] || 1) + 1;
@@ -82,7 +99,8 @@ const Carts = () => {
   const decreaseQuantity = (cartId) => {
     setQuantities((prevQuantities) => {
       const currentQuantity = prevQuantities[cartId] || 1;
-      const newQuantity = currentQuantity > 1 ? currentQuantity - 1 : 1;
+      const newQuantity =
+        currentQuantity > 1 ? currentQuantity - 1 : deleteProduct(cartId);
       updateCart(cartId, newQuantity);
       return { ...prevQuantities, [cartId]: newQuantity };
     });
