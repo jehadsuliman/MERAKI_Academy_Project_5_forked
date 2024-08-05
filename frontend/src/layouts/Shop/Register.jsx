@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Input, Select, message, Form, Card, Row, Col } from "antd";
+import CountryList from "country-list";
+import Flag from "react-flagkit";
 
 const { Option } = Select;
 
@@ -18,6 +20,8 @@ const RegisterShop = () => {
   });
   const [categories, setCategories] = useState([]);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
+
+  const countries = CountryList.getData();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,6 +50,10 @@ const RegisterShop = () => {
       (category) => category.id === value
     );
     setSelectedCategoryName(selectedCategory ? selectedCategory.name : "");
+  };
+
+  const handleCountryChange = (value) => {
+    setForm({ ...form, country: value });
   };
 
   const handleSubmit = async (values) => {
@@ -118,15 +126,25 @@ const RegisterShop = () => {
                 label="Country"
                 name="country"
                 rules={[
-                  { required: true, message: "Please input your country!" },
+                  { required: true, message: "Please select your country!" },
                 ]}
               >
-                <Input
+                <Select
                   name="country"
-                  onChange={handleChange}
-                  placeholder="Country"
+                  value={form.country}
+                  onChange={handleCountryChange}
+                  placeholder="Select a country"
                   style={styles.input}
-                />
+                >
+                  {countries.map((country) => (
+                    <Option key={country.code} value={country.name}>
+                      <div style={styles.countryOption}>
+                        <Flag country={country.code} style={styles.flag} />{" "}
+                        {country.name}
+                      </div>
+                    </Option>
+                  ))}
+                </Select>
               </Form.Item>
 
               <Form.Item

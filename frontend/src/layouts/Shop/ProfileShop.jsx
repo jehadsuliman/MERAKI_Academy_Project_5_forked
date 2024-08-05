@@ -16,8 +16,15 @@ import {
   Input,
   message,
 } from "antd";
-import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  ShoppingCartOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import CountryList from "country-list";
+import Flag from "react-flagkit";
 
 const { Title, Text } = Typography;
 
@@ -34,6 +41,11 @@ const ProfileShop = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const countries = CountryList.getData();
+  const countryCodeMap = Object.fromEntries(
+    countries.map(({ code, name }) => [name.toLowerCase(), code])
+  );
 
   useEffect(() => {
     if (!authToken || !shopId) {
@@ -185,27 +197,43 @@ const ProfileShop = () => {
     });
   };
 
-  const handleDeleteSubCategories = async () => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/subcategories/shop/${shopId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "application/json",
-          },
+  const handleDeleteSubCategory = (subCategoryId) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this sub-category?",
+      content: "This action cannot be undone.",
+      okText: "Yes, delete it",
+      okType: "danger",
+      cancelText: "No, cancel",
+      onOk: async () => {
+        try {
+          const response = await axios.delete(
+            `http://localhost:5000/subcategories/${subCategoryId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (response.data.success) {
+            message.success("Sub-category deleted successfully");
+            setSubCategories((prevSubCategories) =>
+              prevSubCategories.filter(
+                (subCategory) => subCategory.id !== subCategoryId
+              )
+            );
+          } else {
+            message.error(response.data.message);
+          }
+        } catch (error) {
+          message.error("Failed to delete sub-category");
         }
-      );
-      if (response.data.success) {
-        message.success("Subcategories deleted successfully");
-        setSubCategories([]);
-      } else {
-        message.error(response.data.message);
-      }
-    } catch (error) {
-      message.error("Failed to delete subcategories");
-    }
+      },
+    });
   };
+
+  const shop = shopInfo || {};
+  const countryCode = countryCodeMap[shop.country?.toLowerCase()] || "";
 
   if (loading) return <p>Loading...</p>;
   if (error)
@@ -242,19 +270,32 @@ const ProfileShop = () => {
                 ? shopInfo.discreption
                 : "No description available"}
             </Text>
+
             <Divider />
-            <Text strong>Country:</Text>
-            <Text style={{ display: "block", marginBottom: "16px" }}>
-              {shopInfo.country}
+
+            <Text strong>
+              Country:{<br />}
+              {countryCode ? (
+                <>
+                  <Flag country={countryCode} style={{ marginRight: "8px" }} />
+                  {shop.country}
+                </>
+              ) : (
+                shop.country
+              )}
             </Text>
+
             <Divider />
             <Text strong>Email:</Text>
             <Text style={{ display: "block", marginBottom: "16px" }}>
               {shopInfo.email}
             </Text>
+
             <Divider />
             <Text strong>Phone Number:</Text>
-            <Text>{shopInfo.phone_number || "Not provided"}</Text>
+            <Text style={{ display: "block", marginBottom: "16px" }}>
+              {shopInfo.phone_number}
+            </Text>
           </Col>
         </Row>
         <Divider />
@@ -269,13 +310,37 @@ const ProfileShop = () => {
                   borderRadius: "8px",
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
                   cursor: "pointer",
+                  position: "relative",
                 }}
                 onClick={() => handleSubCategoryClick(subCategory.id)}
               >
-                <Card.Meta
-                  avatar={<ShoppingCartOutlined style={{ fontSize: "24px" }} />}
-                  title={subCategory.description}
-                />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <ShoppingCartOutlined
+                      style={{ fontSize: "24px", marginRight: "8px" }}
+                    />
+                    <Title level={5} style={{ margin: 0 }}>
+                      {subCategory.description}
+                    </Title>
+                  </div>
+                  <Button
+                    type="default"
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteSubCategory(subCategory.id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </Card>
             ))}
           </Space>
