@@ -18,44 +18,64 @@ const Carts = () => {
     token: state.userAuth.token,
     userId: state.userAuth.userId,
   }));
-  const { carts } = useSelector((state) => ({
-    carts: state.carts.carts,
-  }));
+  const carts = useSelector((state) =>
+    Array.isArray(state.carts.carts) ? state.carts.carts : []
+  );
 
   const [quantities, setQuantities] = useState({});
+
   useEffect(() => {
-    const getCartsByUserId = () => {
-      const header = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      axios
-        .get(`http://localhost:5000/carts/user/${userId}`, header)
-        .then((result) => {
+    const getCartsByUserId = async () => {
+      try {
+        const header = { headers: { Authorization: `Bearer ${token}` } };
+        const result = await axios.get(
+          `http://localhost:5000/carts/user/${userId}`,
+          header
+        );
+        if (Array.isArray(result.data.carts)) {
           dispatch(setCarts(result.data.carts));
           const initialQuantities = result.data.carts.reduce((acc, cart) => {
             acc[cart.id] = cart.quantity || 1;
             return acc;
           }, {});
           setQuantities(initialQuantities);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        } else {
+          console.error("Unexpected data format:", result.data.carts);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     getCartsByUserId();
   }, [userId, token, dispatch]);
 
+  const updateCart = async (cartId, quantity) => {
+    try {
+      const header = { headers: { Authorization: `Bearer ${token}` } };
+      const result = await axios.put(
+        `http://localhost:5000/carts/${cartId}`,
+        { quantity },
+        header
+      );
+
+      if (result.data.success && result.data.cart) {
+        dispatch(
+          setCarts(
+            carts.map((cart) => (cart.id === cartId ? result.data.cart : cart))
+          )
+        );
+      }
+    } catch (err) {
+      console.error("Error updating cart:", err);
+    }
+  };
+
   const increaseQuantity = (cartId) => {
     setQuantities((prevQuantities) => {
       const newQuantity = (prevQuantities[cartId] || 1) + 1;
       updateCart(cartId, newQuantity);
-      return {
-        ...prevQuantities,
-        [cartId]: newQuantity,
-      };
+      return { ...prevQuantities, [cartId]: newQuantity };
     });
   };
 
@@ -64,10 +84,7 @@ const Carts = () => {
       const currentQuantity = prevQuantities[cartId] || 1;
       const newQuantity = currentQuantity > 1 ? currentQuantity - 1 : 1;
       updateCart(cartId, newQuantity);
-      return {
-        ...prevQuantities,
-        [cartId]: newQuantity,
-      };
+      return { ...prevQuantities, [cartId]: newQuantity };
     });
   };
 
@@ -76,47 +93,19 @@ const Carts = () => {
     if (value >= 1) {
       setQuantities((prevQuantities) => {
         updateCart(cartId, value);
-        return {
-          ...prevQuantities,
-          [cartId]: value,
-        };
+        return { ...prevQuantities, [cartId]: value };
       });
     }
   };
 
-  const updateCart = (cartId, quantity) => {
-    const header = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios
-      .put(`http://localhost:5000/carts/${cartId}`, { quantity }, header)
-      .then((result) => {
-        getCartsByUserId();
-        dispatch(setCarts(result.data.carts));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const deleteCart = (cartId) => {
-    const header = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios
-      .delete(`http://localhost:5000/carts/${cartId}`, header)
-      .then(() => {
-        dispatch(setCarts(carts.filter((cart) => cart.id !== cartId)));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const deleteCartByUserId = async (userId) => {
+    try {
+      const header = { headers: { Authorization: `Bearer ${token}` } };
+      await axios.delete(`http://localhost:5000/carts/user/${userId}`, header);
+      dispatch(setCarts([]));
+    } catch (err) {
+      console.error("Error deleting cart:", err);
+    }
   };
 
   const calculateTotalPrice = () => {
@@ -155,39 +144,75 @@ const Carts = () => {
             const updatedTotalPrice = updatedQuantity * itemPrice;
 
             return (
-              <Card key={cart.id} style={{ margin: "25px" }}>
-                <Card.Body>
-                  <Card.Title>
-                    Product ID: {cart.product_id || "N/A"}
-                  </Card.Title>
-                  {cart.product_image ? (
+              <Card
+                key={cart.id}
+                style={{
+                  margin: "25px",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                }}
+              >
+                <div
+                  style={{
+                    flex: "0 0 150px",
+                    margin: "10px",
+                    textAlign: "center",
+                  }}
+                >
+                  <div style={{ marginBottom: "10px" }}>
+                    <strong>Product ID:</strong> {cart.product_id || "N/A"}
+                  </div>
+                  {cart.image ? (
                     <Card.Img
                       variant="top"
-                      src={cart.product_image}
-                      alt={`Image of ${cart.product_name}`}
-                      style={{ maxWidth: "200px", marginBottom: "10px" }}
+                      src={cart.image}
+                      alt={`Image of ${cart.title}`}
+                      style={{
+                        width: "200x",
+                        height: "200px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
                     />
                   ) : (
-                    <div style={{ maxWidth: "200px", marginBottom: "10px" }}>
+                    <div
+                      style={{
+                        width: "150px",
+                        height: "150px",
+                        backgroundColor: "#f0f0f0",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "8px",
+                      }}
+                    >
                       <img
                         src="default-image.jpg"
                         alt="Default Product"
-                        style={{ width: "100%" }}
+                        style={{
+                          width: "350px",
+                          height: "350px",
+                          objectFit: "contain",
+                        }}
                       />
                     </div>
                   )}
+                </div>
+                <Card.Body style={{ flex: "1 1 auto" }}>
+                  <Card.Title>
+                    <strong>{cart.title || "N/A"}</strong>
+                  </Card.Title>
                   <Card.Text>
-                    <strong>Product Name: {cart.product_name || "N/A"}</strong>
+                    <strong>Description:</strong> {cart.description || "N/A"}
                     <br />
-                    <strong>
-                      Description: {cart.product_description || "N/A"}
-                    </strong>
+                    <strong>Unit Price:</strong> {itemPrice.toFixed(2)} JOD
                     <br />
-                    <strong>Unit Price: {itemPrice.toFixed(2)} JOD</strong>
-                    <br />
-                    <strong>
-                      Total Price: {updatedTotalPrice.toFixed(2)} JOD
-                    </strong>
+                    <strong>Total Price:</strong> {updatedTotalPrice.toFixed(2)}{" "}
+                    JOD
                   </Card.Text>
                   <Form.Group controlId="quantity">
                     <Form.Label>Quantity</Form.Label>
@@ -224,19 +249,30 @@ const Carts = () => {
                       </Button>
                     </div>
                   </Form.Group>
-                  <Button variant="danger" onClick={() => deleteCart(cart.id)}>
-                    <DeleteOutlined />
-                  </Button>
                 </Card.Body>
               </Card>
             );
           })}
-          <h3
+          <Button
+            variant="danger"
             style={{
-              fontSize: "1.5rem",
-              textAlign: "center",
-              margin: "40px",
+              fontSize: "1.1rem",
+              color: "#fff",
+              backgroundColor: "#d9534f",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              margin: "20px auto",
             }}
+            onClick={() => deleteCartByUserId(userId)}
+          >
+            Delete all carts
+            <DeleteOutlined />
+          </Button>
+          <h3
+            style={{ fontSize: "1.5rem", textAlign: "center", margin: "40px" }}
           >
             Total Price: {calculateTotalPrice().toFixed(2)} JOD
           </h3>
@@ -244,18 +280,13 @@ const Carts = () => {
       ) : (
         <div style={{ textAlign: "center", margin: "50px auto" }}>
           <ShoppingCartOutlined
-            style={{
-              fontSize: "4rem",
-              color: "#d9534f",
-              marginBottom: "20px",
-            }}
+            style={{ fontSize: "4rem", color: "#d9534f", marginBottom: "20px" }}
           />
           <p style={{ fontSize: "1.5rem", color: "#777" }}>
-            YOUR CART IS EMPTY
+            Your shopping cart is empty
             <br />
             <br />
-            Sign in to view your cart and start shopping
-            <br />
+            Log in to view your shopping cart and start shopping
           </p>
           <Button
             variant="primary"
