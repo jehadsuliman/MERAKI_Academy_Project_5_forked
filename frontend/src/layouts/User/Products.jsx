@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setProducts } from "../../Service/api/redux/reducers/shop/product";
 import { setCarts } from "../../Service/api/redux/reducers/user/carts";
-import { Card, Row, Col } from "antd";
+import { Card, Row, Col, message } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -12,12 +12,10 @@ const { Meta } = Card;
 const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, userId } = useSelector((state) => {
-    return {
-      token: state.userAuth.token,
-      userId: state.userAuth.userId,
-    };
-  });
+  const { token, userId } = useSelector((state) => ({
+    token: state.userAuth.token,
+    userId: state.userAuth.userId,
+  }));
   const { products } = useSelector((state) => ({
     products: state.products.products,
   }));
@@ -32,29 +30,36 @@ const Products = () => {
         console.log(err);
       });
   };
-  
+
   const createNewCart = (product) => {
     const { id: product_id, price } = product;
-  const header = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+    const header = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     axios
-      .post("http://localhost:5000/carts", {
-        product_id,
-        quantity: 1,
-        total_price: price,
-        user_id: userId,
-      },header)
+      .post(
+        "http://localhost:5000/carts",
+        {
+          product_id,
+          quantity: 1,
+          total_price: price,
+          user_id: userId,
+        },
+        header
+      )
       .then((result) => {
         dispatch(setCarts(result.data.carts));
+        message.success("Product added to cart!");
       })
       .catch((err) => {
         console.log(err);
+        message.error("Failed to add product to cart.");
       });
   };
+
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -89,10 +94,13 @@ const Products = () => {
                     <p style={{ fontSize: "15px", paddingTop: "10px" }}>
                       {product.price} JOD
                     </p>
-                    <ShoppingCartOutlined   style={{ fontSize: "20px", cursor: "pointer" }}  onClick={(e) => {
+                    <ShoppingCartOutlined
+                      style={{ fontSize: "20px", cursor: "pointer" }}
+                      onClick={(e) => {
                         e.stopPropagation();
                         createNewCart(product);
-                      }}/>
+                      }}
+                    />
                   </div>
                 }
               />

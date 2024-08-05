@@ -136,11 +136,14 @@ WHERE id=$6 AND is_deleted = 0  RETURNING *;`,
 const deleteProductById = (req, res) => {
   const productId = req.params.id;
   pool
-    .query("UPDATE products SET is_deleted =1 WHERE id = $1;", [productId])
+    .query(`UPDATE products SET is_deleted =1 WHERE id = $1 returning *`, [
+      productId,
+    ])
     .then((result) => {
       res.status(200).json({
         success: true,
         message: `Product with id: ${productId} deleted successfully`,
+        rs: result.rows,
       });
     })
     .catch((err) => {
@@ -186,14 +189,14 @@ const getAllProductsByCategoryId = (req, res) => {
     .then((result) => {
       res.status(200).json({
         success: true,
-        message: 'All products for the category',
+        message: "All products for the category",
         products: result.rows,
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message: 'Server error',
+        message: "Server error",
         error: err,
       });
     });
@@ -206,5 +209,5 @@ module.exports = {
   getProductBySubCategoryById,
   updateProductById,
   deleteProductById,
-  getAllProductsByCategoryId
+  getAllProductsByCategoryId,
 };

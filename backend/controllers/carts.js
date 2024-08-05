@@ -153,14 +153,15 @@ const deleteProductByUserId = (req, res) => {
   const productId = req.params.id;
   const userId = req.token.userId;
   pool
-    .query("UPDATE carts SET is_deleted =1 WHERE id = $1 AND user_id =$2;", [
-      productId,
-      userId,
-    ])
+    .query(
+      `UPDATE carts SET is_deleted =1 WHERE id = $1 AND user_id =$2 returning*`,
+      [productId, userId]
+    )
     .then((result) => {
       res.status(200).json({
         success: true,
         message: `Product with id: ${productId} deleted successfully`,
+        rs: result.rows,
       });
     })
     .catch((err) => {
