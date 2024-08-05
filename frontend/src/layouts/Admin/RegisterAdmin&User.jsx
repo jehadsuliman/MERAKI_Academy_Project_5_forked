@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button, Input, Select, message, Form, Card, Row, Col } from "antd";
 import { useNavigate, Link } from "react-router-dom";
+import Flag from "react-flagkit";
+import CountryList from "country-list";
+
 const { Option } = Select;
 
 const RegisterUser = () => {
@@ -35,6 +38,8 @@ const RegisterUser = () => {
     }
   };
 
+  const countries = CountryList.getData();
+
   return (
     <div style={styles.container}>
       <Row justify="center" align="middle" style={{ height: "100%" }}>
@@ -63,14 +68,23 @@ const RegisterUser = () => {
                 label="Country"
                 name="country"
                 rules={[
-                  { required: true, message: "Please input your country!" },
+                  { required: true, message: "Please select your country!" },
                 ]}
               >
-                <Input
-                  placeholder="Country"
-                  onChange={(e) => setCountry(e.target.value)}
+                <Select
+                  placeholder="Select a country"
+                  onChange={(value) => setCountry(value)}
                   style={styles.input}
-                />
+                >
+                  {countries.map((country) => (
+                    <Option key={country.code} value={country.name}>
+                      <div style={styles.countryOption}>
+                        <Flag country={country.code} style={styles.flag} />{" "}
+                        {country.name}
+                      </div>
+                    </Option>
+                  ))}
+                </Select>
               </Form.Item>
 
               <Form.Item
