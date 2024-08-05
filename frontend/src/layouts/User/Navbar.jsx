@@ -16,7 +16,6 @@ import {
   UserAddOutlined,
 } from "@ant-design/icons";
 import { setProducts } from "../../Service/api/redux/reducers/shop/product";
-import { useNavigate } from "react-router-dom";
 
 import { Dropdown, Menu } from "antd";
 
@@ -90,16 +89,22 @@ const NavbarComponent = () => {
             alignItems: "center",
           }}
         >
-          <UserOutlined />
-          <ShoppingCartOutlined onClick={()=>{navigate("/carts")}} />
-          <HeartOutlined onClick={()=>{navigate("/favorite")}}/>
+          <ShoppingCartOutlined
+            onClick={() => {
+              navigate("/carts");
+            }}
+          />
+          <HeartOutlined
+            onClick={() => {
+              navigate("/favorite");
+            }}
+          />
 
           <Dropdown overlay={menu} trigger={["click"]}>
             <a onClick={(e) => e.preventDefault()}>
               <UserOutlined />
             </a>
           </Dropdown>
-
 
           <MessageOutlined />
         </div>
