@@ -19,7 +19,6 @@ import {
 import {
   UserOutlined,
   ShoppingCartOutlined,
-  EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";

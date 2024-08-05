@@ -17,7 +17,7 @@ import { Button, Layout, Menu, theme } from 'antd';
 const { Header, Sider, Content,Footer } = Layout;
 const { SubMenu } = Menu; 
 const HomePageAdmin = () => {
-  const [goToPageS, setGoToPage] = useState("");
+  const [goToPageS, setGoToPage] = useState("ShopsList");
 
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -30,7 +30,7 @@ const HomePageAdmin = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}>
+          defaultSelectedKeys={['6']}>
           <Menu.Item key="1" icon={<HomeOutlined />}>
             Dashboard
           </Menu.Item>
