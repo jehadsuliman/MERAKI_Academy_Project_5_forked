@@ -18,6 +18,7 @@ const cartsRouter = require("./routes/carts");
 const ordersRouter = require("./routes/orders");
 const commentsRouter = require("./routes/comments");
 const addressRouter = require("./routes/address");
+const favoritesRouter = require("./routes/favorites");
 
 
 // router middleware
@@ -31,6 +32,7 @@ app.use("/carts", cartsRouter);
 app.use("/orders", ordersRouter);
 app.use("/comments", commentsRouter);
 app.use("/address", addressRouter);
+app.use("/favorites", favoritesRouter);
 
 
 
