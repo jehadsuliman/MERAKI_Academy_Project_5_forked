@@ -10,18 +10,14 @@ const userRegister = async (req, res) => {
     password,
     country,
     age,
-    firstName,
-    lastName,
-    city,
-    address,
-    postal_code,
+    phoneNumber,
     role_id,
   } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
 
-  const query = `INSERT INTO users (userName, email, password, country, age, firstName, lastName, city, address, postal_code, role_id) 
-                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`;
+  const query = `INSERT INTO users (userName, email, password, country, age,phone_number, role_id) 
+                    VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`;
 
   const data = [
     userName,
@@ -29,11 +25,7 @@ const userRegister = async (req, res) => {
     encryptedPassword,
     country,
     age,
-    firstName,
-    lastName,
-    city,
-    address,
-    postal_code,
+    phoneNumber,
     role_id,
   ];
 
@@ -171,42 +163,30 @@ const updateUserById = (req, res) => {
     password,
     country,
     age,
-    firstName,
-    lastName,
-    city,
-    address,
-    postal_code,
+    phoneNumber,
     profile_pic,
   } = req.body;
 
   const query = `
       UPDATE users
       SET userName = COALESCE($1, userName),
-          firstName = COALESCE($2, firstName),
-          lastName = COALESCE($3, lastName),
-          email = COALESCE($4, email),
-          password = COALESCE($5, password),
-          age = COALESCE($6, age),
-          country = COALESCE($7, country),
-          city = COALESCE($8, city),
-          address = COALESCE($9, address),
-          postal_code = COALESCE($10, postal_code),
-          profile_pic = COALESCE($11, profile_pic)
-      WHERE id = $12 AND is_deleted = 0
+          email = COALESCE($2, email),
+          password = COALESCE($3, password),
+          age = COALESCE($4, age),
+          country = COALESCE($5, country),
+          phone_number = COALESCE($6, phone_number),
+          profile_pic = COALESCE($7, profile_pic)
+      WHERE id = $8 AND is_deleted = 0
       RETURNING *;
     `;
 
   const data = [
     userName || null,
-    firstName || null,
-    lastName || null,
     email || null,
     password || null,
     age || null,
     country || null,
-    city || null,
-    address || null,
-    postal_code || null,
+    phoneNumber || null,
     profile_pic || null,
     id,
   ];
@@ -229,7 +209,6 @@ const updateUserById = (req, res) => {
     })
     .catch((err) => {
       if (err.code === "23505") {
-        // Unique constraint violation (e.g., duplicate email)
         res.status(400).json({
           success: false,
           message: "Failed to update user info",

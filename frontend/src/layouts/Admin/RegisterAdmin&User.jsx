@@ -12,9 +12,9 @@ const RegisterUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [country, setCountry] = useState("");
+  const [phone, setPhone] = useState("");
   const [age, setAge] = useState(0);
   const [role_id, setRole_id] = useState("");
-
   const navigate = useNavigate();
   const addNewUser = async () => {
     const userData = {
@@ -23,6 +23,7 @@ const RegisterUser = () => {
       password,
       country,
       age,
+      phone,
       role_id,
     };
 
@@ -115,6 +116,23 @@ const RegisterUser = () => {
                 <Input.Password
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
+                  style={styles.input}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Phone Number"
+                name="phone_number"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your phone number!",
+                  },
+                ]}
+              >
+                <Input
+                  name="phone_number"
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Phone Number"
                   style={styles.input}
                 />
               </Form.Item>

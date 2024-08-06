@@ -12,12 +12,12 @@ const shopRegister = async (req, res) => {
     password,
     category_id,
     role_id,
-    discreption,
+    description,
   } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
 
-  const query = `INSERT INTO shops (shopName, country, phone_number, email, password, category_id, role_id, discreption) 
+  const query = `INSERT INTO shops (shopName, country, phone_number, email, password, category_id, role_id, description) 
                     VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
 
   const data = [
@@ -28,7 +28,7 @@ const shopRegister = async (req, res) => {
     encryptedPassword,
     category_id,
     role_id,
-    discreption,
+    description,
   ];
 
   pool
@@ -199,7 +199,7 @@ const updateShopById = (req, res) => {
     category_id,
     role_id,
     phone_number,
-    discreption,
+    description,
     profile_pic,
   } = req.body;
 
@@ -212,7 +212,7 @@ SET shopName = COALESCE($1, shopName),
     category_id = COALESCE($5, category_id),
     role_id = COALESCE($6, role_id),    
     phone_number = COALESCE($7, phone_number),
-    discreption = COALESCE($8, discreption),
+    description = COALESCE($8, description),
     profile_pic = COALESCE($9, profile_pic)
 WHERE id = $10 AND is_deleted = 0 
 RETURNING *;
@@ -226,7 +226,7 @@ RETURNING *;
     category_id || null,
     role_id || null,
     phone_number || null,
-    discreption || null,
+    description || null,
     profile_pic || null,
     id,
   ];
@@ -250,7 +250,6 @@ RETURNING *;
     })
     .catch((err) => {
       if (err.code === "23505") {
-        // Unique constraint violation (e.g., duplicate email)
         res.status(400).json({
           success: false,
           message: "Failed to update user info",
