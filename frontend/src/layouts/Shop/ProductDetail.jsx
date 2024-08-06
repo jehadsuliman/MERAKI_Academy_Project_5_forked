@@ -1,88 +1,135 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  addComment,
+  deleteCommentById,
+  setComments,
+} from "../../Service/api/redux/reducers/user/commentsSlice";
 import { setProductId } from "../../Service/api/redux/reducers/shop/product";
-import { Modal, Card, Typography } from "antd";
+import { message, Input, Button, List, Typography, Space } from "antd";
+import axios from "axios";
 
-const { Title, Text } = Typography;
+const { TextArea } = Input;
+const { Title } = Typography;
 
-const ProductDetail = () => {
+const Comments = () => {
   const { productId } = useParams();
-  const authToken = useSelector((state) => state.shopAuth.token);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
-  const [error, setError] = useState(null);
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const comments = useSelector((state) => state.comments.comments);
+  const [newCommentText, setNewCommentText] = useState("");
 
   useEffect(() => {
     if (productId) {
       dispatch(setProductId(productId));
-      const fetchProduct = async () => {
+      const fetchComments = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/products/${productId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
+            `http://localhost:5000/products/${productId}/comments`
           );
-          if (response.data.success) {
-            setProduct(response.data.product[0]);
-            setShowDetailsModal(true);
+          if (response.data && response.data.comments) {
+            dispatch(setComments(response.data.comments));
           } else {
-            setError(response.data.message);
+            message.error("Failed to fetch comments.");
           }
         } catch (error) {
-          setError("Failed to fetch product details");
+          console.error("Failed to fetch comments", error);
+          message.error("Failed to fetch comments.");
         }
       };
 
-      fetchProduct();
+      fetchComments();
     } else {
-      setError("Product ID is not available");
+      message.error("Product ID is not defined.");
     }
-  }, [productId, authToken, dispatch]);
+  }, [dispatch, productId]);
+
+  const handleAddComment = async () => {
+    if (!productId) {
+      message.error("Product ID is not defined.");
+      return;
+    }
+
+    const newComment = {
+      id: Date.now(),
+      text: newCommentText,
+      productId,
+      is_deleted: false,
+    };
+
+    try {
+      await dispatch(addComment(newComment));
+      setNewCommentText("");
+      message.success("Comment added successfully!");
+    } catch {
+      message.error("Failed to add comment.");
+    }
+  };
+
+  const handleDeleteComment = async (id) => {
+    try {
+      await dispatch(deleteCommentById(id));
+      message.success("Comment deleted successfully!");
+    } catch {
+      message.error("Failed to delete comment.");
+    }
+  };
 
   return (
-    <div style={{ padding: "50px", textAlign: "center" }}>
-      <Title level={2}>Product Details</Title>
-      {error && <Text type="danger">{error}</Text>}
-      {product ? (
-        <Modal
-          title={product?.title}
-          visible={showDetailsModal}
-          onCancel={() => navigate("/shop")}
-          footer={null}
-          centered
-        >
-          <Card
-            cover={
-              <img
-                alt={product?.title}
-                src={product?.image}
-                style={{ width: "100%" }}
-              />
-            }
+    <div
+      style={{
+        margin: "25px",
+        background: "#fff",
+        borderRadius: "8px",
+        padding: "20px",
+      }}
+    >
+      <Title level={3}>Comments</Title>
+      <TextArea
+        rows={4}
+        value={newCommentText}
+        onChange={(e) => setNewCommentText(e.target.value)}
+        placeholder="Enter your comment"
+        style={{ marginBottom: "10px" }}
+      />
+      <Button
+        type="primary"
+        onClick={handleAddComment}
+        style={{ marginBottom: "20px" }}
+      >
+        Add Comment
+      </Button>
+      <List
+        bordered
+        dataSource={comments.filter(
+          (comment) => comment.productId === productId && !comment.is_deleted
+        )}
+        renderItem={(comment) => (
+          <List.Item
+            actions={[
+              <Button
+                type="link"
+                danger
+                onClick={() => handleDeleteComment(comment.id)}
+              >
+                Delete
+              </Button>,
+            ]}
+            style={{
+              marginBottom: "10px",
+              borderRadius: "4px",
+              background: "#fff",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
           >
-            <Card.Meta
-              description={
-                <>
-                  <Text strong>Description:</Text> {product?.description}
-                  <br />
-                  <Text strong>Price:</Text> ${product?.price}
-                </>
-              }
-            />
-          </Card>
-        </Modal>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+            <Space direction="vertical">
+              <Typography.Text>{comment.text}</Typography.Text>
+            </Space>
+          </List.Item>
+        )}
+      />
     </div>
   );
 };
 
-export default ProductDetail;
+export default Comments;
