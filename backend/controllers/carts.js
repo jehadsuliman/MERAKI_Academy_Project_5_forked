@@ -4,22 +4,44 @@ const createNewCart = (req, res) => {
   const user_id = req.token.userId;
   const { product_id, quantity, total_price } = req.body;
   pool
-    .query(
-      `INSERT INTO carts (product_id,user_id,quantity,total_price) VALUES ($1, $2,$3,$4) RETURNING *;`,
-      [product_id, user_id, quantity, total_price]
-    )
+    .query(`SELECT * FROM carts WHERE product_id = $1 AND user_id = $2`, [
+      product_id,
+      user_id,
+    ])
     .then((result) => {
-      res.status(201).json({
-        success: true,
-        massage: "carts created successfully",
-        carts: result.rows[0],
-      });
+      if (result.rows.length > 0) {
+        return res.status(200).json({
+          success: true,
+          message: "Product is already in the cart",
+          cart: result.rows[0],
+        });
+      } else {
+        pool
+          .query(
+            `INSERT INTO carts (product_id,user_id,quantity,total_price) VALUES ($1, $2,$3,$4) RETURNING *;`,
+            [product_id, user_id, quantity, total_price]
+          )
+          .then((result) => {
+            res.status(201).json({
+              success: true,
+              massage: "carts created successfully",
+              carts: result.rows[0],
+            });
+          })
+          .catch((err) => {
+            res.status(500).json({
+              success: false,
+              massage: "Server error",
+              error: err,
+            });
+          });
+      }
     })
-    .catch((err) => {
+    .catch((error) => {
       res.status(500).json({
         success: false,
-        massage: "Server error",
-        error: err,
+        message: "Server error",
+        error: error.message,
       });
     });
 };
