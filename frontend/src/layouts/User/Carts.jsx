@@ -21,7 +21,7 @@ const Carts = () => {
     token: state.userAuth.token,
     userId: state.userAuth.userId,
   }));
-  const carts = useSelector((state) => state.carts.carts);
+  const carts = useSelector((state) => state.carts.carts || []);
 
   const [quantities, setQuantities] = useState({});
 

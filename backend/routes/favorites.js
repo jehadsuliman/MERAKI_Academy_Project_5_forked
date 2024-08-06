@@ -11,7 +11,7 @@ const favoritesRouter = express.Router();
 const authentication = require("../middleware/authentication");
 
 favoritesRouter.post("/", authentication, addToFavorites);
-favoritesRouter.get("/",authentication, getFavorites);
-favoritesRouter.delete("/",authentication, deleteFavorite);
+favoritesRouter.get("/", authentication, getFavorites);
+favoritesRouter.delete("/", authentication, deleteFavorite);
 
 module.exports = favoritesRouter;

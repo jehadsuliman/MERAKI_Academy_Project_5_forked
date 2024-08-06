@@ -25,7 +25,7 @@ const createNewCart = (req, res) => {
             res.status(201).json({
               success: true,
               massage: "carts created successfully",
-              carts: result.rows[0],
+              cart: result.rows[0],
             });
           })
           .catch((err) => {
