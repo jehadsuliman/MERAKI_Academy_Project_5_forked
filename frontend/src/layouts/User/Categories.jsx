@@ -43,7 +43,7 @@ const Categories = () => {
     <div style={{ padding: "20px" }}>
       <Row gutter={[16, 16]} justify="center">
         {categories.map((category) => (
-          <Col key={category.id} xs={10} sm={6} md={5} lg={5}
+          <Col key={category.id} xs={10} sm={6} md={4} lg={4}
           onClick={() => getAllProductsByCategoryId(category.id)}
           >
             <Card
