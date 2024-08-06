@@ -6,26 +6,27 @@ const createNewComment = (req, res) => {
   if (!userId) {
     return res.status(401).json({
       success: false,
-      message: `The token is ${userId}`,
+      message: "Unauthorized: User ID not found in token",
     });
   }
   pool
     .query(
-      `INSERT INTO comment_rate (product_id, user_id, comment) VALUES ($1, $2,$3) RETURNING *`,
+      `INSERT INTO comment_rate (product_id, user_id, comment) VALUES ($1, $2, $3) RETURNING *`,
       [product_id, userId, comment]
     )
     .then((result) => {
       res.status(201).json({
         success: true,
-        message: "comment created successfully",
+        message: "Comment created successfully",
         comment: result.rows[0],
       });
     })
     .catch((error) => {
+      console.error("Error creating comment:", error);
       res.status(500).json({
         success: false,
         message: "Server error",
-        err: error.message,
+        error: error.message,
       });
     });
 };
@@ -34,7 +35,12 @@ const getCommentsByProductId = (req, res) => {
   const productId = req.params.id;
   pool
     .query(
-      `SELECT * FROM comment_rate WHERE product_id = $1 AND is_deleted = 0;`,
+      `
+      SELECT comments.*, users.username
+      FROM comment_rate AS comments
+      JOIN users ON comments.user_id = users.id
+      WHERE comments.product_id = $1 AND comments.is_deleted = 0;
+    `,
       [productId]
     )
     .then((result) => {

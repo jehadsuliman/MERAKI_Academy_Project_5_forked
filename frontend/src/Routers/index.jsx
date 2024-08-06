@@ -25,6 +25,7 @@ import OrderAccept from "../layouts/User/OrderAccept";
 import Carts from "../layouts/User/Carts";
 import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
+import Comment from "../layouts/User/Comment"
 
 export const router = createBrowserRouter([
   {
@@ -130,6 +131,11 @@ export const router = createBrowserRouter([
     path: "/LogoutAdmin",
     element: <LogoutAdmin />,
   },
+  {
+    path: "/comments",
+    element: <Comment />,
+  },
+
  
   //Register & Login
   {
