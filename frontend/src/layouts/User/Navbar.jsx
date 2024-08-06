@@ -78,8 +78,8 @@ const NavbarComponent = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container className="d-flex justify-content-between">
-        <Navbar.Brand href="#home">JKI EXPRESS</Navbar.Brand>
-        <InputGroup size="sm" className="w-50">
+      <span className="fw-bold fs-2">JKI EXPRESS</span>
+      <InputGroup size="sm" className="w-50">
           <Form.Control
             aria-label="Search"
             aria-describedby="inputGroup-sizing-sm"
