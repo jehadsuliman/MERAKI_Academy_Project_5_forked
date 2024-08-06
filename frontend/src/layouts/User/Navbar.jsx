@@ -111,7 +111,9 @@ const NavbarComponent = () => {
             }}
           />
 
-          <MessageOutlined />
+          <MessageOutlined   onClick={() => {
+              navigate("/faq");
+            }}/>
         </div>
         <Nav className="ml-auto"></Nav>
       </Container>
