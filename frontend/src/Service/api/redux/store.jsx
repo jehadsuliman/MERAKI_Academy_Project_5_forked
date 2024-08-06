@@ -9,6 +9,7 @@ import subCategoriesReducer from "./reducers/shop/subCategoriesSlice";
 import productsReducer from "./reducers/shop/product";
 import cartsReducer from "./reducers/user/carts";
 import commentsReducer from "./reducers/user/commentsSlice";
+import addressReducer from "./reducers/user/addres";
 
 export default configureStore({
   reducer: {
@@ -21,5 +22,6 @@ export default configureStore({
     subCategories: subCategoriesReducer,
     carts: cartsReducer,
     comments: commentsReducer,
+    addresses: addressReducer,
   },
 });

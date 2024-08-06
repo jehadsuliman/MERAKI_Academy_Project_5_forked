@@ -25,7 +25,8 @@ import OrderAccept from "../layouts/User/OrderAccept";
 import Carts from "../layouts/User/Carts";
 import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
-import Comment from "../layouts/User/Comment"
+import Comment from "../layouts/User/Comment";
+import Address from "../layouts/User/Address";
 
 export const router = createBrowserRouter([
   {
@@ -85,13 +86,13 @@ export const router = createBrowserRouter([
         path: "/faq",
         element: <FaqComponent />,
       },
-    ]
+    ],
   },
   {
     path: "/not",
     element: <PageNotFound />,
   },
-  
+
   {
     path: "/acc",
     element: <OrderAccept />,
@@ -135,8 +136,11 @@ export const router = createBrowserRouter([
     path: "/comments",
     element: <Comment />,
   },
+  {
+    path: "/address",
+    element: <Address />,
+  },
 
- 
   //Register & Login
   {
     path: "/RegisterUserOrAdmin",

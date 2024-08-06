@@ -124,15 +124,11 @@ const Carts = () => {
   };
 
   const handleCheckout = () => {
-    navigate("/checkout");
+    navigate("/address");
   };
 
   const handleShopNow = () => {
     navigate("/");
-  };
-
-  const handleLogin = () => {
-    navigate("/login");
   };
 
   return (
