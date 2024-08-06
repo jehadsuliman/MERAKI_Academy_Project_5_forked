@@ -14,7 +14,7 @@ const RegisterShop = () => {
     country: "",
     phone_number: "",
     email: "",
-    discreption: "",
+    description: "",
     password: "",
     category_id: "",
   });
@@ -184,9 +184,9 @@ const RegisterShop = () => {
                 />
               </Form.Item>
 
-              <Form.Item label="Description" name="discreption">
+              <Form.Item label="Description" name="description">
                 <Input
-                  name="discreption"
+                  name="description"
                   onChange={handleChange}
                   placeholder="Description"
                   style={styles.input}
