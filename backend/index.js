@@ -17,6 +17,8 @@ const productsRouter = require("./routes/products");
 const cartsRouter = require("./routes/carts");
 const ordersRouter = require("./routes/orders");
 const commentsRouter = require("./routes/comments");
+const addressRouter = require("./routes/address");
+
 
 // router middleware
 app.use("/roles", rolesRouter);
@@ -28,6 +30,8 @@ app.use("/products", productsRouter);
 app.use("/carts", cartsRouter);
 app.use("/orders", ordersRouter);
 app.use("/comments", commentsRouter);
+app.use("/address", addressRouter);
+
 
 
 const PORT = process.env.PORT || 5001;
