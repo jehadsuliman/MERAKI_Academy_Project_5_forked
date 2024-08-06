@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { setCarts } from "../../Service/api/redux/reducers/user/carts";
+import {
+  setCarts,
+  updateCartsById,
+  deleteCartsById,
+} from "../../Service/api/redux/reducers/user/carts";
 import { Button, Form, Card } from "react-bootstrap";
 import {
-  ShoppingCartOutlined,
   DeleteOutlined,
   PlusCircleOutlined,
   MinusCircleOutlined,
@@ -18,9 +21,7 @@ const Carts = () => {
     token: state.userAuth.token,
     userId: state.userAuth.userId,
   }));
-  const carts = useSelector((state) =>
-    Array.isArray(state.carts.carts) ? state.carts.carts : []
-  );
+  const carts = useSelector((state) => state.carts.carts);
 
   const [quantities, setQuantities] = useState({});
 
@@ -58,33 +59,26 @@ const Carts = () => {
         { quantity },
         header
       );
-
       if (result.data.success && result.data.cart) {
-        dispatch(
-          setCarts(
-            carts.map((cart) => (cart.id === cartId ? result.data.cart : cart))
-          )
-        );
+        dispatch(updateCartsById(result.data.cart));
       }
     } catch (err) {
       console.error("Error updating cart:", err);
     }
   };
 
-  const deleteProduct = async (productId) => {
-    console.log(productId);
+  const deleteCart = async (cartId) => {
     try {
       const header = { headers: { Authorization: `Bearer ${token}` } };
       const result = await axios.delete(
-        `http://localhost:5000/products/${productId}`,
+        `http://localhost:5000/carts/${cartId}`,
         header
       );
-
       if (result.data.success) {
-        dispatch(setCarts(carts.filter((cart) => cart.id !== productId)));
+        dispatch(deleteCartsById(cartId));
       }
     } catch (err) {
-      console.error("Error updating cart:", err);
+      console.error("Error deleting cart:", err);
     }
   };
 
@@ -99,8 +93,7 @@ const Carts = () => {
   const decreaseQuantity = (cartId) => {
     setQuantities((prevQuantities) => {
       const currentQuantity = prevQuantities[cartId] || 1;
-      const newQuantity =
-        currentQuantity > 1 ? currentQuantity - 1 : deleteProduct(cartId);
+      const newQuantity = currentQuantity > 1 ? currentQuantity - 1 : 1;
       updateCart(cartId, newQuantity);
       return { ...prevQuantities, [cartId]: newQuantity };
     });
@@ -116,16 +109,6 @@ const Carts = () => {
     }
   };
 
-  const deleteCartByUserId = async (userId) => {
-    try {
-      const header = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.delete(`http://localhost:5000/carts/user/${userId}`, header);
-      dispatch(setCarts([]));
-    } catch (err) {
-      console.error("Error deleting cart:", err);
-    }
-  };
-
   const calculateTotalPrice = () => {
     return carts.reduce((total, cart) => {
       const quantity = quantities[cart.id] || cart.quantity || 1;
@@ -134,12 +117,22 @@ const Carts = () => {
     }, 0);
   };
 
+  const calculateTotalQuantity = () => {
+    return carts.reduce((total, cart) => {
+      return total + (quantities[cart.id] || cart.quantity || 1);
+    }, 0);
+  };
+
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
+
   const handleShopNow = () => {
     navigate("/");
   };
 
   const handleLogin = () => {
-    navigate("/LoginUserOrAdmin");
+    navigate("/login");
   };
 
   return (
@@ -190,7 +183,7 @@ const Carts = () => {
                       src={cart.image}
                       alt={`Image of ${cart.title}`}
                       style={{
-                        width: "200x",
+                        width: "200px",
                         height: "200px",
                         objectFit: "cover",
                         borderRadius: "8px",
@@ -212,8 +205,8 @@ const Carts = () => {
                         src="default-image.jpg"
                         alt="Default Product"
                         style={{
-                          width: "350px",
-                          height: "350px",
+                          width: "150px",
+                          height: "150px",
                           objectFit: "contain",
                         }}
                       />
@@ -267,58 +260,58 @@ const Carts = () => {
                       </Button>
                     </div>
                   </Form.Group>
+                  <Button
+                    variant="danger"
+                    onClick={() => deleteCart(cart.id)}
+                    style={{
+                      fontSize: "1rem",
+                      color: "#fff",
+                      backgroundColor: "#d9534f",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    Remove
+                    <DeleteOutlined />
+                  </Button>
                 </Card.Body>
               </Card>
             );
           })}
-          <Button
-            variant="danger"
+          <div
             style={{
-              fontSize: "1.1rem",
-              color: "#fff",
-              backgroundColor: "#d9534f",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              margin: "20px auto",
+              margin: "25px",
+              padding: "20px",
+              border: "1px solid #ddd",
+              borderRadius: "8px",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              textAlign: "center",
             }}
-            onClick={() => deleteCartByUserId(userId)}
           >
-            Delete all carts
-            <DeleteOutlined />
-          </Button>
-          <h3
-            style={{ fontSize: "1.5rem", textAlign: "center", margin: "40px" }}
-          >
-            Total Price: {calculateTotalPrice().toFixed(2)} JOD
-          </h3>
+            <h3>Total Quantity: {calculateTotalQuantity()}</h3>
+            <h3>Total Price: {calculateTotalPrice().toFixed(2)} JOD</h3>
+            <Button
+              variant="primary"
+              onClick={handleCheckout}
+              style={{ marginRight: "10px" }}
+            >
+              Checkout
+            </Button>
+          </div>
         </>
       ) : (
-        <div style={{ textAlign: "center", margin: "50px auto" }}>
-          <ShoppingCartOutlined
-            style={{ fontSize: "4rem", color: "#d9534f", marginBottom: "20px" }}
-          />
-          <p style={{ fontSize: "1.5rem", color: "#777" }}>
-            Your shopping cart is empty
-            <br />
-            <br />
-            Log in to view your shopping cart and start shopping
-          </p>
-          <Button
-            variant="primary"
-            onClick={handleShopNow}
-            style={{ marginRight: "10px", padding: "10px 20px" }}
-          >
-            Shop now
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={handleLogin}
-            style={{ padding: "10px 20px" }}
-          >
-            Sign in
+        <div
+          style={{
+            margin: "20px auto",
+            padding: "20px",
+            textAlign: "center",
+            fontSize: "1.5rem",
+            color: "#666",
+          }}
+        >
+          YOUR CART IS EMPTY <br />
+          <Button variant="primary" onClick={handleShopNow}>
+            Shop Now
           </Button>
         </div>
       )}
