@@ -17,6 +17,7 @@ const createAddress = (req, res) => {
       message: `The token is ${userId}`,
     });
   }
+
   pool
     .query(
       `INSERT INTO shipping_address (first_name, last_name, address, city, country, postal_code, address_type, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
@@ -47,7 +48,15 @@ const createAddress = (req, res) => {
     });
 };
 const getAddressesByUserId = (req, res) => {
-  const userId = req.token.userId;
+  const userId = req.token?.userId;
+
+  if (!userId) {
+    return res.status(401).json({
+      success: false,
+      message: 'User ID not found in token',
+    });
+  }
+
   pool
     .query(
       `SELECT * FROM shipping_address WHERE user_id = $1 AND is_deleted = 0`,
@@ -61,6 +70,7 @@ const getAddressesByUserId = (req, res) => {
       });
     })
     .catch((error) => {
+      console.error('Error fetching addresses:', error); 
       res.status(500).json({
         success: false,
         message: `Server Error`,
@@ -72,7 +82,7 @@ const getAddressesByUserId = (req, res) => {
 const deleteAddress = (req, res) => {
   const addressId = req.params.id;
   pool
-    .query(`UPDATE shipping_address SET is_deleted = 1 WHERE id = $1`, [
+    .query(`UPDATE shipping_address SET is_deleted = 1 WHERE id = $1 RETURNING *`, [
       addressId,
     ])
     .then((result) => {

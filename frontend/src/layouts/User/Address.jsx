@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { message, Input, Button, List, Typography, Space, Select } from "antd";
+import { message, Input, Button, Typography, Select } from "antd";
 import axios from "axios";
 import {
   fetchAddresses,
   addAddress,
-  deleteAddressById,
 } from "../../Service/api/redux/reducers/user/addres";
+import { useNavigate } from "react-router-dom";
 
-const { Text } = Typography;
 const { Option } = Select;
 
 const Address = () => {
   const dispatch = useDispatch();
-  const addresses = useSelector((state) => state.addresses.addresses);
+  const navigate = useNavigate();
+  const Token = useSelector((state) => state.userAuth.token);
   const [addressData, setAddressData] = useState({
     first_name: "",
     last_name: "",
@@ -21,13 +21,17 @@ const Address = () => {
     city: "",
     country: "",
     postal_code: "",
-    address_type: "",
+    address_type: "Home Delivery",
   });
 
   useEffect(() => {
     const fetchInitialAddresses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/addresses");
+        const response = await axios.get("http://localhost:5000/address", {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        });
         if (response.data.success) {
           dispatch(fetchAddresses(response.data.address));
         } else {
@@ -48,10 +52,23 @@ const Address = () => {
       return;
     }
 
+    const addressTypeMap = {
+      "Home Delivery": 1,
+      Work: 2,
+    };
+
     try {
       const response = await axios.post(
-        "http://localhost:5000/addresses",
-        addressData
+        "http://localhost:5000/address",
+        {
+          ...addressData,
+          address_type: addressTypeMap[addressData.address_type] || 0,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
       );
       if (response.data.success) {
         dispatch(addAddress(response.data.address));
@@ -64,6 +81,7 @@ const Address = () => {
           postal_code: "",
           address_type: "",
         });
+        navigate("/");
         message.success("Address added successfully!");
       } else {
         message.error(response.data.message);
@@ -71,23 +89,6 @@ const Address = () => {
     } catch (error) {
       console.error("Failed to add address:", error);
       message.error("Failed to add address.");
-    }
-  };
-
-  const handleDeleteAddress = async (addressId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/addresses/${addressId}`
-      );
-      if (response.data.success) {
-        dispatch(deleteAddressById(addressId));
-        message.success("Address deleted successfully!");
-      } else {
-        message.error(response.data.message);
-      }
-    } catch (error) {
-      console.error("Failed to delete address:", error);
-      message.error("Failed to delete address.");
     }
   };
 
@@ -167,38 +168,6 @@ const Address = () => {
       >
         Add Address
       </Button>
-      <List
-        bordered
-        dataSource={addresses}
-        renderItem={(address) => (
-          <List.Item
-            actions={[
-              <Button
-                type="link"
-                danger
-                onClick={() => handleDeleteAddress(address.id)}
-              >
-                Delete
-              </Button>,
-            ]}
-            style={{
-              marginTop: "15px",
-              background: "#fff",
-            }}
-          >
-            <Space direction="vertical">
-              <Text>
-                {address.first_name} {address.last_name}
-              </Text>
-              <Text>{address.address}</Text>
-              <Text>{address.city}</Text>
-              <Text>{address.country}</Text>
-              <Text>{address.postal_code}</Text>
-              <Text>{address.address_type}</Text>
-            </Space>
-          </List.Item>
-        )}
-      />
     </div>
   );
 };
