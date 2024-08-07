@@ -3,6 +3,7 @@ const { pool } = require("../models/db");
 const createNewCart = (req, res) => {
   const user_id = req.token.userId;
   const { product_id, quantity, total_price } = req.body;
+
   pool
     .query(`SELECT * FROM carts WHERE product_id = $1 AND user_id = $2`, [
       product_id,
@@ -10,28 +11,51 @@ const createNewCart = (req, res) => {
     ])
     .then((result) => {
       if (result.rows.length > 0) {
-        return res.status(200).json({
-          success: true,
-          message: "Product is already in the cart",
-          cart: result.rows[0],
-        });
+        const cartItem = result.rows[0];
+        if (cartItem.is_deleted) {
+          pool
+            .query(
+              `UPDATE carts SET quantity = $1, total_price = $2, is_deleted = 0 WHERE product_id = $3 AND user_id = $4 RETURNING *`,
+              [quantity, total_price, product_id, user_id]
+            )
+            .then((updateResult) => {
+              res.status(200).json({
+                success: true,
+                message: "Product re-added to the cart",
+                cart: updateResult.rows[0],
+              });
+            })
+            .catch((err) => {
+              res.status(500).json({
+                success: false,
+                message: "Server error",
+                error: err,
+              });
+            });
+        } else {
+          res.status(200).json({
+            success: true,
+            message: "Product is already in the cart",
+            cart: cartItem,
+          });
+        }
       } else {
         pool
           .query(
-            `INSERT INTO carts (product_id,user_id,quantity,total_price) VALUES ($1, $2,$3,$4) RETURNING *;`,
+            `INSERT INTO carts (product_id, user_id, quantity, total_price) VALUES ($1, $2, $3, $4) RETURNING *`,
             [product_id, user_id, quantity, total_price]
           )
-          .then((result) => {
+          .then((insertResult) => {
             res.status(201).json({
               success: true,
-              massage: "carts created successfully",
-              cart: result.rows[0],
+              message: "Cart created successfully",
+              cart: insertResult.rows[0],
             });
           })
           .catch((err) => {
             res.status(500).json({
               success: false,
-              massage: "Server error",
+              message: "Server error",
               error: err,
             });
           });
@@ -176,7 +200,7 @@ const deleteProductByUserId = (req, res) => {
   const userId = req.token.userId;
   pool
     .query(
-      `UPDATE carts SET is_deleted =1 WHERE id = $1 AND user_id =$2 returning*`,
+      `UPDATE carts SET is_deleted =1 WHERE product_id = $1 AND user_id =$2 returning*`,
       [productId, userId]
     )
     .then((result) => {
