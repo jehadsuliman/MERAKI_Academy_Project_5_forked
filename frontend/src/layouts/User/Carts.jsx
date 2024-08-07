@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   setCarts,
+  addCarts,
   updateCartsById,
   deleteCartsById,
 } from "../../Service/api/redux/reducers/user/carts";
@@ -50,6 +51,27 @@ const Carts = () => {
 
     getCartsByUserId();
   }, [userId, token, dispatch]);
+
+  const addToCart = async (product_id, quantity, total_price) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/carts",
+        { product_id, quantity, total_price },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        dispatch(addCarts(response.data.cart));
+      } else {
+        console.error("Error adding to cart:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
 
   const updateCart = async (cartId, quantity) => {
     try {
