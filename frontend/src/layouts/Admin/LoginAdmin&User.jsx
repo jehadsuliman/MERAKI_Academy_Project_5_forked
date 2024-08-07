@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {
-  setLogin,
-  setUserId,
-} from "../../Service/api/redux/reducers/auth/userAuth";
+import { setLogin, setUserId } from "../../Service/api/redux/reducers/auth/userAuth";
 import { Button, Input, message, Form, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+
 const { Title } = Typography;
 
 const Login = () => {
@@ -17,10 +16,7 @@ const Login = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/users/login",
-        values
-      );
+      const response = await axios.post("http://localhost:5000/users/login", values);
 
       if (response.data.success) {
         dispatch(setLogin(response.data.token));
@@ -37,18 +33,39 @@ const Login = () => {
         message.error(response.data.message || "Login failed.");
       }
     } catch (error) {
-      message.error(
-        error.response ? error.response.data.message : "An error occurred."
-      );
+      message.error(error.response ? error.response.data.message : "An error occurred.");
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response) => {
+    try {
+      const res = await axios.post("http://localhost:5000/users/google-login", {
+        token: response.credential,
+      });
+
+      if (res.data.success) {
+        dispatch(setLogin(res.data.token));
+        dispatch(setUserId(res.data.userId));
+
+        const role = res.data.role;
+
+        if (role === 1) {
+          navigate("/admin");
+        } else if (role === 2) {
+          navigate("/");
+        }
+      } else {
+        message.error(res.data.message || "Google login failed.");
+      }
+    } catch (error) {
+      message.error(error.response ? error.response.data.message : "An error occurred.");
     }
   };
 
   return (
     <div style={styles.container}>
       <Form onFinish={handleSubmit} layout="vertical" style={styles.form}>
-        <Title level={2} style={styles.title}>
-          Login using user
-        </Title>
+        <Title level={2} style={styles.title}>Login</Title>
         <Form.Item
           label="Email"
           name="email"
@@ -73,9 +90,10 @@ const Login = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
+          <Button type="primary" htmlType="submit">Login</Button>
+        </Form.Item>
+        <Form.Item>
+          <GoogleLogin onSuccess={handleGoogleLoginSuccess} onError={() => message.error("Google login failed.")} />
         </Form.Item>
       </Form>
     </div>

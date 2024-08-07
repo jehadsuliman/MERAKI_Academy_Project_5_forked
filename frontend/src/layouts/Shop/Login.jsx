@@ -7,6 +7,7 @@ import {
   setShopId,
 } from "../../Service/api/redux/reducers/auth/shopAuth";
 import { Button, Input, message, Form, Typography } from "antd";
+import { GoogleLogin } from "@react-oauth/google";
 
 const { Title } = Typography;
 
@@ -39,6 +40,35 @@ const ShopLogin = () => {
         navigate("/shop");
       } else {
         message.error(response.data.message || "Login failed.");
+      }
+    } catch (error) {
+      message.error(
+        error.response ? error.response.data.message : "An error occurred."
+      );
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response) => {
+    try {
+      const res = await axios.post("http://localhost:5000/shops/google-login", {
+        token: response.credential,
+      });
+
+      <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          console.log(credentialResponse);
+        }}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+        useOneTap
+      />;
+      if (res.data.success) {
+        dispatch(setLogin(res.data.token));
+        dispatch(setShopId(res.data.shopId));
+        navigate("/shop");
+      } else {
+        message.error(res.data.message || "Google login failed.");
       }
     } catch (error) {
       message.error(
@@ -82,6 +112,12 @@ const ShopLogin = () => {
           <Button type="primary" htmlType="submit">
             Login
           </Button>
+        </Form.Item>
+        <Form.Item>
+          <GoogleLogin
+            onSuccess={handleGoogleLoginSuccess}
+            onError={() => message.error("Google login failed.")}
+          />
         </Form.Item>
       </Form>
     </div>
