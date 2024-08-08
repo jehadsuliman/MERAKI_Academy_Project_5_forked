@@ -27,6 +27,7 @@ import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
 import Comment from "../layouts/User/Comment";
 import Address from "../layouts/User/Address";
+import PaymentForm from "../layouts/User/PaymentForm";
 
 export const router = createBrowserRouter([
   {
@@ -89,12 +90,12 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/not",
+    path: "*",
     element: <PageNotFound />,
   },
 
   {
-    path: "/acc",
+    path: "/orderAccept",
     element: <OrderAccept />,
   },
 
@@ -140,7 +141,10 @@ export const router = createBrowserRouter([
     path: "/address",
     element: <Address />,
   },
-
+  {
+    path: "/payment",
+    element: <PaymentForm />,
+  },
   //Register & Login
   {
     path: "/RegisterUserOrAdmin",

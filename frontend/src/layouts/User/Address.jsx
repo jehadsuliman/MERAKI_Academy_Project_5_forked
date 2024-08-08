@@ -81,7 +81,7 @@ const Address = () => {
           postal_code: "",
           address_type: "",
         });
-        navigate("/");
+        navigate("/orderAccept");
         message.success("Address added successfully!");
       } else {
         message.error(response.data.message);
