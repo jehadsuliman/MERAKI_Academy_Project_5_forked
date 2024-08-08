@@ -15,17 +15,19 @@ import {
   Form,
   Input,
   message,
+  Upload,
 } from "antd";
 import {
   UserOutlined,
   ShoppingCartOutlined,
-  EditOutlined,
   DeleteOutlined,
+  InboxOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import CountryList from "country-list";
 import Flag from "react-flagkit";
 
+const { Dragger } = Upload;
 const { Title, Text } = Typography;
 
 const ProfileShop = () => {
@@ -38,7 +40,7 @@ const ProfileShop = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -123,15 +125,17 @@ const ProfileShop = () => {
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
-    setIsModalVisible(true);
+    setIsModalOpen(true);
   };
 
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
+      const { image, ...productData } = values;
+
       const response = await axios.put(
         `http://localhost:5000/products/${selectedProduct.id}`,
-        values,
+        { ...productData, image },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -139,13 +143,14 @@ const ProfileShop = () => {
           },
         }
       );
+
       if (response.data.success) {
         message.success("Product updated successfully");
-        setIsModalVisible(false);
+        setIsModalOpen(false);
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
             product.id === selectedProduct.id
-              ? { ...product, ...values }
+              ? { ...product, ...productData, image }
               : product
           )
         );
@@ -158,7 +163,7 @@ const ProfileShop = () => {
   };
 
   const handleModalCancel = () => {
-    setIsModalVisible(false);
+    setIsModalOpen(false);
   };
 
   const handleDeleteProduct = () => {
@@ -181,7 +186,7 @@ const ProfileShop = () => {
           );
           if (response.data.success) {
             message.success("Product deleted successfully");
-            setIsModalVisible(false);
+            setIsModalOpen(false);
             setProducts((prevProducts) =>
               prevProducts.filter(
                 (product) => product.id !== selectedProduct.id
@@ -243,6 +248,25 @@ const ProfileShop = () => {
       </p>
     );
 
+  const uploadProps = {
+    name: "file",
+    multiple: false,
+    action: "https://api.cloudinary.com/v1_1/das0e3reo/image/upload",
+    data: {
+      upload_preset: "khaledOdehCloud",
+    },
+    onChange(info) {
+      const { status } = info.file;
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+        form.setFieldsValue({ image: info.file.response.url });
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    showUploadList: false,
+  };
+
   return (
     <Card style={{ padding: "20px" }}>
       <Space direction="vertical" size={16} style={{ width: "100%" }}>
@@ -251,7 +275,7 @@ const ProfileShop = () => {
             <Avatar
               size={150}
               icon={<UserOutlined />}
-              src={shopInfo.profile_pic}
+              src={shop.profile_pic}
               style={{
                 width: "170px",
                 height: "170px",
@@ -262,13 +286,11 @@ const ProfileShop = () => {
           </Col>
           <Col xs={24} sm={12} md={16} lg={18} xl={19}>
             <Title level={2} style={{ marginBottom: "16px" }}>
-              {shopInfo.shopname}
+              {shop.shopname}
             </Title>
             <Text strong>Description:</Text>
             <Text style={{ display: "block", marginBottom: "16px" }}>
-              {shopInfo.discreption
-                ? shopInfo.discreption
-                : "No description available"}
+              {shop.description || "No description available"}
             </Text>
 
             <Divider />
@@ -288,13 +310,13 @@ const ProfileShop = () => {
             <Divider />
             <Text strong>Email:</Text>
             <Text style={{ display: "block", marginBottom: "16px" }}>
-              {shopInfo.email}
+              {shop.email}
             </Text>
 
             <Divider />
             <Text strong>Phone Number:</Text>
             <Text style={{ display: "block", marginBottom: "16px" }}>
-              {shopInfo.phone_number}
+              {shop.phone_number}
             </Text>
           </Col>
         </Row>
@@ -379,10 +401,8 @@ const ProfileShop = () => {
                             <Text strong>Product Name:</Text>
                             <br /> {product.title}
                             <br />
-                            <br />
                             <Text strong>Description:</Text>
                             <br /> {product.description}
-                            <br />
                             <br />
                             <Text strong>Price:</Text>
                             <br /> ${product.price}
@@ -402,7 +422,7 @@ const ProfileShop = () => {
 
       <Modal
         title="Update Product"
-        visible={isModalVisible}
+        open={isModalOpen} // Use `open` instead of `visible`
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         footer={[
@@ -422,7 +442,7 @@ const ProfileShop = () => {
             name="title"
             label="Product Name"
             rules={[
-              { required: true, message: "Please input the product Name!" },
+              { required: true, message: "Please input the product name!" },
             ]}
           >
             <Input />
@@ -448,17 +468,19 @@ const ProfileShop = () => {
           >
             <Input type="number" />
           </Form.Item>
-          <Form.Item
-            name="image"
-            label="Product Image URL"
-            rules={[
-              {
-                required: true,
-                message: "Please input the product image URL!",
-              },
-            ]}
-          >
-            <Input />
+          <Form.Item label="Product Picture" name="image">
+            <Dragger {...uploadProps} style={{ marginTop: "16px" }}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibited from
+                uploading company data or other banned files.
+              </p>
+            </Dragger>
           </Form.Item>
         </Form>
       </Modal>

@@ -3,27 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, message, Spin, Card, Typography } from "antd";
 import axios from "axios";
-import { setLogout } from "../../Service/api/redux/reducers/auth/shopAuth";
+import { setLogout } from "../../Service/api/redux/reducers/auth/userAuth";
 
 const { Title, Paragraph } = Typography;
 
-const Logout = () => {
+const LogoutUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const shopId = useSelector((state) => state.shopAuth.shopId);
-  const authToken = useSelector((state) => state.shopAuth.token);
+  const userId = useSelector((state) => state.userAuth.userId);
+  const authToken = useSelector((state) => state.userAuth.token);
 
-  const [shopName, setShopName] = useState("");
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (shopId && authToken) {
-      const fetchShopName = async () => {
+    if (userId && authToken) {
+      const fetchUserName = async () => {
         try {
           setLoading(true);
           const response = await axios.get(
-            `http://localhost:5000/shops/${shopId}`,
+            `http://localhost:5000/users/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -31,9 +31,9 @@ const Logout = () => {
             }
           );
           if (response.data && response.data.result) {
-            setShopName(response.data.result.shopname);
+            setUserName(response.data.result.username);
           } else {
-            setError("Shop data not found");
+            setError("User data not found");
           }
         } catch (error) {
           setError("You are already logged out");
@@ -42,12 +42,12 @@ const Logout = () => {
         }
       };
 
-      fetchShopName();
+      fetchUserName();
     } else {
       setError("You are already logged out");
       setLoading(false);
     }
-  }, [shopId, authToken]);
+  }, [userId, authToken]);
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -74,12 +74,12 @@ const Logout = () => {
       }}
     >
       <Title level={3}>Logout</Title>
-      {shopName && (
+      {userName && (
         <Paragraph>
           Are you sure you want to log out?
           <br />
           You are logged in as:
-          <br /> <strong>{shopName}</strong>
+          <br /> <strong>{userName}</strong>
         </Paragraph>
       )}
       <Button
@@ -93,4 +93,4 @@ const Logout = () => {
   );
 };
 
-export default Logout;
+export default LogoutUser;
