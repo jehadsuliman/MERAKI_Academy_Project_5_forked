@@ -27,6 +27,8 @@ import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
 import Comment from "../layouts/User/Comment";
 import Address from "../layouts/User/Address";
+import UserProfile from "../layouts/User/UserProfile";
+import LogoutUser from "../layouts/User/LogoutUser";
 
 export const router = createBrowserRouter([
   {
@@ -129,8 +131,12 @@ export const router = createBrowserRouter([
     element: <Logout />,
   },
   {
-    path: "/LogoutAdmin",
+    path: "/logoutAdmin",
     element: <LogoutAdmin />,
+  },
+  {
+    path: "/logoutUser",
+    element: <LogoutUser />,
   },
   {
     path: "/comments",
@@ -139,6 +145,10 @@ export const router = createBrowserRouter([
   {
     path: "/address",
     element: <Address />,
+  },
+  {
+    path: "/userProfile",
+    element: <UserProfile />,
   },
 
   //Register & Login
