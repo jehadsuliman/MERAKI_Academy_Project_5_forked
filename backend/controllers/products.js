@@ -164,7 +164,7 @@ const getAllProductsByCategoryId = (req, res) => {
       shops.shopName,
       shops.country,
       shops.email,
-      shops.discreption AS shop_description,
+      shops.description AS shop_description,
       shops.phone_number,
       categories.name AS category_name,
       categories.image AS category_image

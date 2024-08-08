@@ -27,8 +27,10 @@ import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
 import Comment from "../layouts/User/Comment";
 import Address from "../layouts/User/Address";
+
 import UserProfile from "../layouts/User/UserProfile";
 import LogoutUser from "../layouts/User/LogoutUser";
+
 
 export const router = createBrowserRouter([
   {
@@ -91,12 +93,12 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/not",
+    path: "*",
     element: <PageNotFound />,
   },
 
   {
-    path: "/acc",
+    path: "/orderAccept",
     element: <OrderAccept />,
   },
 
@@ -147,9 +149,11 @@ export const router = createBrowserRouter([
     element: <Address />,
   },
   {
+
     path: "/userProfile",
     element: <UserProfile />,
   },
+
 
   //Register & Login
   {

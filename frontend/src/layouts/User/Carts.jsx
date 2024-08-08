@@ -14,7 +14,7 @@ import {
   PlusCircleOutlined,
   MinusCircleOutlined,
 } from "@ant-design/icons";
-
+import PaymentForm from "./PaymentForm";
 const Carts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -135,6 +135,7 @@ const Carts = () => {
     return carts.reduce((total, cart) => {
       const quantity = quantities[cart.id] || cart.quantity || 1;
       const itemPrice = parseFloat(cart.total_price) || 0;
+
       return total + quantity * itemPrice;
     }, 0);
   };
@@ -276,7 +277,7 @@ const Carts = () => {
                       >
                         <PlusCircleOutlined />
                       </Button>
-                    </div>
+                   </div>
                   </Form.Group>
                   <Button
                     variant="danger"
@@ -308,13 +309,14 @@ const Carts = () => {
           >
             <h3>Total Quantity: {calculateTotalQuantity()}</h3>
             <h3>Total Price: {calculateTotalPrice().toFixed(2)} JOD</h3>
+            
             <Button
               variant="primary"
               onClick={handleCheckout}
-              style={{ marginRight: "10px" }}
+              style={{ marginRight: "20px" }}
             >
-              Checkout
-            </Button>
+Cash on delivery            </Button>
+            <PaymentForm cart={carts}/>
           </div>
         </>
       ) : (

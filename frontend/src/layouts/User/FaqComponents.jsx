@@ -62,7 +62,7 @@ const FaqComponent = () => {
       question: "Why do we sign you up for an online account?",
       answer: (
         <>
-          Registeration is necessary for order placing.
+          Registration is necessary for order placing.
           <br />
           <br />
           Create an account at JKI EXPRESS to enjoy personalized service:

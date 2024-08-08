@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 require("./models/db");
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,6 +18,7 @@ const ordersRouter = require("./routes/orders");
 const commentsRouter = require("./routes/comments");
 const addressRouter = require("./routes/address");
 const favoritesRouter = require("./routes/favorites");
+const stripeRouter = require("./routes/stripe");
 
 
 // router middleware
@@ -33,6 +33,7 @@ app.use("/orders", ordersRouter);
 app.use("/comments", commentsRouter);
 app.use("/address", addressRouter);
 app.use("/favorites", favoritesRouter);
+app.use("/stripe", stripeRouter);
 
 
 
