@@ -10,7 +10,7 @@ const { Option } = Select;
 const RegisterShop = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    shopName: "",
+    shopname: "",
     country: "",
     phone_number: "",
     email: "",
@@ -58,7 +58,7 @@ const RegisterShop = () => {
 
   const handleSubmit = async (values) => {
     if (
-      !form.shopName ||
+      !form.shopname ||
       !form.country ||
       !form.phone_number ||
       !form.email ||
@@ -109,13 +109,13 @@ const RegisterShop = () => {
             >
               <Form.Item
                 label="Shop Name"
-                name="shopName"
+                name="shopname"
                 rules={[
                   { required: true, message: "Please input your shop name!" },
                 ]}
               >
                 <Input
-                  name="shopName"
+                  name="shopname"
                   onChange={handleChange}
                   placeholder="Shop Name"
                   style={styles.input}

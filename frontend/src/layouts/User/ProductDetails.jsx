@@ -81,12 +81,12 @@ const ProductDetails = () => {
   }
 
   return (
-    <Container style={{ marginTop: "20px" }}>
+    <Container style={{ marginTop: "20px", maxWidth: "1100px" }}>
       <Card
         style={{
           display: "flex",
           flexDirection: "row",
-          maxWidth: "1200px",
+          maxWidth: "100%",
           margin: "auto",
         }}
       >
@@ -94,36 +94,49 @@ const ProductDetails = () => {
           variant="top"
           src={product[0].image}
           alt={product[0].title}
-          style={{ height: "400px", width: "50%", padding: "10px" }}
+          style={{
+            width: "50%",
+            height: "auto",
+            padding: "10px",
+            objectFit: "cover",
+          }}
         />
-        <Card.Body style={{ width: "50%" }}>
-          <Card.Title>{product[0].title}</Card.Title>
-          <Card.Text>{product[0].description}</Card.Text>
-          <Card.Text>
-            <strong>{product[0].price} JOD</strong>
-          </Card.Text>
-
-          <Button
-            variant="primary"
-            style={{ marginRight: "10px" }}
-            className="w-75"
-            onClick={(e) => {
-              e.stopPropagation();
-              createNewCart(product[0]);
-            }}
-          >
-            Add to Cart <ShoppingCartOutlined />
-          </Button>
-          <Button
-            variant="outline-secondary"
-            className="w-10"
-            onClick={(e) => {
-              e.stopPropagation();
-              addToFavorite(product[0]);
-            }}
-          >
-            <HeartOutlined />
-          </Button>
+        <Card.Body
+          style={{
+            width: "50%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>
+            <Card.Title>{product[0].title}</Card.Title>
+            <Card.Text>{product[0].description}</Card.Text>
+            <Card.Text>
+              <strong>{product[0].price} JOD</strong>
+            </Card.Text>
+          </div>
+          <div>
+            <Button
+              variant="primary"
+              style={{ marginRight: "10px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                createNewCart(product[0]);
+              }}
+            >
+              Add to Cart <ShoppingCartOutlined />
+            </Button>
+            <Button
+              variant="outline-secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                addToFavorite(product[0]);
+              }}
+            >
+              <HeartOutlined />
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </Container>
