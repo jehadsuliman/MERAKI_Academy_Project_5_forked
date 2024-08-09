@@ -48,34 +48,38 @@ const NavbarComponent = () => {
   if (loading) return null;
 
   const menu = (
-    <Menu>
+    <Menu style={{ backgroundColor: "#000" }}>
       {!isLoggedIn ? (
         <>
           <Menu.Item
             key="registerUser"
-            icon={<LoginOutlined />}
+            icon={<LoginOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/RegisterUserOrAdmin")}
+            style={{ color: "#fff" }}
           >
             Sign up User
           </Menu.Item>
           <Menu.Item
             key="loginWithUserOrAdmin"
-            icon={<UserAddOutlined />}
+            icon={<UserAddOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/LoginUserOrAdmin")}
+            style={{ color: "#fff" }}
           >
             Login user
           </Menu.Item>
           <Menu.Item
             key="registerShop"
-            icon={<LoginOutlined />}
+            icon={<LoginOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/shopRegister")}
+            style={{ color: "#fff" }}
           >
             Sign up Shop
           </Menu.Item>
           <Menu.Item
             key="loginWithShop"
-            icon={<ShopOutlined />}
+            icon={<ShopOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/shopLogin")}
+            style={{ color: "#fff" }}
           >
             Login shop
           </Menu.Item>
@@ -84,22 +88,25 @@ const NavbarComponent = () => {
         <>
           <Menu.Item
             key="userProfile"
-            icon={<EditOutlined />}
+            icon={<EditOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/userProfile")}
+            style={{ color: "#fff" }}
           >
             Edit Profile
           </Menu.Item>
           <Menu.Item
             key="order"
-            icon={<ShoppingCartOutlined />}
+            icon={<ShoppingCartOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/order")}
+            style={{ color: "#fff" }}
           >
             Order
           </Menu.Item>
           <Menu.Item
             key="logoutUser"
-            icon={<LogoutOutlined />}
+            icon={<LogoutOutlined style={{ color: "#fff" }} />}
             onClick={() => navigate("/logoutUser")}
+            style={{ color: "#fff" }}
           >
             Logout user
           </Menu.Item>
@@ -110,7 +117,6 @@ const NavbarComponent = () => {
 
   return (
     <Navbar
-      bg="light"
       expand="lg"
       style={{
         position: "fixed",
@@ -118,11 +124,16 @@ const NavbarComponent = () => {
         left: 0,
         width: "100%",
         zIndex: 1000,
+        backgroundColor: "#000",
       }}
     >
       <Container className="d-flex justify-content-between">
-        <span className="fw-bold fs-2" onClick={() => navigate("/")}>
-          JKI EXPRESS
+        <span
+          className="fw-bold fs-2"
+          style={{ color: "#fff" }}
+          onClick={() => navigate("/")}
+        >
+          JKI <span style={{ color: "#FFA07A" }}>E</span>XPRESS
         </span>
         <InputGroup size="sm" className="w-50">
           <Form.Control
@@ -138,16 +149,26 @@ const NavbarComponent = () => {
             gap: "20px",
             fontSize: "24px",
             alignItems: "center",
+            color: "#fff",
           }}
         >
           <Dropdown overlay={menu} trigger={["click"]}>
             <a onClick={(e) => e.preventDefault()}>
-              <UserOutlined />
+              <UserOutlined style={{ color: "#fff" }} />
             </a>
           </Dropdown>
-          <ShoppingCartOutlined onClick={() => navigate("/carts")} />
-          <HeartOutlined onClick={() => navigate("/favorite")} />
-          <MessageOutlined onClick={() => navigate("/faq")} />
+          <ShoppingCartOutlined
+            style={{ color: "#fff" }}
+            onClick={() => navigate("/carts")}
+          />
+          <HeartOutlined
+            style={{ color: "#fff" }}
+            onClick={() => navigate("/favorite")}
+          />
+          <MessageOutlined
+            style={{ color: "#fff" }}
+            onClick={() => navigate("/faq")}
+          />
         </div>
       </Container>
     </Navbar>
