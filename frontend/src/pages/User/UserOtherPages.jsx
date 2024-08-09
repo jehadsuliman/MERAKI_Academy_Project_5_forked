@@ -2,12 +2,11 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import FooterComponent from "../../layouts/User/Footer";
 import NavbarAnotherPage from "../../layouts/User/NavbarAnotherPage";
-
-const HomePageUser = () => {
+const  UserOtherPages = () => {
   return (
     <div>
       <header>
-        <NavbarAnotherPage />
+      <NavbarAnotherPage />
       </header>
       <main>
         <Outlet />
@@ -17,4 +16,4 @@ const HomePageUser = () => {
   );
 };
 
-export default HomePageUser;
+export default UserOtherPages;
