@@ -90,7 +90,7 @@ const FavoriteList = () => {
     getAllFavorite();
   }, []);
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ backgroundColor: "#F5F5F5", padding: "20px" }}>
       <Row gutter={[10, 10]}>
         {products.map((product) => (
           <Col key={product.id} xs={12} sm={8} md={6} lg={4}>

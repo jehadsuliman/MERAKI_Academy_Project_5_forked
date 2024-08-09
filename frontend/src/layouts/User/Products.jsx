@@ -77,7 +77,7 @@ const Products = () => {
                 <img
                   alt={product.title}
                   src={product.image}
-                  style={{ height: "200px", width: "100%" }}
+                  style={{ height: "200px", width: "100%", cursor: "pointer" }}
                 />
               }
             >

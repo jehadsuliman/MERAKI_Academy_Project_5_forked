@@ -145,59 +145,63 @@ const Comments = () => {
   };
 
   return (
-    <div style={{ margin: "40px", background: "#fff", borderRadius: "8px" }}>
+    <div style={{ margin: "40px", background: "#F5F5F5", borderRadius: "8px" }}>
       <Title level={3}>Comments</Title>
       <TextArea
         rows={4}
         value={newCommentText}
         onChange={(e) => setNewCommentText(e.target.value)}
         placeholder="Enter your comment"
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: "20px" }}
       />
       <Button
         type="primary"
         onClick={handleAddComment}
-        style={{ marginBottom: "20px" }}
+        style={{ marginBottom: "50px" }}
       >
         Add Comment
       </Button>
-      <List
-        bordered
-        dataSource={comments.filter(
-          (comment) =>
-            Number(comment.product_id) === Number(id) && !comment.is_deleted
-        )}
-        renderItem={(comment) => (
-          <List.Item
-            actions={[
-              <Button type="link" onClick={() => showEditModal(comment)}>
-                Edit
-              </Button>,
-              <Button
-                type="link"
-                danger
-                onClick={() => handleDeleteComment(comment.id)}
-              >
-                Delete
-              </Button>,
-            ]}
-            style={{
-              marginTop: "15px",
-              borderRadius: "none",
-              background: "#fff",
-            }}
-          >
-            <Space direction="vertical">
-              <Typography.Text strong>
-                {" "}
-                <Avatar icon={<UserOutlined />} /> {comment.username}
-              </Typography.Text>
-              <br />
-              <Typography.Text>{comment.comment}</Typography.Text>
-            </Space>
-          </List.Item>
-        )}
-      />
+
+      <div>
+        <List
+          style={{ backgroundColor: "#fff" }}
+          bordered
+          dataSource={comments.filter(
+            (comment) =>
+              Number(comment.product_id) === Number(id) && !comment.is_deleted
+          )}
+          renderItem={(comment) => (
+            <List.Item
+              actions={[
+                <Button type="link" onClick={() => showEditModal(comment)}>
+                  Edit
+                </Button>,
+                <Button
+                  type="link"
+                  danger
+                  onClick={() => handleDeleteComment(comment.id)}
+                >
+                  Delete
+                </Button>,
+              ]}
+              style={{
+                marginTop: "25px",
+                background: "#fff",
+                padding: "25px",
+                borderBottom: "1px solid #ddd",
+              }}
+            >
+              <Space direction="vertical" style={{ width: "100%" }}>
+                <Typography.Text strong>
+                  <Avatar icon={<UserOutlined />} /> {comment.username}
+                </Typography.Text>
+                <Typography.Text>{comment.comment}</Typography.Text>
+              </Space>
+            </List.Item>
+          )}
+        />
+      </div>
+
       <Modal
         title="Edit Comment"
         visible={isEditModalVisible}

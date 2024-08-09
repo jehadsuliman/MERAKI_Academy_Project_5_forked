@@ -3,18 +3,31 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
+import {
+  AiFillLike,
+  AiOutlineComment,
+  AiTwotoneLike,
+  AiTwotoneSave,
+  AiOutlineClose,
+  AiOutlineSend,
+  AiFillFolderAdd,
+  AiFillDelete,
+  AiFillEdit,
+  AiFillHeart,
+  AiOutlineHeart,
+} from "react-icons/ai";
 import { Card, Button, Container } from "react-bootstrap";
 import { message } from "antd";
 import { setCarts } from "../../Service/api/redux/reducers/user/carts";
 const ProductDetails = () => {
   const dispatch = useDispatch();
-
   const { token, userId } = useSelector((state) => ({
     token: state.userAuth.token,
     userId: state.userAuth.userId,
   }));
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [liked, setLiked] = useState(false);
 
   const productDetail = () => {
     axios
@@ -79,9 +92,14 @@ const ProductDetails = () => {
   if (!product) {
     return <></>;
   }
-
+  const toggleLike = (product) => {
+    setLiked(!liked);
+    addToFavorite(product);
+  };
   return (
-    <Container style={{ marginTop: "20px", maxWidth: "1100px" }}>
+    <Container
+      style={{ marginTop: "20px", maxWidth: "1100px", background: "#F5F5F5" }}
+    >
       <Card
         style={{
           display: "flex",
@@ -128,13 +146,17 @@ const ProductDetails = () => {
               Add to Cart <ShoppingCartOutlined />
             </Button>
             <Button
-              variant="outline-secondary"
+              style={{ border: "none", background: "none", padding: "0" }}
               onClick={(e) => {
                 e.stopPropagation();
-                addToFavorite(product[0]);
+                toggleLike(product[0]);
               }}
             >
-              <HeartOutlined />
+              {liked ? (
+                <AiFillHeart style={{ fontSize: "30px", color: "red" }} />
+              ) : (
+                <AiOutlineHeart style={{ fontSize: "30px", color: "gray" }} />
+              )}
             </Button>
           </div>
         </Card.Body>

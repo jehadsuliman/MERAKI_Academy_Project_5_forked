@@ -191,8 +191,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "130vh",
-    background: "linear-gradient(135deg, #f0f2f5, #e6f7ff)",
+    height: "1000px",
+    background: "#F5F5F5",
   },
   card: {
     borderRadius: "12px",
@@ -220,6 +220,10 @@ const styles = {
   button: {
     width: "100%",
     height: "40px",
+  },
+  loginPrompt: {
+    textAlign: "center",
+    marginTop: "20px",
   },
 };
 

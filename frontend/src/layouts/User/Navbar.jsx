@@ -130,7 +130,7 @@ const NavbarComponent = () => {
       <Container className="d-flex justify-content-between">
         <span
           className="fw-bold fs-2"
-          style={{ color: "#fff" }}
+          style={{ color: "#fff", cursor: "pointer"}}
           onClick={() => navigate("/")}
         >
           JKI <span style={{ color: "#FFA07A" }}>E</span>XPRESS
@@ -150,6 +150,7 @@ const NavbarComponent = () => {
             fontSize: "24px",
             alignItems: "center",
             color: "#fff",
+            cursor: "pointer"
           }}
         >
           <Dropdown overlay={menu} trigger={["click"]}>

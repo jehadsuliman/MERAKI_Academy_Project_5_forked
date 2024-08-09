@@ -6,7 +6,7 @@ import NavbarAnotherPage from "../../layouts/User/NavbarAnotherPage";
 
 const HomePageUser = () => {
   return (
-    <div>
+    <div style={{backgroundColor: "#F5F5F5"}}>
       
       <header>
       <NavbarAnotherPage />

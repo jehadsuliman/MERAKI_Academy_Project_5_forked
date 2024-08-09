@@ -3,7 +3,7 @@ import Carousel from 'react-bootstrap/Carousel';
 
 const SlideImage = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ height: '200px', paddingTop:'175px' }}>
+    <div className="d-flex justify-content-center align-items-center" style={{ height: '200px', paddingTop:'175px', cursor: "pointer" }}>
  <img 
         src="https://img.ltwebstatic.com/images3_ccc/2024/07/29/3a/1722235135a53e3980e7f549325a5e08c0cc518169_thumbnail_432x.webp" 
         alt="image"

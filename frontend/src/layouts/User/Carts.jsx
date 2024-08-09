@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   setCarts,
-  addCarts,
   updateCartsById,
   deleteCartsById,
 } from "../../Service/api/redux/reducers/user/carts";
@@ -15,6 +14,7 @@ import {
   MinusCircleOutlined,
 } from "@ant-design/icons";
 import PaymentForm from "./PaymentForm";
+
 const Carts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -133,13 +133,13 @@ const Carts = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px", backgroundColor: "#F5F5F5" }}>
       <h1
         style={{
           fontSize: "2rem",
           color: "#333",
           textAlign: "center",
-          margin: "20px",
+          marginBottom: "20px",
         }}
       >
         Your Carts
@@ -155,20 +155,22 @@ const Carts = () => {
               <Card
                 key={cart.id}
                 style={{
-                  margin: "25px",
+                  margin: "20px 0",
                   display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
+                  flexDirection: "column",
                   border: "1px solid #ddd",
                   borderRadius: "8px",
                   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                  padding: "15px",
+                  backgroundColor: "#fff",
                 }}
               >
                 <div
                   style={{
-                    flex: "0 0 150px",
-                    margin: "10px",
-                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: "10px",
                   }}
                 >
                   {cart.image ? (
@@ -177,8 +179,8 @@ const Carts = () => {
                       src={cart.image}
                       alt={`Image of ${cart.title}`}
                       style={{
-                        width: "200px",
-                        height: "200px",
+                        width: "150px",
+                        height: "150px",
                         objectFit: "cover",
                         borderRadius: "8px",
                       }}
@@ -206,91 +208,97 @@ const Carts = () => {
                       />
                     </div>
                   )}
-                </div>
-                <Card.Body style={{ flex: "1 1 auto" }}>
-                  <Card.Title>
-                    <strong>{cart.title || "N/A"}</strong>
-                  </Card.Title>
-                  <Card.Text>
-                    <strong>Unit Price:</strong> {itemPrice.toFixed(2)} JOD
-                    <br />
-                    <strong>Total Price:</strong> {updatedTotalPrice.toFixed(2)}{" "}
-                    JOD
-                  </Card.Text>
-                  <Form.Group controlId="quantity">
-                    <Form.Label>Quantity</Form.Label>
-                    <div
+                  <div style={{ marginLeft: "20px", flex: 1 }}>
+                    <div style={{ marginBottom: "10px" }}>
+                      <strong>{cart.title || "N/A"}</strong>
+                    </div>
+                    <div style={{ marginBottom: "10px" }}>
+                      <strong>Unit Price:</strong> {itemPrice.toFixed(2)} JOD
+                    </div>
+                    <div style={{ marginBottom: "10px" }}>
+                      <strong>Total Price:</strong>{" "}
+                      {updatedTotalPrice.toFixed(2)} JOD
+                    </div>
+                    <Form.Group
+                      controlId="quantity"
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <Form.Label>Quantity</Form.Label>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <Button
+                          variant="outline-secondary"
+                          onClick={() => decreaseQuantity(cart.id)}
+                          style={{ flexShrink: 0 }}
+                        >
+                          <MinusCircleOutlined />
+                        </Button>
+                        <Form.Control
+                          type="number"
+                          value={updatedQuantity}
+                          onChange={(e) => handleQuantityChange(e, cart.id)}
+                          min="1"
+                          style={{
+                            width: "80px",
+                            textAlign: "center",
+                            flexShrink: 0,
+                          }}
+                        />
+                        <Button
+                          variant="outline-secondary"
+                          onClick={() => increaseQuantity(cart.id)}
+                          style={{ flexShrink: 0 }}
+                        >
+                          <PlusCircleOutlined />
+                        </Button>
+                      </div>
+                    </Form.Group>
+                    <Button
+                      variant="danger"
+                      onClick={() => deleteCart(cart.id)}
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "10px",
+                        fontSize: "1rem",
+                        color: "#fff",
+                        backgroundColor: "#d9534f",
+                        padding: "8px 16px",
+                        borderRadius: "5px",
                       }}
                     >
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => decreaseQuantity(cart.id)}
-                        style={{ marginRight: "10px" }}
-                      >
-                        <MinusCircleOutlined />
-                      </Button>
-                      <Form.Control
-                        type="number"
-                        value={updatedQuantity}
-                        onChange={(e) => handleQuantityChange(e, cart.id)}
-                        min="1"
-                        style={{
-                          width: "100px",
-                          textAlign: "center",
-                          marginRight: "10px",
-                        }}
-                      />
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => increaseQuantity(cart.id)}
-                      >
-                        <PlusCircleOutlined />
-                      </Button>
-                    </div>
-                  </Form.Group>
-                  <Button
-                    variant="danger"
-                    onClick={() => deleteCart(cart.id)}
-                    style={{
-                      fontSize: "1rem",
-                      color: "#fff",
-                      backgroundColor: "#d9534f",
-                      padding: "5px 40px",
-                      borderRadius: "5px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <DeleteOutlined />
-                  </Button>
-                </Card.Body>
+                      <DeleteOutlined />
+                    </Button>
+                  </div>
+                </div>
               </Card>
             );
           })}
           <div
             style={{
-              margin: "25px",
-              padding: "20px",
+              marginTop: "30px",
+              fontSize: "40px",
+              padding: "40px",
               border: "1px solid #ddd",
               borderRadius: "8px",
               boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               textAlign: "center",
+              backgroundColor: "#fff",
             }}
           >
-            <h3>Total Quantity: {calculateTotalQuantity()}</h3>
-            <h3>Total Price: {calculateTotalPrice().toFixed(2)} JOD</h3>
+            <h3>Total Items Quantity: {calculateTotalQuantity()}</h3>
+            <h3>Total Order Amount: {calculateTotalPrice().toFixed(2)} JOD</h3>
 
             <Button
               variant="primary"
               onClick={handleCheckout}
-              style={{ marginRight: "20px" }}
+              style={{ marginRight: "20px", alignItems: "center" }}
             >
-              Cash on delivery{" "}
+              <h6 style={{margin: "2px"}}>Cash on Delivery</h6>
             </Button>
-            <PaymentForm cart={carts} />
+            <PaymentForm cart={carts}/>
           </div>
         </>
       ) : (
@@ -301,6 +309,9 @@ const Carts = () => {
             textAlign: "center",
             fontSize: "1.5rem",
             color: "#666",
+            backgroundColor: "#fff",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
           }}
         >
           YOUR CART IS EMPTY <br />

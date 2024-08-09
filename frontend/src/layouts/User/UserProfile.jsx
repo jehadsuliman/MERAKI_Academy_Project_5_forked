@@ -18,13 +18,7 @@ import {
   Select,
   Spin,
 } from "antd";
-import {
-  UserOutlined,
-  EditOutlined,
-  InboxOutlined,
-  ArrowLeftOutlined,
-} from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { UserOutlined, EditOutlined, InboxOutlined } from "@ant-design/icons";
 import CountryList from "country-list";
 import Flag from "react-flagkit";
 
@@ -47,7 +41,6 @@ const UserProfile = () => {
   const [error, setError] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
   const [form] = Form.useForm();
-  const navigate = useNavigate();
 
   const countries = CountryList.getData();
   const countryCodeMap = Object.fromEntries(
@@ -149,131 +142,155 @@ const UserProfile = () => {
     );
 
   return (
-    <Card className="faq-container my-5" style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <Space direction="vertical" size={16} style={{ width: "100%" }}>
-        <Row gutter={16} justify="center" align="top">
-          <Col xs={24} sm={12} md={8} lg={6} xl={5}>
-            <Avatar
-              size={150}
-              icon={<UserOutlined />}
-              src={userInfo.profile_pic}
-              style={{
-                width: "100%",
-                height: "auto",
-                objectFit: "cover",
-                borderRadius: "70%",
-                marginBottom: "24px",
-              }}
-            />
-          </Col>
-          <Col xs={24} sm={12} md={16} lg={18} xl={19}>
-            <Title level={2} style={{ marginBottom: "16px" }}>
-              {userInfo.username}
-            </Title>
-            <Divider />
-            <Text strong>
-              Country:{<br />}
-              {countryCode ? (
-                <>
-                  <Flag country={countryCode} style={{ marginRight: "8px" }} />
-                  {userInfo.country}
-                </>
-              ) : (
-                userInfo.country
-              )}
-            </Text>
-            <Divider />
-            <Text strong>Email:</Text>
-            <Text style={{ display: "block", marginBottom: "16px" }}>
-              {userInfo.email}
-            </Text>
-            <Divider />
-            <Text strong>Phone Number:</Text>
-            <Text style={{ display: "block", marginBottom: "16px" }}>
-              {userInfo.phone_number}
-            </Text>
-            <Divider />
-            <Text strong>Age:</Text>
-            <Text style={{ display: "block", marginBottom: "16px" }}>
-              {userInfo.age}
-            </Text>
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              onClick={() => setShowUpdate(true)}
-              style={{ marginRight: "8px" }}
-            >
-              Edit Profile
-            </Button>
-          </Col>
-        </Row>
-      </Space>
-
-      <Modal
-        title="Update Profile"
-        visible={showUpdate}
-        onOk={() => {
-          form.submit();
+    <div
+      style={{
+        backgroundColor: "#F5F5F5",
+        minHeight: "100vh",
+        padding: "20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card
+        className="faq-container"
+        style={{
+          backgroundColor: "#FFF",
+          padding: "20px",
+          maxWidth: "800px",
+          width: "100%",
         }}
-        onCancel={() => setShowUpdate(false)}
-        footer={[
-          <Button key="submit" type="primary" onClick={() => form.submit()}>
-            Save
-          </Button>,
-          <Button key="cancel" onClick={() => setShowUpdate(false)}>
-            Cancel
-          </Button>,
-        ]}
       >
-        <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item label="Username" name="username">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Email" name="email">
-            <Input type="email" />
-          </Form.Item>
-          <Form.Item
-            label="Country"
-            name="country"
-            rules={[{ required: true, message: "Please select your country!" }]}
-          >
-            <Select placeholder="Select a country" style={{ width: "100%" }}>
-              {countries.map((country) => (
-                <Option key={country.code} value={country.name.toLowerCase()}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
+        <Space direction="vertical" size={16} style={{ width: "100%" }}>
+          <Row gutter={16} justify="center" align="top">
+            <Col xs={24} sm={12} md={8} lg={6} xl={5}>
+              <Avatar
+                size={150}
+                icon={<UserOutlined />}
+                src={userInfo.profile_pic}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "cover",
+                  borderRadius: "70%",
+                  marginBottom: "24px",
+                }}
+              />
+            </Col>
+            <Col xs={24} sm={12} md={16} lg={18} xl={19}>
+              <Title level={2} style={{ marginBottom: "16px" }}>
+                {userInfo.username}
+              </Title>
+              <Divider />
+              <Text strong>
+                Country:{<br />}
+                {countryCode ? (
+                  <>
                     <Flag
-                      country={country.code}
+                      country={countryCode}
                       style={{ marginRight: "8px" }}
                     />
-                    {country.name}
-                  </div>
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item label="Phone Number" name="phone_number">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Age" name="age">
-            <Input type="number" min={0} />
-          </Form.Item>
-          <Form.Item label="Profile Picture" name="profile_pic">
-            <Dragger {...uploadProps} style={{ marginTop: "16px" }}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from
-                uploading company data or other banned files.
-              </p>
-            </Dragger>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </Card>
+                    {userInfo.country}
+                  </>
+                ) : (
+                  userInfo.country
+                )}
+              </Text>
+              <Divider />
+              <Text strong>Email:</Text>
+              <Text style={{ display: "block", marginBottom: "16px" }}>
+                {userInfo.email}
+              </Text>
+              <Divider />
+              <Text strong>Phone Number:</Text>
+              <Text style={{ display: "block", marginBottom: "16px" }}>
+                {userInfo.phone_number}
+              </Text>
+              <Divider />
+              <Text strong>Age:</Text>
+              <Text style={{ display: "block", marginBottom: "16px" }}>
+                {userInfo.age}
+              </Text>
+              <Button
+                type="primary"
+                icon={<EditOutlined />}
+                onClick={() => setShowUpdate(true)}
+                style={{ marginRight: "8px" }}
+              >
+                Edit Profile
+              </Button>
+            </Col>
+          </Row>
+        </Space>
+
+        <Modal
+          title="Update Profile"
+          visible={showUpdate}
+          onOk={() => {
+            form.submit();
+          }}
+          onCancel={() => setShowUpdate(false)}
+          footer={[
+            <Button key="submit" type="primary" onClick={() => form.submit()}>
+              Save
+            </Button>,
+            <Button key="cancel" onClick={() => setShowUpdate(false)}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <Form form={form} layout="vertical" onFinish={handleSubmit}>
+            <Form.Item label="Username" name="username">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Email" name="email">
+              <Input type="email" />
+            </Form.Item>
+            <Form.Item
+              label="Country"
+              name="country"
+              rules={[
+                { required: true, message: "Please select your country!" },
+              ]}
+            >
+              <Select placeholder="Select a country" style={{ width: "100%" }}>
+                {countries.map((country) => (
+                  <Option key={country.code} value={country.name.toLowerCase()}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Flag
+                        country={country.code}
+                        style={{ marginRight: "8px" }}
+                      />
+                      {country.name}
+                    </div>
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item label="Phone Number" name="phone_number">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Age" name="age">
+              <Input type="number" min={0} />
+            </Form.Item>
+            <Form.Item label="Profile Picture" name="profile_pic">
+              <Dragger {...uploadProps} style={{ marginTop: "16px" }}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from
+                  uploading company data or other banned files.
+                </p>
+              </Dragger>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </Card>
+    </div>
   );
 };
 
