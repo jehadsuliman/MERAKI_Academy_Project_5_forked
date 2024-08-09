@@ -7,14 +7,14 @@ import Categories from "../../layouts/User/Categories";
 const HomePageUser = () => {
   return (
     <div>
-      <header>
+      <header style={{backgroundColor: "#F5F5F5"}}>
 
         <NavbarComponent  />
 
         <SlideImage />
         <Categories />
       </header>
-      <main>
+      <main style={{backgroundColor: "#F5F5F5"}}>
         <Outlet />
       </main>
       <FooterComponent />

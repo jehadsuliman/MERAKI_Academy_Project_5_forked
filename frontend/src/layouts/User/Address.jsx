@@ -101,7 +101,6 @@ const Address = () => {
     <div
       style={{
         margin: "40px",
-        background: "#fff",
         borderRadius: "8px",
         padding: "20px",
       }}

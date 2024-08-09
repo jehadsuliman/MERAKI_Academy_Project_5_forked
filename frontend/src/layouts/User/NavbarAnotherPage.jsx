@@ -41,7 +41,7 @@ const NavbarAnotherPage = () => {
   if (loading) return null;
 
   const menu = (
-    <Menu style={{backgroundColor: "#000"}}>
+    <Menu style={{ backgroundColor: "#000" }}>
       {!isLoggedIn ? (
         <>
           <Menu.Item
@@ -111,8 +111,12 @@ const NavbarAnotherPage = () => {
   return (
     <Navbar expand="lg" style={{ backgroundColor: "#000" }}>
       <Container className="d-flex justify-content-between">
-        <span className="fw-bold fs-2 text-white" onClick={() => navigate("/")}>
-          JKI EXPRESS
+        <span
+          className="fw-bold fs-2"
+          style={{ color: "#fff", cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          JKI <span style={{ color: "#FFA07A" }}>E</span>XPRESS
         </span>
         <div
           style={{
@@ -121,6 +125,7 @@ const NavbarAnotherPage = () => {
             fontSize: "24px",
             alignItems: "center",
             color: "#fff",
+            cursor: "pointer",
           }}
         >
           <Dropdown overlay={menu} trigger={["click"]}>

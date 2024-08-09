@@ -78,11 +78,15 @@ const FaqComponent = () => {
   ];
 
   return (
+
+    <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+
     <div className="faq-container my-5 ">
+
       <Collapse accordion>
         {faqData.map((item) => (
           <Panel header={item.question} key={item.id}>
-            <p>{item.answer}</p>
+            <p style={{ marginLeft: "25px" }}>{item.answer}</p>
           </Panel>
         ))}
       </Collapse>
