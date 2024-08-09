@@ -55,7 +55,8 @@ const FaqComponent = () => {
     {
       id: 4,
       question: "How can I add an item to my wishlist?",
-      answer: `You can save an item to your 'Wishlist' by hitting the '♡' button on the product details page.`,
+      answer:
+        "You can save an item to your 'Wishlist' by hitting the '♡' button on the product details page.",
     },
     {
       id: 5,
@@ -78,15 +79,11 @@ const FaqComponent = () => {
   ];
 
   return (
-
-    <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-
-    <div className="faq-container my-5 ">
-
+    <div className="faq-container my-5 " style={{margin: "20px"}}>
       <Collapse accordion>
         {faqData.map((item) => (
           <Panel header={item.question} key={item.id}>
-            <p style={{ marginLeft: "25px" }}>{item.answer}</p>
+            <p style={{marginLeft: "20px"}}>{item.answer}</p>
           </Panel>
         ))}
       </Collapse>
