@@ -11,9 +11,11 @@ import {
   UserOutlined ,
   ShopOutlined,
   LogoutOutlined,
+  ShoppingOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import UserProfile from '../../layouts/User/UserProfile';
+import OrderList from '../../layouts/Admin/OrderList';
 
 const { Header, Sider, Content,Footer } = Layout;
 const { SubMenu } = Menu; 
@@ -43,12 +45,15 @@ const HomePageAdmin = () => {
             <Menu.Item key="3" onClick={()=>{setGoToPage("ViewCategory")}}>View Categories</Menu.Item>
           </SubMenu>
           <Menu.Item key="5" icon={<UsergroupAddOutlined />}  onClick={()=>{setGoToPage("UsersList")}}>
-            User
+            Users
           </Menu.Item>
           <Menu.Item key="6" icon={<ShopOutlined />} onClick={()=>{setGoToPage("ShopsList")}}>
-            Shop
+            Shops
           </Menu.Item>
-          <Menu.Item key="7" icon={<LogoutOutlined />} onClick={() => setGoToPage("LogoutAdmin")}>
+          <Menu.Item key="7" icon={<ShoppingOutlined />} onClick={() => setGoToPage("orderList")}>
+            Orders
+          </Menu.Item>
+          <Menu.Item key="8" icon={<LogoutOutlined />} onClick={() => setGoToPage("LogoutAdmin")}>
             Logout
           </Menu.Item>
       
@@ -87,6 +92,7 @@ const HomePageAdmin = () => {
         {goToPageS==="ViewCategory"&&<CategoriesList/>} 
         {goToPageS==="LogoutAdmin" && <LogoutAdmin />}
         {goToPageS==="userProfile" && <UserProfile />}
+        {goToPageS==="orderList" && <OrderList />}
 
          
         </Content>
