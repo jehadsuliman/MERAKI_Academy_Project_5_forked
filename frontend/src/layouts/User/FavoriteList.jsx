@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../../Service/api/redux/reducers/shop/product";
 import { Card, Row, Col, message } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, HeartFilled } from "@ant-design/icons";
 const { Meta } = Card;
 import { useNavigate } from "react-router-dom";
 import { setCarts } from "../../Service/api/redux/reducers/user/carts";
@@ -25,7 +25,7 @@ const FavoriteList = () => {
       },
     };
     axios
-      .get("http://localhost:5000/favorites",header)
+      .get("http://localhost:5000/favorites", header)
       .then((result) => {
         dispatch(setProducts(result.data.favorites));
         console.log(result.data.favorites);
@@ -62,12 +62,35 @@ const FavoriteList = () => {
         message.error("Failed to add product to cart.");
       });
   };
+  const deleteFavorite = (product) => {
+    const { id: product_id } = product;
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .delete("http://localhost:5000/favorites", {
+        data: { product_id, user_id: userId },
+        headers: header.headers,
+      })
+      .then((result) => {
+        message.success("Product removed from favorites.");
+        getAllFavorite();
+      })
+      .catch((err) => {
+        message.error("Failed to remove product from favorites.");
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getAllFavorite();
   }, []);
   return (
-<div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px" }}>
       <Row gutter={[10, 10]}>
         {products.map((product) => (
           <Col key={product.id} xs={12} sm={8} md={6} lg={4}>
@@ -96,12 +119,17 @@ const FavoriteList = () => {
                     <p style={{ fontSize: "15px", paddingTop: "10px" }}>
                       {product.price} JOD
                     </p>
+                    <HeartFilled
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteFavorite(product);
+                      }}
+                    />
                     <ShoppingCartOutlined
                       style={{ fontSize: "20px", cursor: "pointer" }}
                       onClick={(e) => {
                         e.stopPropagation();
                         createNewCart(product);
-
                       }}
                     />
                   </div>
@@ -115,4 +143,4 @@ const FavoriteList = () => {
   );
 };
 
-export default FavoriteList
+export default FavoriteList;

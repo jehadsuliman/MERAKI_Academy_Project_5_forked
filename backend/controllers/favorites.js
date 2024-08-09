@@ -85,12 +85,6 @@ const getFavorites = (req, res) => {
 const deleteFavorite = (req, res) => {
   const { product_id } = req.body;
   const user_id = req.token.userId;
-  if (!user_id) {
-    return res.status(401).json({
-      success: false,
-      message: `The token is ${user_id}`,
-    });
-  }
   pool
     .query(
       `DELETE FROM favorite WHERE product_id = $1 AND user_id = $2 RETURNING *`,

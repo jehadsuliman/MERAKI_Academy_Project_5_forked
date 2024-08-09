@@ -27,11 +27,11 @@ import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
 import Comment from "../layouts/User/Comment";
 import Address from "../layouts/User/Address";
-
 import UserProfile from "../layouts/User/UserProfile";
 import LogoutUser from "../layouts/User/LogoutUser";
-
-
+import ProfileUser from "../pages/User/ProfileUser";
+import AddressPage from "../pages/User/AddressPage";
+import OrderPage from "../pages/User/OrderPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -61,7 +61,17 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/",
+    element: <ProfileUser />,
+    children: [
+      {
 
+        path: "/userProfile",
+        element: <UserProfile />,
+      },
+    ],
+  },
   {
     path: "/",
     element: <CartsPage />,
@@ -69,6 +79,16 @@ export const router = createBrowserRouter([
       {
         path: "/carts",
         element: <Carts />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <AddressPage />,
+    children: [
+      {
+        path: "/address",
+        element: <Address />,
       },
     ],
   },
@@ -93,16 +113,21 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: "/",
+    element: <OrderPage />,
+    children: [
+      {
+        path: "/orderAccept",
+        element: <OrderAccept />,
+      },
+    
+    ],
+  },
+  {
     path: "*",
     element: <PageNotFound />,
   },
-
-  {
-    path: "/orderAccept",
-    element: <OrderAccept />,
-  },
-
-  {
+ {
     path: "/admin",
     element: <HomePageAdmin />,
   },
@@ -145,18 +170,6 @@ export const router = createBrowserRouter([
     element: <Comment />,
   },
   {
-    path: "/address",
-    element: <Address />,
-  },
-  {
-
-    path: "/userProfile",
-    element: <UserProfile />,
-  },
-
-
-  //Register & Login
-  {
     path: "/RegisterUserOrAdmin",
     element: <RegisterUserOrAdmin />,
   },
@@ -172,4 +185,5 @@ export const router = createBrowserRouter([
     path: "/shopLogin",
     element: <ShopLogin />,
   },
+  
 ]);

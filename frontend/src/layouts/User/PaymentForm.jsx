@@ -2,14 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
 import { Button} from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const stripePromise = loadStripe('pk_test_51Pl7XUP97YxpocBfHEfA1ZpxuAxI3r2HGtkqQVywFuJG6a6xlW0k1GyJp00KwcgVvdCAxgjrggt5HnY2VPxIEptz00p1a0sFGt');
 
 const PaymentForm = ({ cart }) => {
+  const userId = useSelector((state) => state.userAuth.userId);
   const handleCheckout = async () => {
     try {
       const response = await axios.post('http://localhost:5000/stripe/create-checkout-session', {
-        cart
+        cart,
+        userId
       });
             const { sessionId } = response.data;
 

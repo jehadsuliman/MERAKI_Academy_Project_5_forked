@@ -1,9 +1,9 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import FooterComponent from "../../layouts/User/Footer";
 import NavbarAnotherPage from "../../layouts/User/NavbarAnotherPage";
+import FooterComponent from "../../layouts/User/Footer";
+import { Outlet } from "react-router-dom";
 
-const HomePageUser = () => {
+const ProfileUser = () => {
   return (
     <div>
       <header>
@@ -17,4 +17,4 @@ const HomePageUser = () => {
   );
 };
 
-export default HomePageUser;
+export default ProfileUser;

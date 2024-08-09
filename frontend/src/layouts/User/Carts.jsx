@@ -52,27 +52,6 @@ const Carts = () => {
     getCartsByUserId();
   }, [userId, token, dispatch]);
 
-  const addToCart = async (product_id, quantity, total_price) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/carts",
-        { product_id, quantity, total_price },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        dispatch(addCarts(response.data.cart));
-      } else {
-        console.error("Error adding to cart:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
-  };
-
   const updateCart = async (cartId, quantity) => {
     try {
       const header = { headers: { Authorization: `Bearer ${token}` } };
@@ -135,7 +114,6 @@ const Carts = () => {
     return carts.reduce((total, cart) => {
       const quantity = quantities[cart.id] || cart.quantity || 1;
       const itemPrice = parseFloat(cart.total_price) || 0;
-
       return total + quantity * itemPrice;
     }, 0);
   };
@@ -193,9 +171,6 @@ const Carts = () => {
                     textAlign: "center",
                   }}
                 >
-                  <div style={{ marginBottom: "10px" }}>
-                    <strong>Product ID:</strong> {cart.product_id || "N/A"}
-                  </div>
                   {cart.image ? (
                     <Card.Img
                       variant="top"
@@ -237,8 +212,6 @@ const Carts = () => {
                     <strong>{cart.title || "N/A"}</strong>
                   </Card.Title>
                   <Card.Text>
-                    <strong>Description:</strong> {cart.description || "N/A"}
-                    <br />
                     <strong>Unit Price:</strong> {itemPrice.toFixed(2)} JOD
                     <br />
                     <strong>Total Price:</strong> {updatedTotalPrice.toFixed(2)}{" "}
@@ -277,7 +250,7 @@ const Carts = () => {
                       >
                         <PlusCircleOutlined />
                       </Button>
-                   </div>
+                    </div>
                   </Form.Group>
                   <Button
                     variant="danger"
@@ -286,11 +259,11 @@ const Carts = () => {
                       fontSize: "1rem",
                       color: "#fff",
                       backgroundColor: "#d9534f",
-                      padding: "5px 10px",
+                      padding: "5px 40px",
                       borderRadius: "5px",
+                      marginLeft: "40px",
                     }}
                   >
-                    Remove
                     <DeleteOutlined />
                   </Button>
                 </Card.Body>
@@ -309,14 +282,15 @@ const Carts = () => {
           >
             <h3>Total Quantity: {calculateTotalQuantity()}</h3>
             <h3>Total Price: {calculateTotalPrice().toFixed(2)} JOD</h3>
-            
+
             <Button
               variant="primary"
               onClick={handleCheckout}
               style={{ marginRight: "20px" }}
             >
-Cash on delivery            </Button>
-            <PaymentForm cart={carts}/>
+              Cash on delivery{" "}
+            </Button>
+            <PaymentForm cart={carts} />
           </div>
         </>
       ) : (
