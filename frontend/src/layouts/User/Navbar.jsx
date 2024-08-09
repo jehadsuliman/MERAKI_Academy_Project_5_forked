@@ -14,6 +14,8 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { setProducts } from "../../Service/api/redux/reducers/shop/product";
+import { setLogout } from "../../Service/api/redux/reducers/auth/userAuth";
+
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -105,7 +107,9 @@ const NavbarComponent = () => {
           <Menu.Item
             key="logoutUser"
             icon={<LogoutOutlined style={{ color: "#fff" }} />}
-            onClick={() => navigate("/logoutUser")}
+            onClick={() => {
+              dispatch(setLogout());
+              navigate("/")}}
             style={{ color: "#fff" }}
           >
             Logout user
