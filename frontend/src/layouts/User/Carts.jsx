@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   setCarts,
-  addCarts,
   updateCartsById,
   deleteCartsById,
 } from "../../Service/api/redux/reducers/user/carts";

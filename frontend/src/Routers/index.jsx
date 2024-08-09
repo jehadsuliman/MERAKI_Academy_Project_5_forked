@@ -25,7 +25,6 @@ import SupportPage from "../pages/User/SupportPage";
 import Address from "../layouts/User/Address";
 import UserProfile from "../layouts/User/UserProfile";
 import LogoutUser from "../layouts/User/LogoutUser";
-import Order from "../layouts/User/Order";
 import UserOtherPages from "../pages/User/UserOtherPages";
 import ProductDetailsPage from "../pages/User/ProductDetailsPage";
 
@@ -55,11 +54,6 @@ export const router = createBrowserRouter([
       {
         path: "/userProfile",
         element: <UserProfile />,
-      },
-
-      {
-        path: "/order",
-        element: <Order />,
       },
       {
         path: "/carts",
@@ -158,6 +152,7 @@ export const router = createBrowserRouter([
     path: "/logoutUser",
     element: <LogoutUser />,
   },
+
 
 
 ]);

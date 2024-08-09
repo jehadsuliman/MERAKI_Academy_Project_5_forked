@@ -78,7 +78,7 @@ const FaqComponent = () => {
   ];
 
   return (
-    <div className="faq-container my-5">
+    <div className="faq-container my-5 ">
       <Collapse accordion>
         {faqData.map((item) => (
           <Panel header={item.question} key={item.id}>
