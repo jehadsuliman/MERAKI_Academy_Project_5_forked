@@ -43,7 +43,7 @@ const Categories = () => {
     <div style={{ padding: "20px", paddingTop:'150px'}}>
       <Row gutter={[16, 16]} justify="center">
         {categories.map((category) => (
-          <Col key={category.id} xs={10} sm={6} md={4} lg={4}
+          <Col key={category.id} xs={10} sm={8} md={6} lg={6}
           onClick={() => getAllProductsByCategoryId(category.id)}
           >
             <Card
@@ -52,8 +52,8 @@ const Categories = () => {
               cover={
                 <div
                   style={{
-                    width: "50px",
-                    height: "50px",
+                    width: "75px",
+                    height: "75px",
                     overflow: "hidden",
                     borderRadius: "50%",
                     margin: "0 auto",

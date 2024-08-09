@@ -111,13 +111,7 @@ const HomePageShop = () => {
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
         </Header>
-        {goToPage === "categories" && <SubCategoryList />}
-        {goToPage === "createSubCategory" && <CreateSubCategory />}
-        {goToPage === "Products" && <Products />}
-        {goToPage === "ShopUpdate" && <ShopUpdate />}
-        {goToPage === "ProductList" && <ProductList />}
-        {goToPage === "ProfileShop" && <ProfileShop />}
-        {goToPage === "logout" && <Logout />}
+       
 
         <Content
           style={{
@@ -127,7 +121,17 @@ const HomePageShop = () => {
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
-        ></Content>
+        >
+
+ {goToPage === "categories" && <SubCategoryList />}
+        {goToPage === "createSubCategory" && <CreateSubCategory />}
+        {goToPage === "Products" && <Products />}
+        {goToPage === "ShopUpdate" && <ShopUpdate />}
+        {goToPage === "ProductList" && <ProductList />}
+        {goToPage === "ProfileShop" && <ProfileShop />}
+        {goToPage === "logout" && <Logout />}
+
+        </Content>
 
         <Footer style={{ textAlign: "center" }}>
           JKI EXPRESS ©{new Date().getFullYear()} Created by JKI Team

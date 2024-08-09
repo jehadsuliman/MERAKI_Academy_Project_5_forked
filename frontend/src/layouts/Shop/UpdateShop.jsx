@@ -27,7 +27,7 @@ const UpdateShop = () => {
   const navigate = useNavigate();
 
   const [shop, setShop] = useState({
-    shopname: "",
+    shopName: "",
     country: "",
     description: "",
     email: "",
