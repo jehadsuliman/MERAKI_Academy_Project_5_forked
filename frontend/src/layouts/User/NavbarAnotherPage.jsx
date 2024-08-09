@@ -19,7 +19,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
-const NavbarComponent = () => {
+const NavbarAnotherPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -30,12 +30,7 @@ const NavbarComponent = () => {
     products: state.products.products,
   }));
 
-  const search = (searchTerm) => {
-    const filter = products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    dispatch(setProducts(filter));
-  };
+ 
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -112,14 +107,6 @@ const NavbarComponent = () => {
     <Navbar bg="light" expand="lg">
       <Container className="d-flex justify-content-between">
         <span className="fw-bold fs-2" onClick={() => navigate("/")}>JKI EXPRESS</span>
-        <InputGroup size="sm" className="w-50">
-          <Form.Control
-            aria-label="Search"
-            aria-describedby="inputGroup-sizing-sm"
-            placeholder="Search..."
-            onChange={(e) => search(e.target.value)}
-          />
-        </InputGroup>
         <div
           style={{
             display: "flex",
@@ -142,4 +129,4 @@ const NavbarComponent = () => {
   );
 };
 
-export default NavbarComponent;
+export default NavbarAnotherPage;

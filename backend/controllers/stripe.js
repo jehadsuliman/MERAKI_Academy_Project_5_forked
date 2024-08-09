@@ -5,7 +5,7 @@ const createCheckoutSession = async (req, res) => {
   const { cart } = req.body;
   const line_items = cart.map((item) => ({
     price_data: {
-      currency: "usd",
+      currency: "jod",
       product_data: {
         name: item.title || "Unnamed Product",
         images: [item.image] || "UnPic image",

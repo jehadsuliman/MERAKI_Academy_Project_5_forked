@@ -8,16 +8,17 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UsergroupAddOutlined,
-  HomeOutlined ,
+  UserOutlined ,
   ShopOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
+import UserProfile from '../../layouts/User/UserProfile';
 
 const { Header, Sider, Content,Footer } = Layout;
 const { SubMenu } = Menu; 
 const HomePageAdmin = () => {
-  const [goToPageS, setGoToPage] = useState("");
+  const [goToPageS, setGoToPage] = useState("userProfile");
 
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -31,9 +32,8 @@ const HomePageAdmin = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            Dashboard
-          </Menu.Item>
+          <Menu.Item key="1"icon={<UserOutlined />} onClick={() => setGoToPage("userProfile")}>
+          Admin profile          </Menu.Item>
           <SubMenu
             key="sub1"
             icon={<ShopOutlined />}
@@ -51,6 +51,7 @@ const HomePageAdmin = () => {
           <Menu.Item key="7" icon={<LogoutOutlined />} onClick={() => setGoToPage("LogoutAdmin")}>
             Logout
           </Menu.Item>
+      
         </Menu>
       </Sider>
       <Layout>
@@ -85,6 +86,7 @@ const HomePageAdmin = () => {
         {goToPageS==="UsersList"&&<UsersList/>} 
         {goToPageS==="ViewCategory"&&<CategoriesList/>} 
         {goToPageS==="LogoutAdmin" && <LogoutAdmin />}
+        {goToPageS==="userProfile" && <UserProfile />}
 
          
         </Content>

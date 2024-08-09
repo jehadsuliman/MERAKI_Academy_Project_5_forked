@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 const NavbarSupport = () => {
   return (
@@ -12,7 +13,8 @@ const NavbarSupport = () => {
           <span className="ms-2 fs-6 mt-2">Support</span>
         </Navbar.Brand>
         <Nav className="ms-auto">
-          <Nav.Link href="#faq">FAQ</Nav.Link>
+        <Nav.Link as={Link} to="/">Home</Nav.Link>
+          <Nav.Link as={Link} to="/faq">FAQ</Nav.Link>
           <Nav.Link href="#customer-service">Customer Service Chat</Nav.Link>
         </Nav>
       </Container>

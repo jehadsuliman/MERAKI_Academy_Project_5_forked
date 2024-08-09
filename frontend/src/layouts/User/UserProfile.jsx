@@ -149,7 +149,7 @@ const UserProfile = () => {
     );
 
   return (
-    <Card style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+    <Card className="faq-container my-5" style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <Space direction="vertical" size={16} style={{ width: "100%" }}>
         <Row gutter={16} justify="center" align="top">
           <Col xs={24} sm={12} md={8} lg={6} xl={5}>
@@ -161,7 +161,7 @@ const UserProfile = () => {
                 width: "100%",
                 height: "auto",
                 objectFit: "cover",
-                borderRadius: "50%",
+                borderRadius: "70%",
                 marginBottom: "24px",
               }}
             />
@@ -204,14 +204,6 @@ const UserProfile = () => {
               style={{ marginRight: "8px" }}
             >
               Edit Profile
-            </Button>
-            <Button
-              type="default"
-              icon={<ArrowLeftOutlined />}
-              onClick={() => navigate("/")}
-              style={{ marginBottom: "16px" }}
-            >
-              Back
             </Button>
           </Col>
         </Row>
