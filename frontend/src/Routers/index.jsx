@@ -16,22 +16,19 @@ import Products from "../layouts/User/Products";
 import Categories from "../layouts/User/Categories";
 import ProductDetails from "../layouts/User/ProductDetails";
 import HomePageUser from "../pages/User/HomePageUser";
-import ProductDetailsPage from "../pages/User/ProductDetailsPage";
-import CartsPage from "../pages/User/CartsPage";
-import FavoritePage from "../pages/User/FavoritePage";
 import FaqComponent from "../layouts/User/FaqComponents";
 import PageNotFound from "../layouts/User/PageNotFound";
 import OrderAccept from "../layouts/User/OrderAccept";
 import Carts from "../layouts/User/Carts";
 import FavoriteList from "../layouts/User/FavoriteList";
 import SupportPage from "../pages/User/SupportPage";
-import Comment from "../layouts/User/Comment";
 import Address from "../layouts/User/Address";
 import UserProfile from "../layouts/User/UserProfile";
 import LogoutUser from "../layouts/User/LogoutUser";
-import ProfileUser from "../pages/User/ProfileUser";
-import AddressPage from "../pages/User/AddressPage";
-import OrderPage from "../pages/User/OrderPage";
+import Order from "../layouts/User/Order";
+import UserOtherPages from "../pages/User/UserOtherPages";
+import ProductDetailsPage from "../pages/User/ProductDetailsPage";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -53,52 +50,53 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <ProductDetailsPage />,
+    element: <UserOtherPages />,
     children: [
       {
-        path: "/product/:id",
-        element: <ProductDetails />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <ProfileUser />,
-    children: [
-      {
-
         path: "/userProfile",
         element: <UserProfile />,
       },
-    ],
-  },
-  {
-    path: "/",
-    element: <CartsPage />,
-    children: [
+
+      {
+        path: "/order",
+        element: <Order />,
+      },
       {
         path: "/carts",
         element: <Carts />,
       },
-    ],
-  },
-  {
-    path: "/",
-    element: <AddressPage />,
-    children: [
       {
         path: "/address",
         element: <Address />,
       },
-    ],
-  },
-  {
-    path: "/",
-    element: <FavoritePage />,
-    children: [
       {
         path: "/favorite",
         element: <FavoriteList />,
+      },
+      {
+        path: "/orderAccept",
+        element: <OrderAccept />,
+      },
+
+      {
+        path: "*",
+        element: <PageNotFound />,
+      },
+      {
+        path: "/RegisterUserOrAdmin",
+        element: <RegisterUserOrAdmin />,
+      },
+      {
+        path: "/LoginUserOrAdmin",
+        element: <LoginUserOrAdmin />,
+      },
+      {
+        path: "/shopRegister",
+        element: <ShopRegister />,
+      },
+      {
+        path: "/shopLogin",
+        element: <ShopLogin />,
       },
     ],
   },
@@ -113,21 +111,16 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
-    element: <OrderPage />,
+    path: "/product/:id",
+    element: <ProductDetailsPage />,
     children: [
       {
-        path: "/orderAccept",
-        element: <OrderAccept />,
+        path: "/product/:id",
+        element: <ProductDetails />,
       },
-    
     ],
   },
   {
-    path: "*",
-    element: <PageNotFound />,
-  },
- {
     path: "/admin",
     element: <HomePageAdmin />,
   },
@@ -165,25 +158,6 @@ export const router = createBrowserRouter([
     path: "/logoutUser",
     element: <LogoutUser />,
   },
-  {
-    path: "/comments",
-    element: <Comment />,
-  },
-  {
-    path: "/RegisterUserOrAdmin",
-    element: <RegisterUserOrAdmin />,
-  },
-  {
-    path: "/LoginUserOrAdmin",
-    element: <LoginUserOrAdmin />,
-  },
-  {
-    path: "/shopRegister",
-    element: <ShopRegister />,
-  },
-  {
-    path: "/shopLogin",
-    element: <ShopLogin />,
-  },
-  
+
+
 ]);

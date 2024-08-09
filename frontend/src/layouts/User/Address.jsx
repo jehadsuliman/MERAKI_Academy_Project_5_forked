@@ -13,7 +13,12 @@ const { Option } = Select;
 const Address = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const Token = useSelector((state) => state.userAuth.token);
+  const { token, userId } = useSelector((state) => {
+    return {
+      token: state.userAuth.token,
+      userId: state.userAuth.userId,
+    };
+  });
   const [addressData, setAddressData] = useState({
     first_name: "",
     last_name: "",
@@ -29,7 +34,7 @@ const Address = () => {
       try {
         const response = await axios.get("http://localhost:5000/address", {
           headers: {
-            Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (response.data.success) {
@@ -66,7 +71,7 @@ const Address = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
