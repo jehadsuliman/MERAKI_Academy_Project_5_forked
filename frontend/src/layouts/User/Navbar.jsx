@@ -109,9 +109,21 @@ const NavbarComponent = () => {
   );
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar
+      bg="light"
+      expand="lg"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1000,
+      }}
+    >
       <Container className="d-flex justify-content-between">
-        <span className="fw-bold fs-2" onClick={() => navigate("/")}>JKI EXPRESS</span>
+        <span className="fw-bold fs-2" onClick={() => navigate("/")}>
+          JKI EXPRESS
+        </span>
         <InputGroup size="sm" className="w-50">
           <Form.Control
             aria-label="Search"

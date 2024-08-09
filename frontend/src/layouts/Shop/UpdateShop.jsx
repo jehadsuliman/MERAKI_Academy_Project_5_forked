@@ -11,12 +11,15 @@ import {
   Spin,
   message,
   Select,
+  Upload,
 } from "antd";
 import CountryList from "country-list";
 import Flag from "react-flagkit";
+import { InboxOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 const { Option } = Select;
+const { Dragger } = Upload;
 
 const UpdateShop = () => {
   const shopId = useSelector((state) => state.shopAuth.shopId);
@@ -26,7 +29,7 @@ const UpdateShop = () => {
   const [shop, setShop] = useState({
     shopname: "",
     country: "",
-    discreption: "",
+    description: "",
     email: "",
     password: "",
     category_id: "",
@@ -108,6 +111,36 @@ const UpdateShop = () => {
 
   const countryCode = countryCodeMap[shop.country.toLowerCase()] || "";
 
+  const uploadPreset = "khaledOdehCloud";
+
+  const props = {
+    name: "file",
+    multiple: false,
+    action: "https://api.cloudinary.com/v1_1/das0e3reo/image/upload",
+    data: {
+      upload_preset: uploadPreset,
+    },
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+        const imageUrl = info.file.response.url;
+        setShop((prevShop) => ({
+          ...prevShop,
+          profile_pic: imageUrl,
+        }));
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
+
   if (loading) return <Spin size="large" />;
   if (error)
     return (
@@ -154,7 +187,7 @@ const UpdateShop = () => {
           <strong>Email:</strong> {shop.email}
         </p>
         <p>
-          <strong>Description:</strong> {shop.discreption}
+          <strong>Description:</strong> {shop.description}
         </p>
 
         <p>
@@ -168,9 +201,6 @@ const UpdateShop = () => {
       {showUpdate && (
         <Card title="Update Shop" style={{ width: "100%" }}>
           <Form layout="vertical" onFinish={handleSubmit} initialValues={shop}>
-            <Form.Item label="Profile Picture" name="profile_pic">
-              <Input />
-            </Form.Item>
             <Form.Item label="Shop Name" name="shopname">
               <Input />
             </Form.Item>
@@ -208,12 +238,26 @@ const UpdateShop = () => {
             <Form.Item label="Password" name="password">
               <Input.Password />
             </Form.Item>
-            <Form.Item label="Description" name="discreption">
+            <Form.Item label="Description" name="description">
               <Input />
             </Form.Item>
 
             <Form.Item label="Phone Number" name="phone_number">
               <Input />
+            </Form.Item>
+            <Form.Item label="Profile Picture" name="profile_pic">
+              <Dragger {...props} style={{ marginTop: "16px" }}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from
+                  uploading company data or other banned files.
+                </p>
+              </Dragger>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
