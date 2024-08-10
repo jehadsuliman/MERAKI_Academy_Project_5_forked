@@ -66,10 +66,11 @@ const Products = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <Row gutter={[10, 10]}>
+      <Row gutter={[30, 30]} justify="center">
         {products.map((product) => (
-          <Col key={product.id} xs={12} sm={8} md={6} lg={4}>
+          <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
             <Card
+              hoverable
               onClick={() => {
                 navigate(`/product/${product.id}`);
               }}
@@ -77,9 +78,20 @@ const Products = () => {
                 <img
                   alt={product.title}
                   src={product.image}
-                  style={{ height: "200px", width: "100%", cursor: "pointer" }}
+                  style={{
+                    height: "220px",
+                    width: "100%",
+                    objectFit: "cover",
+                    borderRadius: "0px",
+                    cursor: "pointer",
+                  }}
                 />
               }
+              style={{
+                borderRadius: "5px",
+                overflow: "hidden",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.)",
+              }}
             >
               <Meta
                 title={product.title}
@@ -89,13 +101,20 @@ const Products = () => {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
+                      marginTop: "10px",
                     }}
                   >
-                    <p style={{ fontSize: "15px", paddingTop: "10px" }}>
-                      {product.price} USD
+
+                    <p style={{ fontSize: "16px", color: "#333", margin: 0 }}>
+                      {product.price} JOD
+
                     </p>
                     <ShoppingCartOutlined
-                      style={{ fontSize: "20px", cursor: "pointer" }}
+                      style={{
+                        fontSize: "30px",
+                        color: "#ff7f50",
+                        cursor: "pointer",
+                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         createNewCart(product);
