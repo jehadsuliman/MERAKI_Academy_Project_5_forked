@@ -21,7 +21,7 @@ const SlideImage = () => {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://img.ltwebstatic.com/images3_ccc/2024/08/02/c4/17225895247e43c516f3e2229cb831f2366bf1a557_thumbnail_2000x.webp"
+            src="https://img.ltwebstatic.com/images3_ccc/2023/08/22/64/169266935314900c7a236b57a699ad2422ef813c25_thumbnail_2000x.webp"
             alt="First slide"
             style={{ height: "415px" }}
           />
@@ -29,7 +29,7 @@ const SlideImage = () => {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://img.ltwebstatic.com/images3_ccc/2024/08/02/28/1722589556a55824f9b6096ca8eca54a681968ff2b_thumbnail_2000x.webp"
+            src="https://img.ltwebstatic.com/images3_ccc/2024/08/05/a0/17228248837a7f89655701d4014d6544b30e346273_thumbnail_2000x.webp"
             alt="Second slide"
             style={{ height: "415px" }}
           />
