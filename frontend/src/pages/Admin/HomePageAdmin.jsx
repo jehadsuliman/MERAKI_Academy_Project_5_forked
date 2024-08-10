@@ -35,7 +35,7 @@ const HomePageAdmin = () => {
           mode="inline"
           defaultSelectedKeys={['1']}>
           <Menu.Item key="1"icon={<UserOutlined />} onClick={() => setGoToPage("userProfile")}>
-          Admin profile          </Menu.Item>
+          My profile          </Menu.Item>
           <SubMenu
             key="sub1"
             icon={<ShopOutlined />}

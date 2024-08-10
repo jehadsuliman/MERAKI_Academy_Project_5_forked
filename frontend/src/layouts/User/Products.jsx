@@ -56,7 +56,7 @@ const Products = () => {
       })
       .catch((err) => {
         console.log(err);
-        message.error("Failed to add product to cart.");
+        message.error("Please Login failed to add product to cart. ");
       });
   };
 
@@ -104,8 +104,10 @@ const Products = () => {
                       marginTop: "10px",
                     }}
                   >
+
                     <p style={{ fontSize: "16px", color: "#333", margin: 0 }}>
                       {product.price} JOD
+
                     </p>
                     <ShoppingCartOutlined
                       style={{

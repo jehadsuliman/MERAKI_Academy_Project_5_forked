@@ -27,6 +27,7 @@ const Login = () => {
       if (response.data.success) {
         dispatch(setLogin(response.data.token));
         dispatch(setUserId(response.data.userId));
+        message.success("Login successfully!");
 
         const role = response.data.role;
 

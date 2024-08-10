@@ -131,7 +131,7 @@ const ProductDetails = () => {
             <Card.Title>{product[0].title}</Card.Title>
             <Card.Text>{product[0].description}</Card.Text>
             <Card.Text>
-              <strong>{product[0].price} JOD</strong>
+              <strong>{product[0].price} USD</strong>
             </Card.Text>
           </div>
           <div>
