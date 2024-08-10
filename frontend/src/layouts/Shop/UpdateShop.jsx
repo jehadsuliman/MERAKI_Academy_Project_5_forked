@@ -153,9 +153,9 @@ const UpdateShop = () => {
     <div
       style={{
         padding: "20px",
-        maxWidth: "800px",
+        maxWidth: "auto",
         margin: "auto",
-        width: "500px",
+        width: "auto",
       }}
     >
       <Title level={2}>Update Shop</Title>

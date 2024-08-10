@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu,message } from "antd";
 import {
   UserOutlined,
   ShoppingCartOutlined,
@@ -109,6 +109,8 @@ const NavbarComponent = () => {
             icon={<LogoutOutlined style={{ color: "#fff" }} />}
             onClick={() => {
               dispatch(setLogout());
+              message.success("User Logout successfully!");
+
               navigate("/")}}
             style={{ color: "#fff" }}
           >

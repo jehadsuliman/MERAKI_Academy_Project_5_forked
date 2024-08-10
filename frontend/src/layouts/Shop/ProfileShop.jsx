@@ -422,7 +422,7 @@ const ProfileShop = () => {
 
       <Modal
         title="Update Product"
-        open={isModalOpen} // Use `open` instead of `visible`
+        open={isModalOpen} 
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         footer={[
