@@ -40,7 +40,7 @@ const Categories = () => {
   }, []);
 
   return (
-    <div style={{ padding: "20px", paddingTop:'150px'}}>
+    <div style={{ padding: "20px", paddingTop:'50px'}}>
       <Row gutter={[16, 16]} justify="center">
         {categories.map((category) => (
           <Col key={category.id} xs={10} sm={8} md={6} lg={6}

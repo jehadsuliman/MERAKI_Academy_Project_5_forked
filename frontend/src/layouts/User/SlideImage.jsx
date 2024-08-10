@@ -1,45 +1,55 @@
-import React from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import React from "react";
+import Carousel from "react-bootstrap/Carousel";
 
 const SlideImage = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ height: '200px', paddingTop:'175px', cursor: "pointer" }}>
- <img 
-        src="https://img.ltwebstatic.com/images3_ccc/2024/07/29/3a/1722235135a53e3980e7f549325a5e08c0cc518169_thumbnail_432x.webp" 
+    <div
+      className="d-flex justify-content-between align-items-center"
+      style={{
+        height: "400px",
+        cursor: "pointer",
+        marginTop: "63px",
+        width: "100%",
+      }}
+    >
+      <img
+        src="https://img.ltwebstatic.com/images3_ccc/2024/07/08/df/1720409776023f0dc0cf588b9e38904c9970047217.webp"
         alt="image"
-        style={{ height: '200px', width: '250px' , paddingRight:'20px'}} 
+        style={{ height: "430px", width: "475px" }}
       />
-    <Carousel data-bs-theme="dark" style={{ height: '200px' , width:'500px'}}>
-    <Carousel.Item>
+      <Carousel data-bs-theme="dark" style={{ height: "400px", width: "100%" }}>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://img.ltwebstatic.com/images3_ccc/2024/08/02/c4/17225895247e43c516f3e2229cb831f2366bf1a557_thumbnail_2000x.webp"
+            alt="First slide"
+            style={{ height: "415px" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://img.ltwebstatic.com/images3_ccc/2024/08/02/28/1722589556a55824f9b6096ca8eca54a681968ff2b_thumbnail_2000x.webp"
+            alt="Second slide"
+            style={{ height: "415px" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://img.ltwebstatic.com/images3_ccc/2024/08/02/32/1722593985f8e56d2d44da10855c9aaaaa548adc22_thumbnail_2000x.webp"
+            style={{ height: "415px" }}
+            alt="Third slide"
+          />
+        </Carousel.Item>
+      </Carousel>
       <img
-        className="https://img.ltwebstatic.com/images3_ccc/2024/07/29/72/1722234605775a63934bfc819a101f42f55240c700_thumbnail_2000x.webp"
-        alt="First slide"
-        style={{ height: '250px' }} />
-    </Carousel.Item>
-    <Carousel.Item>
-      <img
-        className="d-block w-100"
-        src="https://img.ltwebstatic.com/images3_ccc/2024/07/08/d9/17204201252ecdf46dc1460de1f5ebacd6ee208dc1.webp"
-        alt="Second slide"
-        style={{ height: '200px' }} />
-     
-    </Carousel.Item>
-    <Carousel.Item>
-      <img
-        className="d-block w-100"
-        src="https://img.ltwebstatic.com/images3_ccc/2024/07/29/22/17222347766ec2d4467bec7bb2db3ac4784f126228_thumbnail_2000x.webp"
-        style={{ height: '200px' }}   alt="Third slide"
-      />
-     
-    </Carousel.Item>
-  </Carousel>
-  <img 
-        src="https://img.ltwebstatic.com/images3_ccc/2024/07/01/ff/171981684160dd83acd172fcd0ba12de2fe880d549.webp" 
+        src="https://img.ltwebstatic.com/images3_ccc/2024/08/05/32/17228279985e85eed426b5fbc6424d35e42b8e5be1.webp"
         alt="image"
-        style={{ height: '200px', width: '250px' , paddingLeft:'20px' }} 
+        style={{ height: "430px", width: "475px" }}
       />
-      </div>
+    </div>
   );
-}
+};
 
 export default SlideImage;
